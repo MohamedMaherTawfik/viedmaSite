@@ -27,18 +27,50 @@
                 الرجاء تسجيل الدخول لمتابعة إلى حسابك.
             </p>
 
-            <form method="POST" action="{{ route('signup') }}" class="w-full text-right" enctype="multipart/form-data">
+            @php
+                use App\Models\school;
+                $schools = school::get();
+            @endphp
+
+            <form method="POST" action="/register" class="w-full text-right">
                 @csrf
 
-                <!-- الاسم بالكامل -->
-                <label class="text-xs font-medium mb-1 w-full self-start">الاسم بالكامل</label>
-                <input type="text" placeholder="username" name="name"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                <!-- الاسم والمدرسة -->
+                <div class="mb-4 md:flex md:gap-4">
+                    <!-- الاسم بالكامل -->
+                    <div class="md:w-1/2 w-full">
+                        <label class="text-xs font-medium mb-1 block">الاسم بالكامل</label>
+                        <input type="text" placeholder="username" name="name"
+                            class="border px-4 py-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('name')
+                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- المدرسة -->
+                    <div class="md:w-1/2 w-full">
+                        <label class="text-xs font-medium mb-1 block">المدرسة</label>
+                        <select name="school_id"
+                            class="border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <option value="">اختر المدرسة</option>
+                            @foreach ($schools as $school)
+                                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('school_id')
+                            <div class="text-red-500 text-xs mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
 
                 <!-- البريد الإلكتروني -->
                 <label class="text-xs font-medium mb-1 w-full self-start">البريد الإلكتروني</label>
-                <input type="email" placeholder="example@email.com" name="email"
+                <input type="text" placeholder="example@email.com" name="email"
                     class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                @error('email')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
 
                 <!-- كلمة المرور -->
                 <label class="text-xs font-medium mb-1 w-full self-start">كلمة المرور</label>
@@ -55,6 +87,9 @@
                         </svg>
                     </span>
                 </div>
+                @error('password')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
 
                 <!-- تكرار كلمة المرور -->
                 <label class="text-xs font-medium mb-1 w-full self-start">تكرار كلمة المرور</label>
@@ -72,24 +107,12 @@
                     </span>
                 </div>
 
-                <div class="flex justify-between mb-4 text-xs w-full">
-                    <!-- نسيت كلمة المرور -->
-                    <a href="#" class="text-red-500 hover:underline whitespace-nowrap">
-                        نسيت كلمة المرور؟
-                    </a>
-
-                    <!-- حفظ الحساب -->
-                    <label class="flex items-center gap-2 text-gray-600">
-                        حفظ الحساب على هذا الجهاز
-                        <input type="checkbox" class="form-checkbox rounded border-gray-300 text-blue-600">
-                    </label>
-                </div>
-
                 <button type="submit"
                     class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 w-full mb-4">
                     ارسال بيانات التسجيل
                 </button>
             </form>
+
 
 
             <div class="flex items-center gap-2 text-sm mb-4 w-full">
@@ -113,7 +136,7 @@
         <!-- Left Illustration (now second column in RTL) -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
             <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="login illustration"
-                class="max-w-md" style="height: 60%;">
+                class="w-full max-w-md">
         </div>
     </div>
 </body>

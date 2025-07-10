@@ -22,10 +22,8 @@ class teacherRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cv' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'topics' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
-            'topic' => 'required|string|max:255',
-            'certificate' => 'nullable',
         ];
     }
 }

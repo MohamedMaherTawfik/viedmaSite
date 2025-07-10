@@ -1,26 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Success</title>
+    <title>تم إنشاء الحساب</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white shadow-lg rounded-2xl p-8 text-center max-w-sm w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="green" class="mx-auto"
-            viewBox="0 0 16 16">
-            <path
-                d="M16 8A8 8 0 1 1 8 0a8 8 0 0 1 8 8zM6.97 11.03a.75.75 0 0 0 1.08 0l4-4a.75.75 0 1 0-1.08-1.04L7.5 9.44l-1.47-1.47a.75.75 0 1 0-1.06 1.06l2 2z" />
-        </svg>
-        <h2 class="mt-4 text-2xl font-semibold text-green-600">Success!</h2>
-        <p class="mt-2 text-gray-700">Your request will be reviewed and you will be responded to as soon as possible.
-        </p>
-        <a href="{{ route('home') }}"
-            class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition">Go
-            to Home</a>
+    <div class="bg-white shadow-lg rounded-2xl p-6 max-w-xl w-full text-right relative">
+        <button class="absolute top-2 left-2 text-gray-400 hover:text-gray-600 text-xl">&times;</button>
+
+        <div class="flex items-center gap-4">
+            <div class="bg-yellow-100 text-yellow-600 p-3 rounded-xl">
+                👍
+            </div>
+            <div>
+                <h2 class="text-xl font-bold mb-1">تم إنشاء الحساب بنجاح!</h2>
+                <p class="text-sm text-gray-700 leading-relaxed">
+                    حسابك الآن قيد المراجعة من قبل إدارة المنصة<br>
+                    📢 سيتم إعلامك بالموافقة عبر البريد الإلكتروني أو داخل النظام.<br>
+                    🔒 لا يمكنك تسجيل الدخول قبل تفعيل الحساب.<br>
+                    🛠 في حال وجود استفسار يمكنك التواصل مع الإدارة مباشرة.
+                </p>
+            </div>
+        </div>
+
+        <div class="mt-4 text-left">
+            <a href="{{ route('home') }}"
+                class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition">
+                الرئيسية
+            </a>
+        </div>
     </div>
 </body>
 

@@ -39,7 +39,7 @@ class teacherController extends Controller
     public function dashboard()
     {
         $courses = Courses::with('lessons')->where('user_id', auth()->user()->id)->get();
-        return view('teacherDashboard.index', compact('courses'));
+        return view('admin.index', compact('courses'));
     }
 
     public function showCourse()

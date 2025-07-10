@@ -22,10 +22,13 @@ class adminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => ['required', \Illuminate\Validation\Rules\Password::min(8)->letters()->numbers()],
-            'role' => 'required|in:teacher,user',
+            'name' => ['required', 'string', 'max:255', 'unique:users,name'],
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:admin,teacher,user',
+            'school_id' => 'required|exists:schools,id',
+            'phone' => 'nullable|string|max:15',
+            'topic' => 'nullable|string|max:255',
         ];
     }
 }

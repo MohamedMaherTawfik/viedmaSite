@@ -101,4 +101,9 @@ class User extends Authenticatable implements JWTSubject
             ->withPivot(['price', 'transaction_type'])
             ->withTimestamps();
     }
+
+    public function school()
+    {
+        return $this->belongsTo(school::class, 'school_id');
+    }
 }

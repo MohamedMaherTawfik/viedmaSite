@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\schoolRequest;
+use App\Interfaces\CourseInterface;
 use App\Mail\TeacherAcceptedMail;
 use App\Models\applyTeacher;
 use App\Models\Courses;
+use App\Models\school;
 use Illuminate\Http\Request;
 use App\Http\Requests\adminRequest;
 use App\Models\User;
 use App\Http\Requests\updateRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -17,27 +21,90 @@ use Illuminate\Support\Str;
 
 class SuperAdminController extends Controller
 {
+
+    private $courses;
+    public function __construct(CourseInterface $courses)
+    {
+        $this->courses = $courses;
+    }
+
+    public function schoolRegister()
+    {
+        return view('schoolDashboard.auth.register');
+    }
+
+    public function registerSchool(schoolRequest $request)
+    {
+        // dd($request->all());
+        $validtedData = $request->validated();
+        // dd($validtedData);
+        $validtedData['password'] = bcrypt($validtedData['password']);
+        $validtedData['role'] = 'admin';
+        $school = school::create([
+            'name' => $validtedData['school_name'],
+            'type' => $validtedData['type'],
+            'License_number' => $validtedData['License_number'],
+            'address' => $validtedData['address'],
+            'city' => $validtedData['city'],
+            'slug' => Str::slug($validtedData['school_name']),
+        ]);
+        $user = User::create([
+            'name' => $validtedData['name'],
+            'email' => $validtedData['email'],
+            'password' => $validtedData['password'],
+            'role' => $validtedData['role'],
+            'school_id' => $school->id,
+        ]);
+        Auth::login($user);
+        return redirect()->route('school.dashboard', ['slug' => $school->slug])->with('success', 'School registered successfully. Please login.');
+    }
+
+    public function schoolLogin()
+    {
+        return view('schoolDashboard.auth.login');
+    }
+
+    public function loginSchool(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if ($user->role === 'admin') {
+                return redirect()->route('school.dashboard', ['slug' => $user->school->slug]);
+            } else {
+                return redirect()->route('schoolDashboard.index');
+            }
+        }
+        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('school.login')->with('success', 'Logged out successfully.');
+    }
+
+    public function schoolDashboard()
+    {
+        $courses = $this->courses->allCourses();
+        $studentsCount = User::where('role', 'user')->count();
+        $teachersCount = User::where('role', 'teacher')->count();
+        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount'));
+    }
     /**
      * Display the admin dashboard.
      */
-    public function index()
-    {
-        return view('admin.index');
-    }
-
-    /**
-     * Display the list of users.
-     */
-    public function users()
-    {
-        $users = User::where('role', 'user')->get();
-        return view('admin.users.index', compact('users'));
-    }
-
-    public function teachers()
+    public function schoolTeachers()
     {
         $teachers = User::where('role', 'teacher')->get();
-        return view('admin.teachers.index', compact('teachers'));
+        $applies = applyTeacher::get();
+        return view('schoolDashboard.teachers.index', compact('teachers', 'applies'));
+    }
+
+    public function showTeacher()
+    {
+        $teacher = User::where('name', request('name'))->get()->first();
+        return view('schoolDashboard.teachers.show', compact('teacher', ));
     }
 
     /**
@@ -45,7 +112,7 @@ class SuperAdminController extends Controller
      */
     public function createUser()
     {
-        return view('admin.users.create');
+        return view('schoolDashboard.teachers.create');
     }
 
     /**
@@ -54,11 +121,22 @@ class SuperAdminController extends Controller
     public function storeUser(adminRequest $request)
     {
         $validatedData = $request->validated();
-        // dd($validatedData);
         $validatedData['password'] = bcrypt($validatedData['password']);
 
-        User::create($validatedData);
-        return redirect()->route('admin.users')->with('success', 'User created successfully.');
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password'],
+            'role' => $validatedData['role'],
+            'school_id' => $validatedData['school_id'],
+        ]);
+        applyTeacher::create([
+            'user_id' => $user->id,
+            'status' => 'pending',
+            'topic' => $validatedData['topic'] ?? null,
+            'phone' => $validatedData['phone'] ?? null,
+        ]);
+        return redirect()->route('school.teachers', 'slug')->with('success', 'User created successfully.');
     }
 
     /**
@@ -88,7 +166,11 @@ class SuperAdminController extends Controller
     public function deleteUser()
     {
         // Logic to delete user
-        User::findOrFail(request('id'))->delete();
+        $user = User::where('name', request('name'))->first();
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+        $user->delete();
         return redirect()->back();
     }
     /**
@@ -122,17 +204,15 @@ class SuperAdminController extends Controller
     /**
      * Accept the apply.
      */
-    public function acceptApply()
+    public function acceptTeacher()
     {
-        $apply = applyTeacher::findOrFail(request('id'));
-        $apply->status = 'accepted';
-        $apply->save();
-
-        $user = User::find($apply->user_id);
-        $user->update(['role' => 'teacher']);
-
-        // Send mail
-        Mail::to($user->email)->send(new TeacherAcceptedMail($user));
+        $user = User::where('name', request('name'))->get();
+        $applyTeacher = applyTeacher::where('user_id', $user->first()->id)->firstOrFail();
+        $applyTeacher->status = 'accepted';
+        $user->first()->role = 'teacher';
+        $applyTeacher->save();
+        $user->first()->save();
+        // Mail::to($user->first()->email)->send(new TeacherAcceptedMail($user->first()));
 
         return redirect()->back()->with('success', 'Apply accepted and email sent successfully.');
     }
@@ -140,35 +220,17 @@ class SuperAdminController extends Controller
     /**
      * Reject the apply.
      */
-    public function rejectApply()
+    public function rejectTeacher()
     {
-        $apply = applyTeacher::findOrFail(request('id'));
-        $apply->status = 'rejected';
-        $apply->save();
-        return redirect()->back()->with('success', 'Apply rejected successfully.');
-    }
-
-    /**
-     * Show the accepted applies.
-     */
-    public function accepted()
-    {
-        $applies = applyTeacher::with('user')->where('status', 'accepted')->get()->all();
-        foreach ($applies as $apply) {
-            $apply->user = User::find($apply->user_id);
-        }
-        return view('admin.applies.accepted', compact('applies'));
-    }
-    /**
-     * Show the rejected applies.
-     */
-    public function rejected()
-    {
-        $applies = applyTeacher::with('user')->where('status', 'rejected')->get()->all();
-        foreach ($applies as $apply) {
-            $apply->user = User::find($apply->user_id);
-        }
-        return view('admin.applies.rejected', compact('applies'));
+        $user = User::where('name', request('name'))->get();
+        $applyTeacher = applyTeacher::where('user_id', $user->first()->id)->firstOrFail();
+        $applyTeacher->status = 'rejected';
+        $applyTeacher->save();
+        $user->first()->role = 'user'; // Reset role to user
+        $user->first()->save();
+        // Optionally, you can send an email to the user notifying them of the rejection
+        // Mail::to($user->first()->email)->send(new TeacherRejectedMail($user->first()));
+        return redirect()->back()->with('success', 'Apply rejected.');
     }
 
     /**

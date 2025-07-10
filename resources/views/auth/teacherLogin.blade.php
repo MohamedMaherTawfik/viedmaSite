@@ -13,7 +13,7 @@
     <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 space-y-6" style="background-color: #00000062;">
         <h2 class="text-3xl font-bold text-center text-white">Create Account</h2>
 
-        <form class="space-y-4" action="{{ route('teacher') }}" method="POST" enctype="multipart/form-data">
+        <form class="space-y-4" action="{{ route('teacher.info') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div>
                 <label class="block text-sm font-medium text-white mb-1">phone</label>
@@ -26,44 +26,11 @@
 
             <div>
                 <label class="block text-sm font-medium text-white mb-1">topic</label>
-                <input type="text" name="topic" placeholder="Enter topic"
+                <input type="text" name="topics" placeholder="Enter topic"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
-                @error('topic')
+                @error('topics')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
-            </div>
-
-
-            <div class="w-full space-y-4">
-                <label class="block w-full">
-                    <span class="text-sm text-gray-700">Upload CV</span>
-                    <input type="file" name="cv" accept=".pdf,.doc,.docx"
-                        class="mt-1 block w-full text-sm text-gray-500
-        file:mr-4 file:py-2 file:px-4
-        file:rounded-lg file:border-0
-        file:text-sm file:font-semibold
-        file:bg-purple-600 file:text-white
-        hover:file:bg-purple-700
-      " />
-                    @error('cv')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </label>
-
-                <label class="block w-full">
-                    <span class="text-sm text-gray-700">Upload Certificate if exist</span>
-                    <input type="file" name="certificate"
-                        class="mt-1 block w-full text-sm text-gray-500
-        file:mr-4 file:py-2 file:px-4
-        file:rounded-lg file:border-0
-        file:text-sm file:font-semibold
-        file:bg-purple-600 file:text-white
-        hover:file:bg-purple-700
-      " />
-                    @error('certificate')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </label>
             </div>
 
 

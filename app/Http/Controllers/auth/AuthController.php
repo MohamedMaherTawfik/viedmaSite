@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\userRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\userRequest;
 use App\Models\User;
 use App\Http\Requests\teacherRequest;
 use App\Models\applyTeacher;
 use App\Http\Requests\loginRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -21,13 +22,30 @@ class AuthController extends Controller
     public function register(userRequest $request)
     {
         $validatedData = $request->validated();
-        // dd($validatedData);
         $validatedData['password'] = bcrypt($validatedData['password']);
         $user = User::create($validatedData);
         Auth::login($user);
 
-        return redirect('/');
+        return redirect()->route('teacher')->with('success', 'Registration successful! Please apply to become a teacher.');
     }
+
+    public function teacherRegister()
+    {
+        return view('auth.teacherLogin');
+    }
+
+    public function teacher(teacherRequest $request)
+    {
+        $validatedData = $request->validated();
+        applyTeacher::create([
+            'user_id' => Auth::id(),
+            'topic' => $validatedData['topics'],
+            'phone' => $validatedData['phone'],
+            'status' => 'pending',
+        ]);
+        return view('auth.teacherApplied');
+    }
+
 
     public function login()
     {
@@ -59,45 +77,30 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-    public function teacherRegister()
-    {
-        return view('auth.teacherLogin');
-    }
-    public function teacher(teacherRequest $request)
-    {
-        $validatedData = $request->validated();
-        applyTeacher::create([
-            'user_id' => Auth::id(),
-            'topic' => $validatedData['topic'],
-            'phone' => $validatedData['phone'],
-            'cv' => $request->file('cv')->store('cv', 'public'),
-            'certificate' => $request->file('certificate') ? $request->file('certificate')->store('certificates', 'public') : null,
-        ]);
-        return view('auth.teacherApplied');
-    }
 
-    public function resetPage()
-    {
 
-    }
+    // public function resetPage()
+    // {
 
-    public function updatePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+    // }
 
-        $user = Auth::user();
+    // public function updatePassword(Request $request)
+    // {
+    //     $request->validate([
+    //         'current_password' => 'required',
+    //         'password' => 'required|string|min:8|confirmed',
+    //     ]);
 
-        if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'Current password is incorrect']);
-        }
+    //     $user = Auth::user();
 
-        $user->update([
-            'password' => Hash::make($request->password)
-        ]);
+    //     if (!Hash::check($request->current_password, $user->password)) {
+    //         return back()->withErrors(['current_password' => 'Current password is incorrect']);
+    //     }
 
-        return back()->with('success', 'Password updated successfully!');
-    }
+    //     $user->update([
+    //         'password' => Hash::make($request->password)
+    //     ]);
+
+    //     return back()->with('success', 'Password updated successfully!');
+    // }
 }
