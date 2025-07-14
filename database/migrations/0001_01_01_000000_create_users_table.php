@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\school;
+use App\Models\studentparent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,10 +18,6 @@ return new class extends Migration {
             $table->string('name')->unique();
             $table->string('photo')->nullable();
             $table->enum('role', ['teacher', 'user', 'admin'])->default('user');
-            $table->string('national_id')->nullable();
-            $table->string('nationallity')->nullable();
-            $table->string('parent_phone')->nullable();
-            $table->string('Academic_stage')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

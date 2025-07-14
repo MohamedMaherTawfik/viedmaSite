@@ -23,12 +23,15 @@ class adminRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', 'unique:users,name'],
-            'email' => 'required|email|unique:users,email|max:255',
-            'password' => 'required|string|min:8',
-            'role' => 'required|in:admin,teacher,user',
+            'email' => 'nullable|email|unique:users,email|max:255',
+            'password' => 'nullable|string|min:8',
+            'role' => 'nullable|in:admin,teacher,user',
             'school_id' => 'required|exists:schools,id',
             'phone' => 'nullable|string|max:15',
             'topic' => 'nullable|string|max:255',
+            'national_id' => 'nullable|string|max:20',
+            'nationallity' => 'nullable|string|max:50',
+            'Academic_stage' => 'nullable|string|max:50',
         ];
     }
 }

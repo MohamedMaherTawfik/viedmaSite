@@ -5,19 +5,22 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\schoolRequest;
 use App\Interfaces\CourseInterface;
-use App\Mail\TeacherAcceptedMail;
 use App\Models\applyTeacher;
 use App\Models\Courses;
 use App\Models\school;
+use App\Models\student;
 use Illuminate\Http\Request;
 use App\Http\Requests\adminRequest;
 use App\Models\User;
 use App\Http\Requests\updateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\SimpleExcel\SimpleExcelReader;
+
+
+
 
 class SuperAdminController extends Controller
 {
@@ -144,9 +147,7 @@ class SuperAdminController extends Controller
      */
     public function editUser()
     {
-        // dd(request('id'));
         $user = User::findOrFail(request('id'));
-        // dd($user);
         return view('admin.users.edit', compact('user'));
     }
 
@@ -173,9 +174,105 @@ class SuperAdminController extends Controller
         $user->delete();
         return redirect()->back();
     }
+
+    public function schoolStudents()
+    {
+        $school = school::where('slug', request('slug'))->firstOrFail();
+        if (!$school) {
+            return redirect()->back()->with('error', 'School not found.');
+        }
+        // Fetch students associated with the school
+        $students = student::where('school_id', $school->id)->get();
+        return view('schoolDashboard.students.index', compact('students'));
+    }
+
+    public function showStudent()
+    {
+        $student = student::where('name', request('name'))->get()->first();
+        return view('schoolDashboard.students.show', compact('student'));
+    }
+
+    /**
+     * Show the form for creating a new student.
+     */
+    public function createStudent()
+    {
+        return view('schoolDashboard.students.create');
+    }
+
+    /**
+     * Store a newly created student in storage.
+     */
+    public function storeStudent(adminRequest $request)
+    {
+        // dd($request->all());
+        $validatedData = $request->validated();
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $user = student::create($validatedData);
+        // dd($user);
+        return redirect()->route('school.students', request('slug'))->with('success', 'Student created successfully.');
+    }
     /**
      * Show the admin profile.
      */
+
+    public function ExcelStudent()
+    {
+        return view('schoolDashboard.students.excel');
+    }
+    /**
+     * Upload Excel file and process it.
+     */
+
+    public function uploadExcel(Request $request, $slug)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        $school = School::where('slug', $slug)->firstOrFail();
+
+        // احفظ الملف يدويًا
+        $file = $request->file('excel_file');
+        $savePath = storage_path('app/temp/students.xlsx');
+        $file->move(storage_path('app/temp'), 'students.xlsx');
+
+        $realPath = realpath($savePath); // Get absolute path
+
+        if (!file_exists($realPath)) {
+            return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
+        }
+
+        // اقرأ الملف من المسار الحقيقي
+        SimpleExcelReader::create($realPath)
+            ->getRows()
+            ->each(function (array $row) use ($school) {
+                Student::create([
+                    'name' => $row['name'],
+                    // 'parent_phone' => $row['phone'],
+                    'school_id' => $school->id,
+                    'national_id' => $row['national_id'],
+                    'nationallity' => $row['nationallity'],
+                    'Academic_stage' => $row['Academic_stage'],
+                    'slug' => Str::slug($row['name']) . '-' . time(),
+                ]);
+            });
+
+        // unlink($realPath);
+
+        return back()->with('success', 'تم رفع الملف بنجاح وقراءة البيانات 🎉');
+    }
+
+
+    public function deleteStudent()
+    {
+        $student = student::where('name', request('name'))->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student not found.');
+        }
+        $student->delete();
+        return redirect()->back()->with('success', 'Student deleted successfully.');
+    }
     public function profile()
     {
         return view('admin.profile');

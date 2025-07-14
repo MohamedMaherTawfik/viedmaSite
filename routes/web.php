@@ -83,7 +83,16 @@ Route::group([
         Route::get('school/{slug}/dashboard/teachers/{name}/edit', 'editTeacher')->name('school.teachers.edit');
         Route::post('school/{slug}/dashboard/teachers/{name}/edit', 'editTeacher')->name('school.teachers.edit');
         Route::delete('school/{slug}/dashboard/teachers/{name}', 'deleteUser')->name('school.teachers.delete');
-
+        Route::get('school/{slug}/dashboard/student/{name}', 'showStudent')->name('school.student.show');
+        Route::get('school/{slug}/dashboard/student/create/form', 'createStudent')->name('school.student.create');
+        Route::get('school/{slug}/dashboard/student/create/excel', 'ExcelStudent')->name('school.student.excel');
+        Route::post('school/{slug}/dashboard/student/create/excel', 'uploadExcel')->name('excel.upload');
+        Route::post('school/{slug}/dashboard/student/create/form', 'storeStudent')->name('school.student.store');
+        Route::get('school/{slug}/dashboard/student/{name}/edit', 'editStudent')->name('school.student.edit');
+        Route::post('school/{slug}/dashboard/student/{name}/edit', 'updateStudent')->name('school.student.update');
+        Route::get('school/{slug}/dashboard/student/{name}/linkParent', 'linkParent')->name('school.student.linkParent');
+        Route::post('school/{slug}/dashboard/student/{name}/linkParent', 'linkParentStore')->name('school.student.linkParent.store');
+        Route::get('school/{slug}/dashboard/student/{name}/delete', 'deleteStudent')->name('school.student.delete');
         Route::get('school/{slug}/dashboard/students', 'schoolStudents')->name('school.students');
         Route::get('school/{slug}/dashboard/training', 'schoolTraining')->name('school.training');
         Route::get('school/{slug}/dashboard/projects', 'schoolProjects')->name('school.projects');

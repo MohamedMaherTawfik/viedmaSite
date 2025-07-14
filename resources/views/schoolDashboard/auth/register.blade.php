@@ -144,7 +144,8 @@
                 </button>
 
                 <p class="text-sm text-center mt-6">
-                    ليس لديك حساب؟ <a href="{{ route('login') }}" class="text-blue-600 hover:underline">حساب جديد</a>
+                    ليس لديك حساب؟ <a href="{{ route('school.login') }}" class="text-blue-600 hover:underline">حساب
+                        جديد</a>
                 </p>
             </form>
         </div>
