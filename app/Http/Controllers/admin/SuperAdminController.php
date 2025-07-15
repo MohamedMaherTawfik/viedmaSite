@@ -123,6 +123,7 @@ class SuperAdminController extends Controller
      */
     public function storeUser(adminRequest $request)
     {
+        $slug = request('slug');
         $validatedData = $request->validated();
         $validatedData['password'] = bcrypt($validatedData['password']);
 
@@ -139,7 +140,7 @@ class SuperAdminController extends Controller
             'topic' => $validatedData['topic'] ?? null,
             'phone' => $validatedData['phone'] ?? null,
         ]);
-        return redirect()->route('school.teachers', 'slug')->with('success', 'User created successfully.');
+        return redirect()->route('school.teachers', $slug)->with('success', 'User created successfully.');
     }
 
     /**
@@ -260,7 +261,7 @@ class SuperAdminController extends Controller
 
         // unlink($realPath);
 
-        return back()->with('success', 'تم رفع الملف بنجاح وقراءة البيانات 🎉');
+        return redirect()->route('school.students', ['slug' => $slug])->with('success', 'Excel file uploaded and students created successfully.');
     }
 
 
@@ -301,29 +302,28 @@ class SuperAdminController extends Controller
     /**
      * Accept the apply.
      */
-    public function acceptTeacher()
+    public function accept()
     {
         $user = User::where('name', request('name'))->get();
         $applyTeacher = applyTeacher::where('user_id', $user->first()->id)->firstOrFail();
         $applyTeacher->status = 'accepted';
-        $user->first()->role = 'teacher';
         $applyTeacher->save();
-        $user->first()->save();
         // Mail::to($user->first()->email)->send(new TeacherAcceptedMail($user->first()));
 
         return redirect()->back()->with('success', 'Apply accepted and email sent successfully.');
     }
 
+
     /**
      * Reject the apply.
      */
-    public function rejectTeacher()
+    public function reject()
     {
         $user = User::where('name', request('name'))->get();
         $applyTeacher = applyTeacher::where('user_id', $user->first()->id)->firstOrFail();
         $applyTeacher->status = 'rejected';
         $applyTeacher->save();
-        $user->first()->role = 'user'; // Reset role to user
+        $user->first()->role = 'user';
         $user->first()->save();
         // Optionally, you can send an email to the user notifying them of the rejection
         // Mail::to($user->first()->email)->send(new TeacherRejectedMail($user->first()));
@@ -452,5 +452,37 @@ class SuperAdminController extends Controller
         return response()->json([
             'error' => $data['error']['message'] ?? 'Unexpected error from Gemini'
         ], 500);
+    }
+
+    public function schoolPendings()
+    {
+        $applies = applyTeacher::where('status', 'pending')->get();
+
+        return view('schoolDashboard.pendings.index', compact('applies'));
+
+    }
+
+    public function schoolTraining()
+    {
+        return view('schoolDashboard.training.index');
+    }
+
+    public function linkParent()
+    {
+        $school = school::where('slug', request('slug'))->firstOrFail();
+        $parents = User::where('school_id', $school->id)->where('role', 'parent')->get();
+        return view('schoolDashboard.students.linkParent', compact('parents'));
+    }
+
+    public function linkParentStore()
+    {
+        $user = User::where('name', request('parent'))->first();
+        $student = student::where('name', request('name'))->first();
+        if (!$user || !$student) {
+            return redirect()->back()->with('error', 'User or Student not found.');
+        }
+        $student->user_id = $user->id;
+        $student->save();
+        return redirect()->back()->with('success', 'Parent linked to student successfully.');
     }
 }

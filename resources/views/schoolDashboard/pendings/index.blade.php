@@ -10,14 +10,6 @@
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold">المعلمين</h2>
                 <div class="flex gap-2">
-                    <a href="{{ route('school.student.excel', request('slug')) }}"
-                        class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
-                        رفع ملف Excel
-                    </a>
-                    <a href="{{ route('school.student.create', request('slug')) }}"
-                        class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
-                        إضافة طالب
-                    </a>
                 </div>
             </div>
 
@@ -26,32 +18,27 @@
                     <table class="min-w-full text-sm text-right border-separate border-spacing-y-2">
                         <thead class="bg-gray-100 text-gray-700">
                             <tr>
-                                <th class="px-4 py-2 rounded-r-lg">اسم الطالب</th>
-                                <th class="px-4 py-2 text-center">الرقم القومي</th>
-                                <th class="px-4 py-2 text-center">الجنسيه</th>
-                                <th class="px-4 py-2 text-center">المرحله</th>
-                                <th class="px-4 py-2 text-center">ولي الامر</th>
-                                <th class="px-4 py-2 text-center">تاريخ الاضافه</th>
+                                <th class="px-4 py-2 rounded-r-lg">اسم </th>
+                                <th class="px-4 py-2 text-center"> البريد الالكتروني</th>
+                                <th class="px-4 py-2 text-center">النوع </th>
+                                <th class="px-4 py-2 text-center">تاريخ الطلب</th>
                                 <th class="pr-8 pl-4 py-2 rounded-l-lg text-center">إجراء</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($students as $student)
+                            @foreach ($applies as $student)
                                 <tr class="bg-gray-50 text-gray-800"
-                                    data-edit-url="{{ route('school.student.edit', ['slug' => request('slug'), 'name' => $student->name]) }}"
-                                    data-delete-url="{{ route('school.student.delete', ['slug' => request('slug'), 'name' => $student->name]) }}"
-                                    data-show-url="{{ route('school.student.show', ['slug' => request('slug'), 'name' => $student->name]) }}"
-                                    data-link-parent-url="{{ route('school.student.linkParent', ['slug' => request('slug'), 'name' => $student->name]) }}">
+                                    data-edit-url="{{ route('school.pendings.accept', ['slug' => request('slug'), 'name' => $student->user->name]) }}"
+                                    data-delete-url="{{ route('school.pendings.reject', ['slug' => request('slug'), 'name' => $student->user->name]) }}"
+                                    data-show-url="{{ route('school.pendings.show', ['slug' => request('slug'), 'name' => $student->user->name]) }}">
                                     <td class="px-4 py-2 flex items-center gap-2 text-center">
                                         <img src="https://th.bing.com/th/id/R.4b6a7d8dc6ff6bd305a872c783d2f450?rik=IcLvZ3InG%2bn33g&pid=ImgRaw&r=0"
                                             class="w-8 h-8 rounded-full" alt="">
-                                        {{ $student->name }}
+                                        {{ $student->user->name }}
                                     </td>
-                                    <td class="px-4 py-2 text-center">{{ $student->national_id }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $student->nationallity }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $student->Academic_stage }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $student->user->email }}</td>
                                     <td class="px-4 py-2 text-center">
-                                        {{ $student->user->name ?? 'لم يتم الربط بولي امر' }}
+                                        {{ $student->user->role }}
                                     </td>
                                     <td class="px-4 py-2 text-center">
                                         {{ \Carbon\Carbon::parse($student->created_at)->format('Y-m-d') }}
@@ -94,25 +81,24 @@
                                 const tr = btn.closest('tr');
                                 const rect = btn.getBoundingClientRect();
 
-                                const editUrl = tr.dataset.editUrl;
-                                const deleteUrl = tr.dataset.deleteUrl;
+                                const aceeptUrl = tr.dataset.editUrl;
+                                const rejectUrl = tr.dataset.deleteUrl;
                                 const showUrl = tr.dataset.showUrl;
-                                const linkParentUrl = tr.dataset.linkParentUrl;
 
                                 const html = `
-                                    <a href='${editUrl}' class='flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100'>
+                                    <a href='${aceeptUrl}' class='flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100'>
                                         <span class='w-6 h-6 flex items-center justify-center border border-blue-500 rounded-full'>
-                                            <i class='fas fa-pen text-blue-500 text-xs'></i>
+                                            <i class="fas fa-check text-green-500 text-xs"></i>
                                         </span>
-                                        تعديل
+                                        قبول
                                     </a>
 
-                                    <a href="${deleteUrl}" onclick="return confirm('هل أنت متأكد من الحذف؟');"
+                                    <a href="${rejectUrl}" onclick="return confirm('هل أنت متأكد من الحذف؟');"
                                     class="flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100">
                                         <span class="w-6 h-6 flex items-center justify-center border border-red-500 rounded-full">
-                                            <i class="fas fa-trash text-red-500 text-xs"></i>
+                                            <i class="fas fa-times text-red-500 text-xs"></i>
                                         </span>
-                                        حذف
+                                        رفض
                                     </a>
 
                                     <a href='${showUrl}' class='flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100'>
@@ -121,12 +107,7 @@
                                         </span>
                                         عرض
                                     </a>
-                                    <a href='${linkParentUrl}' class='flex items-center gap-2 px-2 py-1 rounded hover:bg-gray-100'>
-                                        <span class='w-6 h-6 flex items-center justify-center border border-blue-500 rounded-full'>
-                                            <i class='fas fa-random text-blue-500 text-xs'></i>
-                                        </span>
-                                        ربط ولي أمر
-                                    </a>
+
                                 `;
 
                                 showDropdownMenu(html, rect.top + window.scrollY + 30, rect.left + window.scrollX);

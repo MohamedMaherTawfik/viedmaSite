@@ -162,22 +162,6 @@
                             <p>❗آخر اختبار لم يتم إرساله لأنه "تم قبول مشروعات التدريب"</p>
                         </div>
                     @else
-                        <div class="flex justify-center items-center">
-                            <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-sm text-center space-y-4">
-                                <h2 class="text-xl font-semibold text-gray-800">هل تريد قبول أو رفض الطلب؟</h2>
-
-                                <div class="flex justify-center gap-4">
-                                    <a href="{{ route('school.teachers.accept', ['slug' => request('slug'), 'name' => request('name')]) }}"
-                                        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
-                                        قبول
-                                    </a>
-                                    <a href="{{ route('school.teachers.reject', ['slug' => request('slug'), 'name' => request('name')]) }}"
-                                        class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                                        رفض
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     @endif
 
                 </div>

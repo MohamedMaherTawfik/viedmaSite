@@ -1,12 +1,7 @@
 <?php
 
-use App\Http\Controllers\admin\QuestionController;
-use App\Http\Controllers\admin\teacherController;
-use App\Http\Controllers\home\GoogleAuthController;
+use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\home\homeController;
-use App\Http\Controllers\home\zoomController;
-use App\Http\Controllers\admin\QuizController;
-use App\Http\Middleware\Teacher;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -78,8 +73,6 @@ Route::group([
         Route::get('school/{slug}/dashboard/teachers/{name}', 'showTeacher')->name('school.teachers.show');
         Route::get('school/{slug}/dashboard/teachers/create/form', 'createUser')->name('school.teachers.create');
         Route::post('school/{slug}/dashboard/teachers/create/form', 'storeUser')->name('school.teachers.store');
-        Route::get('school/{slug}/dashboard/teachers/{name}/accept', 'acceptTeacher')->name('school.teachers.accept');
-        Route::get('school/{slug}/dashboard/teachers/{name}/reject', 'rejectTeacher')->name('school.teachers.reject');
         Route::get('school/{slug}/dashboard/teachers/{name}/edit', 'editTeacher')->name('school.teachers.edit');
         Route::post('school/{slug}/dashboard/teachers/{name}/edit', 'editTeacher')->name('school.teachers.edit');
         Route::delete('school/{slug}/dashboard/teachers/{name}', 'deleteUser')->name('school.teachers.delete');
@@ -91,7 +84,7 @@ Route::group([
         Route::get('school/{slug}/dashboard/student/{name}/edit', 'editStudent')->name('school.student.edit');
         Route::post('school/{slug}/dashboard/student/{name}/edit', 'updateStudent')->name('school.student.update');
         Route::get('school/{slug}/dashboard/student/{name}/linkParent', 'linkParent')->name('school.student.linkParent');
-        Route::post('school/{slug}/dashboard/student/{name}/linkParent', 'linkParentStore')->name('school.student.linkParent.store');
+        Route::post('school/{slug}/dashboard/student/{name}/linkParent/{parent}', 'linkParentStore')->name('school.student.linkParent.store');
         Route::get('school/{slug}/dashboard/student/{name}/delete', 'deleteStudent')->name('school.student.delete');
         Route::get('school/{slug}/dashboard/students', 'schoolStudents')->name('school.students');
         Route::get('school/{slug}/dashboard/training', 'schoolTraining')->name('school.training');
@@ -99,7 +92,10 @@ Route::group([
         Route::get('school/{slug}/dashboard/enrollments', 'schoolEnrollments')->name('school.enrollments');
         Route::get('school/{slug}/dashboard/reports', 'schoolReports')->name('school.reports');
         Route::get('school/{slug}/dashboard/settings', 'schoolSettings')->name('school.settings');
-
+        Route::get('school/{slug}/dashboard/pendings', 'schoolPendings')->name('school.pendings');
+        Route::get('school/{slug}/dashboard/pendings/{name}/accept', 'accept')->name('school.pendings.accept');
+        Route::get('school/{slug}/dashboard/pendings/{name}/reject', 'reject')->name('school.pendings.reject');
+        Route::get('school/{slug}/dashboard/pendings/{name}/show', 'showPending')->name('school.pendings.show');
     });
 });
 
@@ -167,3 +163,14 @@ Route::group([
 // Route::group([], function () {
 //     Route::get('/notFound/{slug}', [homeController::class, 'fromSearch'])->name('course.search')->middleware('auth');
 // });
+
+Route::group([
+], function () {
+    Route::controller(parentController::class)->group(function () {
+        Route::get('parent/register', 'registerParent')->name('parent.register');
+        Route::post('parent/register', 'parentRegister')->name('parent.register.store');
+        Route::get('parent/login', 'loginParent')->name('parent.login');
+        Route::post('parent/login', 'parentLogin')->name('parent.login.store');
+        Route::get('parent/logout', 'logout')->name('parent.logout');
+    });
+});

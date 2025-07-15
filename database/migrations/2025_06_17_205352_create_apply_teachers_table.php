@@ -17,10 +17,10 @@ return new class extends Migration {
                 ->constrained()
                 ->onDelete('cascade');
             $table->string('cv')->nullable();
-            $table->string('topic');
-            $table->string('phone');
+            $table->string('topic')->nullable();
+            $table->string('phone')->nullable();
             $table->string('certificate')->nullable();
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending'); // pending, approved, rejected
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
