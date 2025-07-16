@@ -14,19 +14,20 @@
                     <div class="space-y-2">
                         <h2 class="text-lg font-bold">تفاصيل الطالب</h2>
                         <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div><span class="text-gray-600">الاسم الكامل:</span> محمد أحمد</div>
-                            <div><span class="text-gray-600">رقم التواصل:</span> 010123456789</div>
-                            <div><span class="text-gray-600">البريد الإلكتروني:</span> ahmed@example.com</div>
-                            <div><span class="text-gray-600">الصف:</span> الثاني</div>
+                            <div><span class="text-gray-600">الاسم الكامل:</span> {{ $student->name }}</div>
+                            <div><span class="text-gray-600">الرقم القومي</span> {{ $student->national_id }}</div>
+                            <div><span class="text-gray-600"> المرحله الدراسيه:</span>{{ $student->Academic_stage }}
+                            </div>
+                            {{-- <div><span class="text-gray-600">الصف:</span> الثاني</div> --}}
                         </div>
                     </div>
                     <!-- ولي الأمر -->
                     <div class="space-y-2">
                         <h2 class="text-lg font-bold">تفاصيل ولي الأمر</h2>
                         <div class="grid grid-cols-2 gap-4 text-sm">
-                            <div><span class="text-gray-600">الاسم:</span> أحمد محمد</div>
-                            <div><span class="text-gray-600">رقم التواصل:</span> 01012345678</div>
-                            <div><span class="text-gray-600">تواصل إضافي:</span> waleed@example.com</div>
+                            <div><span class="text-gray-600">الاسم:</span>{{ $student->user->name }}</div>
+                            <div><span class="text-gray-600">رقم التواصل:</span>{{ $student->user->phone }} </div>
+                            <div><span class="text-gray-600">تواصل إضافي:</span>{{ $student->user->email }} </div>
                         </div>
                         <button
                             class="mt-4 px-4 py-2 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded flex items-center gap-2">

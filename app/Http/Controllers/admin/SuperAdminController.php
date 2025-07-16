@@ -7,6 +7,7 @@ use App\Http\Requests\schoolRequest;
 use App\Interfaces\CourseInterface;
 use App\Models\applyTeacher;
 use App\Models\Courses;
+use App\Models\report;
 use App\Models\school;
 use App\Models\student;
 use Illuminate\Http\Request;
@@ -464,7 +465,8 @@ class SuperAdminController extends Controller
 
     public function schoolTraining()
     {
-        return view('schoolDashboard.training.index');
+        $users = User::where('role', 'teacher')->get();
+        return view('schoolDashboard.training.index', compact('users'));
     }
 
     public function linkParent()
@@ -484,5 +486,16 @@ class SuperAdminController extends Controller
         $student->user_id = $user->id;
         $student->save();
         return redirect()->back()->with('success', 'Parent linked to student successfully.');
+    }
+
+    public function schoolProjects()
+    {
+
+    }
+
+    public function schoolReports()
+    {
+        $reports = report::with('student')->get();
+        return view('schoolDashboard.reports.index', compact('reports'));
     }
 }
