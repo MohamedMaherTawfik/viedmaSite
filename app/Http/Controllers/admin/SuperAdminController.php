@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\schoolRequest;
 use App\Interfaces\CourseInterface;
 use App\Models\applyTeacher;
+use App\Models\assignment_submission;
 use App\Models\Courses;
 use App\Models\report;
 use App\Models\school;
@@ -91,9 +92,10 @@ class SuperAdminController extends Controller
     public function schoolDashboard()
     {
         $courses = $this->courses->allCourses();
-        $studentsCount = User::where('role', 'user')->count();
+        $studentsCount = student::count();
         $teachersCount = User::where('role', 'teacher')->count();
-        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount'));
+        $assignmentsCount = assignment_submission::count();
+        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount', 'assignmentsCount'));
     }
     /**
      * Display the admin dashboard.
@@ -490,7 +492,8 @@ class SuperAdminController extends Controller
 
     public function schoolProjects()
     {
-
+        $submissions = assignment_submission::with('student')->get();
+        return view('schoolDashboard.projects.index', compact('submissions'));
     }
 
     public function schoolReports()

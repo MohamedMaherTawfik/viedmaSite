@@ -18,4 +18,9 @@ class graduationProject extends Model
     {
         return $this->hasMany(assignment_submission::class);
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Courses::class);
+    }
 }

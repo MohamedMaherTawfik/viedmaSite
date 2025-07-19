@@ -50,7 +50,7 @@
                     </div>
                     <div class="text-gray-800 text-sm mb-1">المشاريع قيد المراجعة</div>
                     <div class="font-bold text-xl text-orange-700">
-                        50
+                        {{ $assignmentsCount }}
                     </div>
                 </div>
 

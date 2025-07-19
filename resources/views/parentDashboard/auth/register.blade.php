@@ -18,9 +18,9 @@
     <div class="bg-white w-screen h-screen grid grid-cols-1 md:grid-cols-2">
 
         <!-- Right Form (now first column in RTL) -->
-        <div class="p-10 flex flex-col justify-center items-start text-right">
+        <div class="p-5 flex flex-col justify-center items-start text-right">
             <div class="flex items-center gap-2 mb-4 self-start">
-                <img src="{{ asset('auth/rendered_page.png') }}" alt="robot" class="w-72 h-48">
+                <img src="{{ asset('auth/rendered_page.png') }}" alt="robot" class="w-96 h-48">
             </div>
             <h2 class="text-2xl font-bold mb-1 self-start">انشاء حساب</h2>
             <p class="text-sm text-gray-500 mb-6 self-start">

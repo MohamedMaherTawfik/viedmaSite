@@ -3,21 +3,20 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\courseRequest;
-use App\Http\Requests\lessonRequest;
-use App\Http\Requests\projectRequest;
+use App\Http\Requests\adminRequest;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\GraduationProjectInterface;
 use App\Interfaces\LessonInterface;
+use App\Models\assignment_submission;
+use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
-use App\Models\graduationProject;
-use Google_Client;
-use Google_Service_YouTube;
-use Google_Service_YouTube_Video;
-use Google_Service_YouTube_VideoSnippet;
-use Google_Service_YouTube_VideoStatus;
-use Illuminate\Support\Facades\Session;
+use App\Models\school;
+use App\Models\student;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class teacherController extends Controller
 {
@@ -39,7 +38,32 @@ class teacherController extends Controller
     public function dashboard()
     {
         $courses = Courses::with('lessons')->where('user_id', auth()->user()->id)->get();
-        return view('admin.index', compact('courses'));
+        return view('teacherDashboard.index', compact('courses'));
+    }
+
+    public function allCourses()
+    {
+        $courses = Courses::get();
+        return view('teacherDashboard.courses.index', compact('courses'));
+    }
+
+    public function freeCourse()
+    {
+        $course = $this->courseRepository->getCourseBySlug(request('slug'));
+        Enrollments::create([
+            'user_id' => auth()->id(),
+            'courses_id' => $course->id,
+            'enrolled' => 'yes',
+            'price' => 0
+        ]);
+        return redirect()->back();
+    }
+
+    public function myCourses()
+    {
+        $enrollments = Enrollments::where('user_id', auth()->id())->where('enrolled', 'yes')->get();
+        return view('teacherDashboard.courses.EnrolledCourses', compact('enrollments'));
+
     }
 
     public function showCourse()
@@ -50,122 +74,23 @@ class teacherController extends Controller
         return view('teacherDashboard.courses.showCourse', compact('course', 'enrollments', 'price'));
     }
 
-    public function createCourse()
+    public function certificates()
     {
-        return view('teacherDashboard.courses.createCourse');
+        $certificates = certificate::where('user_id', auth()->id())->get();
+        return view('teacherDashboard.certificates.index', compact('certificates'));
     }
 
-    public function storeCourse(courseRequest $request)
+    public function allProjects()
     {
-        $fields = $request->validated();
-        $this->courseRepository->createCourse($fields);
-        return redirect()->route('dashboard')->with('success', 'Course created successfully!');
+        $assignments = assignment_submission::where('user_id', auth()->id())->with('notes')->get();
+        return view('teacherDashboard.projects.index', compact('assignments'));
     }
 
-    public function editCourse()
-    {
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-        return view('teacherDashboard.courses.editCourse', compact('course'));
-    }
-
-    public function updateCourse()
-    {
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-        if (request()->hasFile('cover_photo')) {
-            $fields = request()->all();
-            $fields['cover_photo'] = request()->file('cover_photo')->store('courses', 'public');
-        }
-        $fields['slug'] = str_replace(' ', '-', strtolower($fields['title']));
-        $this->courseRepository->updateCourse($course->id, $fields);
-        return redirect()->route('dashboard')->with('success', 'Course updated successfully!');
-    }
-
-    public function deleteCourse()
-    {
-        $course = $this->courseRepository->getCourse(request('id'));
-        $this->courseRepository->deleteCourse($course->id);
-        return redirect()->route('dashboard')->with('success', 'Course deleted successfully!');
-    }
 
     public function createLesson()
     {
         $course = $this->courseRepository->getCourseBySlug(request('slug'));
         return view('teacherDashboard.lessons.createLesson', compact('course'));
-    }
-
-    public function storeLesson(lessonRequest $request)
-    {
-        $fields = $request->validated();
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-
-        // 1. حفظ الصورة
-        if ($request->hasFile('image')) {
-            $fields['image'] = $request->file('image')->store('lessonsImage', 'public');
-        }
-
-        // 2. تجهيز التوكن
-        $token = Session::get('youtube_token');
-        if (!$token) {
-            return redirect()->route('google.auth')->with('error', 'يجب تسجيل الدخول بحساب Google');
-        }
-
-        $client = new Google_Client();
-        $client->setAccessToken($token);
-
-        // 3. رفع الفيديو لـ YouTube
-        $youtube = new Google_Service_YouTube($client);
-
-        $video = new Google_Service_YouTube_Video();
-
-        // عنوان ووصف الفيديو
-        $snippet = new Google_Service_YouTube_VideoSnippet();
-        $snippet->setTitle($fields['title']);
-        $snippet->setDescription($fields['description'] ?? 'Lesson uploaded via OxfordPlatform');
-        $snippet->setCategoryId("27"); // Education
-
-        // الحالة (عام، خاص، غير مدرج)
-        $status = new Google_Service_YouTube_VideoStatus();
-        $status->privacyStatus = "unlisted";
-
-        $video->setSnippet($snippet);
-        $video->setStatus($status);
-
-        // حمل الفيديو من الفورم
-        $videoFilePath = $request->file('video')->getPathname();
-        $chunkSizeBytes = 1 * 1024 * 1024; // 1MB
-
-        $client->setDefer(true);
-        $insertRequest = $youtube->videos->insert("status,snippet", $video);
-
-        $media = new \Google_Http_MediaFileUpload(
-            $client,
-            $insertRequest,
-            'video/*',
-            null,
-            true,
-            $chunkSizeBytes
-        );
-        $media->setFileSize(filesize($videoFilePath));
-
-        $status = false;
-        $handle = fopen($videoFilePath, "rb");
-        while (!$status && !feof($handle)) {
-            $chunk = fread($handle, $chunkSizeBytes);
-            $status = $media->nextChunk($chunk);
-        }
-        fclose($handle);
-
-        $client->setDefer(false);
-
-        // 4. استخراج رابط الفيديو
-        $youtubeVideoId = $status['id'];
-        $fields['video_url'] = "https://www.youtube.com/watch?v={$youtubeVideoId}";
-
-        // 5. إنشاء الدرس
-        $this->lessonRepository->createLesson($fields, $course->id);
-
-        return redirect()->route('teacher.courses.show', ['slug' => $course->slug])
-            ->with('success', 'تم رفع الدرس بنجاح ونشر الفيديو على YouTube ✅');
     }
 
     public function showLesson()
@@ -175,78 +100,80 @@ class teacherController extends Controller
         return view('teacherDashboard.lessons.showLesson', compact('lesson', 'course'));
     }
 
-    public function editLesson()
+    public function allStudents()
     {
-        $lesson = $this->lessonRepository->getLessonBySlug(request('slug'));
-        $course = $this->courseRepository->getCourse($lesson->courses_id);
-        return view('teacherDashboard.lessons.editLesson', compact('lesson', 'course'));
+        $students = student::get();
+        return view('teacherDashboard.student.index', compact('students'));
     }
-    public function updateLesson()
+
+    public function createStudent()
     {
-        $fields = request()->all();
-        $lesson = $this->lessonRepository->getLessonBySlug(request('slug'));
-        if (request()->hasFile('image')) {
-            $fields['image'] = request()->file('image')->store('lessonsImage', 'public');
+        return view('teacherDashboard.student.create');
+    }
+
+    /**
+     * Store a newly created user in storage.
+     */
+    public function storeStudent(adminRequest $request)
+    {
+
+        $validatedData = $request->validated();
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $user = student::create($validatedData);
+        return redirect()->route('teacher.students')->with('success', 'Student created successfully.');
+    }
+
+    public function ExcelStudent()
+    {
+        return view('teacherDashboard.student.excel');
+    }
+    /**
+     * Upload Excel file and process it.
+     */
+
+    public function uploadExcel(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls',
+        ]);
+        $school = School::where('id', Auth::user()->school->id)->firstOrFail();
+
+        // احفظ الملف يدويًا
+        $file = $request->file('excel_file');
+        $savePath = storage_path('app/temp/students.xlsx');
+        $file->move(storage_path('app/temp'), 'students.xlsx');
+
+        $realPath = realpath($savePath); // Get absolute path
+
+        if (!file_exists($realPath)) {
+            return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
         }
-        if (request()->hasFile('video')) {
-            $fields['video'] = request()->file('video')->store('lessonsVideo', 'public');
+
+        SimpleExcelReader::create($realPath)
+            ->getRows()
+            ->each(function (array $row) use ($school) {
+                Student::create([
+                    'name' => $row['name'],
+                    'school_id' => $school->id,
+                    'national_id' => $row['national_id'],
+                    'nationallity' => $row['nationallity'],
+                    'Academic_stage' => $row['Academic_stage'],
+                    'slug' => Str::slug($row['name']) . '-' . time(),
+                ]);
+            });
+
+        // unlink($realPath);
+
+        return redirect()->route('teacher.students')->with('success', 'Excel file uploaded and students created successfully.');
+    }
+
+    public function deleteStudent()
+    {
+        $student = student::where('name', request('name'))->first();
+        if (!$student) {
+            return redirect()->back()->with('error', 'Student not found.');
         }
-        $this->lessonRepository->updateLesson($fields, $lesson->id);
-        $course = $this->courseRepository->getCourse($lesson->courses_id);
-        return redirect()->route('teacher.courses.show', ['slug' => $course->slug])->with('success', 'Lesson updated successfully!');
-    }
-    public function deleteLesson()
-    {
-        $lesson = $this->lessonRepository->getLesson(request('id'));
-        $course = $this->courseRepository->getCourse($lesson->courses_id);
-        $this->lessonRepository->deleteLesson($lesson->id);
-        return redirect()->route('teacher.courses.show', ['slug' => $course->slug])->with('success', 'Lesson deleted successfully!');
-    }
-
-    public function allProjects()
-    {
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-        $projects = $this->graduationProjectRepository->getGraduationProjects(request('slug'));
-        return view('teacherDashboard.projects.allprojects', compact('projects', 'course'));
-    }
-
-    public function createProject()
-    {
-        return view('teacherDashboard.projects.createProject');
-    }
-
-    public function storeProject(projectRequest $request)
-    {
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-        $fields = $request->validated();
-        $fields['file'] = request()->file('file')->store('projectsfile', 'public');
-        $this->graduationProjectRepository->createGraduationProject($fields, $course->id);
-        return redirect()->route('teacher.project.all', ['slug' => request('slug')])->with('success', 'Project created successfully!');
-    }
-
-    public function showProject()
-    {
-        $course = $this->courseRepository->getCourseBySlug(request('slug'));
-        $projects = $this->graduationProjectRepository->getGraduationProjects(request('slug'));
-        return view('teacherDashboard.projects.showProject', compact('projects', 'course'));
-    }
-
-    public function editProject()
-    {
-        $project = $this->graduationProjectRepository->getGraduationProjectBySlug(request('slug'));
-        return view('teacherDashboard.projects.editProject', compact('project'));
-    }
-
-    public function updateProject()
-    {
-        $data = request()->all();
-        graduationProject::find(request('id'))->update($data);
-        return redirect()->route('teacher.project.show', ['slug' => request('slug')])->with('success', 'Project created successfully!');
-    }
-
-    public function deleteProject()
-    {
-        graduationProject::find(request('id'))->delete();
-        return redirect()->back();
+        $student->delete();
+        return redirect()->back()->with('success', 'Student deleted successfully.');
     }
 }

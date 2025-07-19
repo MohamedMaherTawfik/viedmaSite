@@ -19,7 +19,7 @@
                             <tr class="text-gray-600 font-semibold">
                                 <th class="px-4 py-2 border">اسم المعلم</th>
                                 <th class="px-4 py-2 border">اسم الدورة</th>
-                                <th class="px-4 py-2 border">تاريخ الدورة</th>
+                                <th class="px-4 py-2 border">حاله الدورة</th>
                                 <th class="px-4 py-2 border">تاريخ التسجيل</th>
                                 <th class="px-4 py-2 border">إجراءات</th>
                             </tr>
@@ -34,10 +34,10 @@
                                         <span>{{ $user->name }}</span>
                                     </td>
                                     <td class="px-4 py-2 border">{{ $user->course->title }} </td>
-                                    <td class="px-4 py-2 border">قيد الدراسة</td>
+                                    <td class="px-4 py-2 border">{{ $user->course->start_Date }} </td>
                                     <td class="px-4 py-2 border">{{ $user->updated_at }}</td>
                                     <td class="px-4 py-2 border">
-                                        <button class="text-[#007bff] hover:underline">👁️</button>
+                                        <a href="" class="text-[#007bff] hover:underline">👁️</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\admin\parentController;
+use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\home\homeController;
+use App\Http\Middleware\Teacher;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -102,54 +104,35 @@ Route::group([
     });
 });
 
-// Route::prefix('dashboard')->middleware(['auth', Teacher::class])->group(function () {
-//     Route::prefix('quizzes')->group(function () {
-//         Route::get('/{course}/all', [QuizController::class, 'index'])->name('teacherDashboard.quizzes.index');
-//         Route::get('/{course}/create', [QuizController::class, 'create'])->name('teacherDashboard.quizzes.create');
-//         Route::post('/{course}/', [QuizController::class, 'store'])->name('teacherDashboard.quizzes.store');
-//         Route::get('/{course}/{quiz}', [QuizController::class, 'show'])->name('teacherDashboard.quizzes.show');
-//         Route::get('/{course}/{quiz}/edit', [QuizController::class, 'edit'])->name('teacherDashboard.quizzes.edit');
-//         Route::put('/{course}/{quiz}', [QuizController::class, 'update'])->name('teacherDashboard.quizzes.update');
-//         Route::delete('/{course}/{quiz}', [QuizController::class, 'destroy'])->name('teacherDashboard.quizzes.destroy');
-//     });
-
-//     Route::prefix('')->group(function () {
-//         Route::get('/{course}/quizzes/{quiz}/questions/create', [QuestionController::class, 'create'])->name('questions.create');
-//         Route::post('/{course}/quizzes/{quiz}/questions/create', [QuestionController::class, 'store'])->name('questions.store');
-//         Route::delete('/{course}/quizzes/{quiz}/questions/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
-//     });
-
-// });
-
-// Route::group([
-//     'middleware' => ['auth', Teacher::class],
-// ], function () {
-//     Route::controller(teacherController::class)->group(function () {
-//         Route::get('/dashboard', 'dashboard')->name('dashboard');
-//         Route::get('/dashboard/courses/create', 'createCourse')->name('teacher.courses.create');
-//         Route::post('/dashboard/courses/create', 'storeCourse')->name('teacher.courses.store');
-//         Route::get('/dashboard/courses/edit/{slug}', 'editCourse')->name('teacher.courses.edit');
-//         Route::post('/dashboard/courses/edit/{slug}', 'updateCourse')->name('teacher.courses.update');
-//         Route::delete('/dashboard/courses/delete/{id}', 'deleteCourse')->name('teacher.courses.delete');
-//         Route::get('/dashboard/courses/{slug}', 'showCourse')->name('teacher.courses.show');
-//         Route::get('/dashboard/courses/lessons/create/{slug}', 'createLesson')->name('teacher.lessons.create');
-//         Route::post('/dashboard/courses/lessons/create/{slug}', 'storeLesson')->name('teacher.lessons.store');
-//         Route::get('/dashboard/courses/lessons/edit/{slug}', 'editLesson')->name('teacher.lessons.edit');
-//         Route::post('/dashboard/courses/lessons/edit/{slug}', 'updateLesson')->name('teacher.lessons.update');
-//         Route::delete('/dashboard/courses/lessons/delete/{id}', 'deleteLesson')->name('teacher.lessons.delete');
-//         Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
-//         Route::get('/dashboard/courses/lessons/quiz/create/{slug}', 'createQuiz')->name('teacher.quiz.create');
-//         Route::post('/dashboard/courses/quiz/create/{slug}', 'storeQuiz')->name('teacher.quiz.store');
-//         Route::post('/dashboard/courses/quiz/{id}', 'deleteQuiz')->name('teacher.quiz.delete');
-//         Route::get('/dashboard/courses/project/all/{slug}', 'allProjects')->name('teacher.project.all');
-//         Route::get('/dashboard/courses/project/create/{slug}', 'createProject')->name('teacher.project.create');
-//         Route::post('/dashboard/courses/project/create/{slug}', 'storeProject')->name('teacher.project.store');
-//         Route::get('/dashboard/courses/project/edit/{slug}', 'editProject')->name('teacher.project.edit');
-//         Route::post('/dashboard/courses/project/edit/{id}', 'updateProject')->name('teacher.project.update');
-//         Route::get('/dashboard/courses/project/show/{slug}', 'showProject')->name('teacher.project.show');
-//         Route::delete('/dashboard/courses/project/{id}', 'deleteProject')->name('teacher.project.delete');
-//     });
-// });
+Route::group([
+    'middleware' => ['auth', Teacher::class],
+], function () {
+    Route::controller(teacherController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/dashboard/courses', 'allCourses')->name('teacher.courses');
+        Route::get('/dashboard/courses/enrolled', 'myCourses')->name('teacher.myCourses');
+        Route::get('/dashboard/courses/create', 'createCourse')->name('teacher.courses.create');
+        Route::post('/dashboard/courses/create', 'storeCourse')->name('teacher.courses.store');
+        Route::get('/dashboard/courses/edit/{slug}', 'editCourse')->name('teacher.courses.edit');
+        Route::post('/dashboard/courses/edit/{slug}', 'updateCourse')->name('teacher.courses.update');
+        Route::delete('/dashboard/courses/delete/{id}', 'deleteCourse')->name('teacher.courses.delete');
+        Route::get('/dashboard/courses/{slug}', 'showCourse')->name('teacher.courses.show');
+        Route::post('/dashboard/course/{slug}/enroll/free', 'freeCourse')->name('teacher.course.enroll.free');
+        Route::post('/dashboard/course/{slug}/enroll/paid', 'paidCourse')->name('teacher.course.subscribe');
+        Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
+        Route::get('/dashboard/certificates', 'certificates')->name('teacher.certificates');
+        Route::get('/dashboard/courses/assisnments/me', 'allProjects')->name('teacher.projects');
+        Route::get('/dashboard/students/all', 'allStudents')->name('teacher.students');
+        Route::get('/dashboard/student/create/form', 'createStudent')->name('teacher.student.create');
+        Route::post('/dashboard/student/create/form', 'storeStudent')->name('teacher.student.store');
+        Route::get('/dashboard/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
+        Route::post('/dashboard/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
+        Route::get('/dashboard/student/{name}/edit', 'editStudent')->name('teacher.student.edit');
+        Route::post('/dashboard/student/{name}/edit', 'updateStudent')->name('teacher.student.update');
+        Route::get('/dashboard/student/{name}/delete', 'deleteStudent')->name('teacher.student.delete');
+        Route::get('/dashboard/evaluations', 'evaluation')->name('teacher.evaluations');
+    });
+});
 
 // Route::get('/dashboard/courses/{slug}/zoom', [ZoomController::class, 'livePage'])->name('liveChat');
 // Route::get('/dashboard/courses/{slug}/zoom/connect', [ZoomController::class, 'redirectToZoom'])->name('zoom.redirect');

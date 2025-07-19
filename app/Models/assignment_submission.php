@@ -23,4 +23,14 @@ class assignment_submission extends Model
     {
         return $this->belongsTo(graduationProject::class);
     }
+
+    public function graduationNotes()
+    {
+        return $this->hasMany(graduationNotes::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(notes::class);
+    }
 }

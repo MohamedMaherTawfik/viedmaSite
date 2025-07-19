@@ -1,1 +1,7 @@
 login: #f8f6f4
+grey700:#374151
+white:#ffffff
+Dark Blue:#176b98
+yellow:#FEBE35
+Red:#F04A22
+Green:#75C151
