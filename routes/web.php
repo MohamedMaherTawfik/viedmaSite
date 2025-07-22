@@ -133,7 +133,10 @@ Route::group([], function () {
         Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
         Route::get('/trainer/course/{course}/lesson/create', 'createLesson')->name('trainer.lesson.create');
         Route::post('/trainer/course/{course}/lesson/store', 'storeLesson')->name('trainer.lesson.store');
-        Route::delete('/trainer/course/{course}/lesson/delete', 'deleteLesson')->name('trainer.lesson.lesson');
+        Route::delete('/trainer/course/{course}/lesson/delete', 'deleteLesson')->name('trainer.lesson.delete');
+        Route::get('/trainer/course/{course}/project/create', 'createProject')->name('trainer.project.create');
+        Route::post('/trainer/course/{course}/project/create', 'storeProject')->name('trainer.project.store');
+        Route::delete('/trainer/course/project/delete/{graduationProject}', 'deleteProject')->name('trainer.project.delete');
         Route::get('/trainer/projects', 'trainerProjects')->name('trainer.projects');
         Route::get('/trainer/evaluations', 'trainerEvaluations')->name('trainer.evaluations');
         Route::get('/trainer/schedules', 'trainerSchedules')->name('trainer.schedules');

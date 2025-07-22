@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\courseRequest;
 use App\Http\Requests\lessonRequest;
 use App\Http\Requests\loginRequest;
+use App\Http\Requests\projectRequest;
 use App\Http\Requests\userRequest;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
@@ -132,6 +133,30 @@ class trainerController extends Controller
 
         return view('trainerDashboard.projects.index', compact('assignments'));
     }
+
+    public function createProject(Courses $course)
+    {
+        return view('trainerDashboard.projects.create', compact('course'));
+    }
+
+    public function storeProject(projectRequest $request, Courses $course)
+    {
+        $validated = $request->validated();
+        $validated['teacher_id'] = Auth::id();
+        $validated['courses_id'] = $course->id;
+        $validated['slug'] = Str::slug($validated['title']) . '-' . time();
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')->store('Projects', 'public');
+        }
+        graduationProject::create($validated);
+        return redirect()->back()->with('Project Uploaded Successfully');
+    }
+
+    public function deleteProject(graduationProject $graduationProject)
+    {
+        $graduationProject->delete();
+        return redirect()->back()->with('graduation project deleted');
+    }
     public function trainerEvaluations()
     {
         $reports = report::where('user_id', Auth::user()->id);
@@ -191,7 +216,10 @@ class trainerController extends Controller
         $validated['courses_id'] = $course->id;
         $validated['user_id'] = Auth::user()->id;
         $validated['slug'] = Str::slug($validated['title']) . '-' . time();
-        $request->file('image')->store('public/lessonImages');
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('Lessons', 'public');
+        }
+
         lesson::create($validated);
         return redirect()->back()->with('Lesson Created Successfully');
     }
