@@ -79,7 +79,7 @@
                     <img src="https://img.icons8.com/ios-filled/24/ffffff/project.png" class="ml-2" />
                     راجع المشاريع
                 </a>
-                <a href="{{ route('trainer.addSessionTime') }}"
+                <a href="{{ route('trainer.schedules.create') }}"
                     class="bg-pink-500 text-white font-semibold py-3 rounded-lg flex items-center justify-center hover:bg-pink-600 transition">
                     <img src="https://img.icons8.com/ios-filled/24/ffffff/calendar.png" class="ml-2" />
                     أضف موعد تدريب

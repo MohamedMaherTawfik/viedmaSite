@@ -129,6 +129,7 @@ class trainerController extends Controller
     {
         $graduationProject = graduationProject::where('user_id', auth()->id())->pluck('id');
         $assignments = assignment_submission::whereIn('graduation_project_id', $graduationProject)->get();
+
         return view('trainerDashboard.projects.index', compact('assignments'));
     }
     public function trainerEvaluations()
