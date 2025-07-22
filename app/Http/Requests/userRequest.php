@@ -24,7 +24,7 @@ class userRequest extends FormRequest
     {
         return [
             'school_id' => 'required|exists:schools,id',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:users,name',
             'email' => 'required|email|unique:users,email|max:255',
             'password' => [
                 'required',
@@ -33,6 +33,9 @@ class userRequest extends FormRequest
                     ->letters()
                     ->numbers()
             ],
+            'cv' => 'nullable',
+            'certificate' => 'nullable',
+            'phone' => 'nullable',
         ];
     }
 }

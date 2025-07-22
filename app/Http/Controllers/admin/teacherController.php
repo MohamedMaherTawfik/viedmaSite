@@ -176,4 +176,10 @@ class teacherController extends Controller
         $student->delete();
         return redirect()->back()->with('success', 'Student deleted successfully.');
     }
+
+    public function evaluation()
+    {
+        $students = student::get();
+        return view('teacherDashboard.evaluations.index');
+    }
 }

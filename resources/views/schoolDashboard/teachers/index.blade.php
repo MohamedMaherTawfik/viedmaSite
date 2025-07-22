@@ -1,14 +1,14 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <!-- Wrapper for main content with flex column -->
     <div class="flex flex-col flex-1">
 
         <!-- Main Content -->
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
 
             <section class="bg-white p-4 rounded shadow mt-6">
                 <div class="flex items-center justify-between mb-4">

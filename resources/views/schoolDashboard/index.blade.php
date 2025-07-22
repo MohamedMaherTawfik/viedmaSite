@@ -3,14 +3,14 @@
         $slug = request('slug');
     @endphp
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <!-- Wrapper for main content with flex column -->
     <div class="flex flex-col flex-1">
 
         <!-- Main Content -->
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
 
             <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
                 <span class="text-gray-800 text-lg">احصائيات سريعة</span>

@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignIdFor(school::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name')->unique();
             $table->string('photo')->nullable();
-            $table->enum('role', ['teacher', 'user', 'admin', 'parent'])->default('user');
+            $table->enum('role', ['teacher', 'user', 'admin', 'parent', 'trainer'])->default('user');
             $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

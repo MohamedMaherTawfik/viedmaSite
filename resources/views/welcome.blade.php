@@ -28,7 +28,7 @@
             </a>
 
             <!-- مدرب -->
-            <a href="#"
+            <a href="{{ route('trainer.login.form') }}"
                 class="block bg-white rounded-2xl shadow-md hover:shadow-xl hover:ring-2 hover:ring-[#176b98] transition duration-300 p-8 text-center">
                 <img src="https://img.icons8.com/ios-filled/100/75C151/coach.png" alt="مدرب"
                     class="mx-auto mb-4 w-20 h-20">

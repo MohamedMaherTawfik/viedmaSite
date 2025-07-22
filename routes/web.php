@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
+use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Middleware\Teacher;
 use Illuminate\Support\Facades\Route;
@@ -31,28 +32,6 @@ Route::get('lang/{locale}', function ($locale) {
 
 Route::group([], function () {
     Route::get('/', [homeController::class, 'index'])->name('home');
-    //     //     Route::get('/profile', [homeController::class, 'profile'])->name('profile')->middleware('auth');
-// //     Route::get('/about', [homeController::class, 'about'])->name('about');
-// //     Route::get('/contact', [homeController::class, 'contact'])->name('contact');
-// //     Route::get('/courses', [homeController::class, 'courses'])->name('courses');
-// //     Route::get('/course/{slug}', [homeController::class, 'showCourse'])->name('course.show')->middleware('auth');
-// //     Route::post('/course/{slug}', [homeController::class, 'enrollment'])->name('enrollment')->middleware('auth');
-// //     Route::get('/categorey/{slug}', [homeController::class, 'showCategorey'])->name('categories.show');
-// //     Route::get('/mycourses', [homeController::class, 'enrolledCourses'])->name('myCourses');
-// //     Route::get('/mycourse/{slug}', [homeController::class, 'enrolledCourse'])->name('myCourse');
-// //     Route::post('/mycourse/{slug}', [homeController::class, 'courseReview'])->name('course.review');
-// //     Route::get('/mycourse/lesson/{slug}', [homeController::class, 'showLesson'])->name('lesson.show');
-// //     Route::get('/allCourses', [homeController::class, 'allCourses'])->name('courses.all');
-// //     Route::get('/student/quizzes/{quiz}/start', [homeController::class, 'start'])
-// //         ->name('student.quiz.show');
-// //     Route::post('/student/quizzes/{quiz}/submit', [homeController::class, 'submitQuiz'])
-// //         ->name('student.quiz.submit')
-// //         ->middleware('auth');
-// //     Route::post('/student/quizzes/{quiz}/exit', [homeController::class, 'exitQuiz'])->name('student.quiz.exit')->middleware('auth');
-// //     Route::get('/student/quizzes/{quiz}/result', [homeController::class, 'quizResult'])->name('student.quiz.result')->middleware('auth');
-// //     Route::get('/games', [homeController::class, 'getGames'])->name('categorey.game');
-// //     Route::get('/game/{slug}', [homeController::class, 'showGame'])->name('game.show');
-// //     Route::get('/gameCategorey/{slug}', [homeController::class, 'showGameCategorey'])->name('game.categorey.show');
 });
 
 Route::group([
@@ -111,12 +90,6 @@ Route::group([
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/dashboard/courses', 'allCourses')->name('teacher.courses');
         Route::get('/dashboard/courses/enrolled', 'myCourses')->name('teacher.myCourses');
-        Route::get('/dashboard/courses/create', 'createCourse')->name('teacher.courses.create');
-        Route::post('/dashboard/courses/create', 'storeCourse')->name('teacher.courses.store');
-        Route::get('/dashboard/courses/edit/{slug}', 'editCourse')->name('teacher.courses.edit');
-        Route::post('/dashboard/courses/edit/{slug}', 'updateCourse')->name('teacher.courses.update');
-        Route::delete('/dashboard/courses/delete/{id}', 'deleteCourse')->name('teacher.courses.delete');
-        Route::get('/dashboard/courses/{slug}', 'showCourse')->name('teacher.courses.show');
         Route::post('/dashboard/course/{slug}/enroll/free', 'freeCourse')->name('teacher.course.enroll.free');
         Route::post('/dashboard/course/{slug}/enroll/paid', 'paidCourse')->name('teacher.course.subscribe');
         Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
@@ -134,22 +107,6 @@ Route::group([
     });
 });
 
-// Route::get('/dashboard/courses/{slug}/zoom', [ZoomController::class, 'livePage'])->name('liveChat');
-// Route::get('/dashboard/courses/{slug}/zoom/connect', [ZoomController::class, 'redirectToZoom'])->name('zoom.redirect');
-// Route::get('/dashboard/courses/{slug}/zoom/callback', [ZoomController::class, 'handleCallback'])->name('zoom.callback');
-// Route::get('/dashboard/courses/{slug}/zoom/disconnect', [ZoomController::class, 'disconnectZoom'])->name('zoom.disconnect');
-// Route::get('/dashboard/courses/{slug}/zoom/create-meeting', [ZoomController::class, 'createMeeting'])->name('zoom.create');
-// Route::get('/dashboard/courses/{slug}/zoom/attend', [ZoomController::class, 'attendMeeting'])->name('zoom.attend');
-
-
-// Route::get('/google/auth', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.auth');
-// Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
-
-
-// Route::group([], function () {
-//     Route::get('/notFound/{slug}', [homeController::class, 'fromSearch'])->name('course.search')->middleware('auth');
-// });
-
 Route::group([
 ], function () {
     Route::controller(parentController::class)->group(function () {
@@ -158,5 +115,30 @@ Route::group([
         Route::get('parent/login', 'loginParent')->name('parent.login');
         Route::post('parent/login', 'parentLogin')->name('parent.login.store');
         Route::get('parent/logout', 'logout')->name('parent.logout');
+    });
+});
+
+
+Route::group([], function () {
+    Route::controller(trainerController::class)->group(function () {
+        Route::get('/trainer/signin', 'loginTrainer')->name('trainer.login.form');
+        Route::get('/trainer/register', 'signUpTrainer')->name('trainer.register.form');
+        Route::post('/trainer/login', 'signinTrainer')->name('trainer.login');
+        Route::post('/trainer/register', 'registerTrainer')->name('trainer.register');
+        Route::post('/trainer/logout', 'logout')->name('trainer.logout');
+        Route::get('/trainer/dashbaord', 'trainerDashboard')->name('trainerDashboard');
+        Route::get('/trainer/courses', 'trainerCourses')->name('trainer.courses');
+        Route::get('/trainer/courses/create', 'createCourse')->name('trainer.courses.create');
+        Route::post('/trainer/courses/create', 'storeCourse')->name('trainer.courses.store');
+        Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
+        Route::get('/trainer/projects', 'trainerProjects')->name('trainer.projects');
+        Route::get('/trainer/evaluations', 'trainerEvaluations')->name('trainer.evaluations');
+        Route::get('/trainer/schedules', 'trainerSchedules')->name('trainer.schedules');
+        Route::get('/trainer/schedules/create', 'createSessionTime')->name('trainer.schedules.create');
+        Route::post('/trainer/schedules', 'storeSessionTime')->name('trainer.schedules.store');
+        Route::get('/trainer/schedules/{sessionTime}/edit', 'editSessionTime')->name('trainer.schedules.edit');
+        Route::post('/trainer/schedules/{sessionTime}/edit', 'updateSessionTime')->name('trainer.schedules.update');
+        Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');
+        Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
     });
 });

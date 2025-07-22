@@ -15,7 +15,6 @@ class courseSeeder extends Seeder
     {
         $courses = [
             [
-                'categorey_id' => 1,
                 'title' => 'Laravel for Beginners',
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
                 'cover_photo' => 'courses/laravel.jpg',
@@ -27,7 +26,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Advanced JavaScript',
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
                 'cover_photo' => 'courses/javascript.jpg',
@@ -39,7 +37,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Python Data Science',
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
                 'cover_photo' => 'courses/DataScience.png',
@@ -51,7 +48,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Web Development Bootcamp',
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
                 'cover_photo' => 'courses/bootcamp.png',
@@ -63,7 +59,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Flutter for Mobile Apps',
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
                 'cover_photo' => 'courses/flutter.png',
@@ -76,7 +71,6 @@ class courseSeeder extends Seeder
             ],
 
             [
-                'categorey_id' => 1,
                 'title' => 'Laravel for yBeginners',
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
                 'cover_photo' => 'courses/laravel.jpg',
@@ -88,7 +82,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Advanced JavayScript',
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
                 'cover_photo' => 'courses/javascript.jpg',
@@ -100,7 +93,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Python Data Scyience',
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
                 'cover_photo' => 'courses/DataScience.png',
@@ -112,7 +104,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Web Developmenty Bootcamp',
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
                 'cover_photo' => 'courses/bootcamp.png',
@@ -124,7 +115,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Flutter for Mobiyle Apps',
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
                 'cover_photo' => 'courses/flutter.png',
@@ -137,7 +127,6 @@ class courseSeeder extends Seeder
             ],
 
             [
-                'categorey_id' => 1,
                 'title' => 'Laravel for Begininers',
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
                 'cover_photo' => 'courses/laravel.jpg',
@@ -149,7 +138,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Advanced JavaScripit',
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
                 'cover_photo' => 'courses/javascript.jpg',
@@ -161,7 +149,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Python Data Sciencei',
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
                 'cover_photo' => 'courses/DataScience.png',
@@ -173,7 +160,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Web Development Booticamp',
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
                 'cover_photo' => 'courses/bootcamp.png',
@@ -185,7 +171,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Flutter for Mobile Apips',
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
                 'cover_photo' => 'courses/flutter.png',
@@ -198,7 +183,6 @@ class courseSeeder extends Seeder
             ],
 
             [
-                'categorey_id' => 1,
                 'title' => 'Laravel for Bejginners',
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
                 'cover_photo' => 'courses/laravel.jpg',
@@ -210,7 +194,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Advanced JavaScjript',
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
                 'cover_photo' => 'courses/javascript.jpg',
@@ -222,7 +205,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Python Data Sciejnce',
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
                 'cover_photo' => 'courses/DataScience.png',
@@ -234,7 +216,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 2,
                 'title' => 'Web Development Bjootcamp',
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
                 'cover_photo' => 'courses/bootcamp.png',
@@ -246,7 +227,6 @@ class courseSeeder extends Seeder
                 'user_id' => 1,
             ],
             [
-                'categorey_id' => 1,
                 'title' => 'Flutter for Mobilej Apps',
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
                 'cover_photo' => 'courses/flutter.png',

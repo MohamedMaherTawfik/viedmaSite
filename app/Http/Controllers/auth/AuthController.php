@@ -27,26 +27,25 @@ class AuthController extends Controller
         $user = User::create($validatedData);
         Auth::login($user);
 
-        return redirect()->route('teacher')->with('success', 'Registration successful! Please apply to become a teacher.');
+        return view('auth.teacherApplied')->with('success', 'Registration successful! Please apply to become a teacher.');
     }
 
-    public function teacherRegister()
-    {
-        return view('auth.teacherLogin');
-    }
+    // public function teacherRegister()
+    // {
+    //     return view('auth.teacherLogin');
+    // }
 
-    public function teacher(teacherRequest $request)
-    {
-        $validatedData = $request->validated();
-        applyTeacher::create([
-            'user_id' => Auth::id(),
-            'topic' => $validatedData['topics'],
-            'phone' => $validatedData['phone'],
-            'status' => 'pending',
-        ]);
-        return view('auth.teacherApplied');
-    }
-
+    // public function teacher(teacherRequest $request)
+    // {
+    //     $validatedData = $request->validated();
+    //     applyTeacher::create([
+    //         'user_id' => Auth::id(),
+    //         'topic' => $validatedData['topics'],
+    //         'phone' => $validatedData['phone'],
+    //         'status' => 'pending',
+    //     ]);
+    //     return view('auth.teacherApplied');
+    // }
 
     public function login()
     {
@@ -75,30 +74,4 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-
-
-    // public function resetPage()
-    // {
-
-    // }
-
-    // public function updatePassword(Request $request)
-    // {
-    //     $request->validate([
-    //         'current_password' => 'required',
-    //         'password' => 'required|string|min:8|confirmed',
-    //     ]);
-
-    //     $user = Auth::user();
-
-    //     if (!Hash::check($request->current_password, $user->password)) {
-    //         return back()->withErrors(['current_password' => 'Current password is incorrect']);
-    //     }
-
-    //     $user->update([
-    //         'password' => Hash::make($request->password)
-    //     ]);
-
-    //     return back()->with('success', 'Password updated successfully!');
-    // }
 }

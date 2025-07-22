@@ -1,11 +1,12 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <div class="flex flex-col flex-1">
         <main class="p-6 flex-1">
-            <x-school-header />
+
+            <x-teacher-header />
 
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-lg font-semibold">المعلمين</h2>

@@ -7,7 +7,7 @@
          $slug = request('slug');
      @endphp
      <!-- Sidebar -->
-     <x-school-sidebar />
+     <x-teacher-sidebar />
 
      <!-- Wrapper for main content with flex column -->
      <div class="flex flex-col flex-1">

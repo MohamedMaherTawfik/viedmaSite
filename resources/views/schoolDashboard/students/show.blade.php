@@ -1,11 +1,11 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <div class="flex flex-col flex-1">
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
             <section class="bg-white p-6 rounded shadow text-right space-y-8">
 
                 <!-- القسم العلوي: تفاصيل الطالب وولي الأمر -->

@@ -1,14 +1,14 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <!-- Wrapper for main content with flex column -->
     <div class="flex flex-col flex-1">
 
         <!-- Main Content -->
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
 
             <section class="bg-gray-50 p-6 rounded-lg shadow border">
                 <h2 class="text-lg font-bold text-[#79131d] mb-4">متابعة التدريب</h2>

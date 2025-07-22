@@ -1,11 +1,11 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-teacher-sidebar />
 
     <div class="flex flex-col flex-1">
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
             @if (session('success'))
                 <div class="mb-4 text-sm text-green-700 bg-green-100 border border-green-300 rounded px-4 py-3">
                     {{ session('success') }}

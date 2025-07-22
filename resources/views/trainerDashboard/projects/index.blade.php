@@ -1,7 +1,7 @@
 <x-layout>
 
     <!-- Sidebar -->
-    <x-teacher-sidebar />
+    <x-trainer-sidebar />
 
     <!-- Wrapper for main content with flex column -->
     <div class="flex flex-col flex-1">
@@ -10,9 +10,12 @@
         <main class="p-6 flex-1">
             <x-teacher-header />
 
+            <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
+
+
         </main>
 
-    </div>
 
+    </div>
 
 </x-layout>

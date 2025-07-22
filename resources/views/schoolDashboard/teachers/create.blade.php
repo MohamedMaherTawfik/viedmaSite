@@ -5,14 +5,14 @@
  <x-layout>
 
      <!-- Sidebar -->
-     <x-school-sidebar />
+     <x-teacher-sidebar />
 
      <!-- Wrapper for main content with flex column -->
      <div class="flex flex-col flex-1">
 
          <!-- Main Content -->
          <main class="p-6 flex-1">
-             <x-school-header />
+             <x-teacher-header />
              <form action="{{ route('school.teachers.store', request('slug')) }}" method="POST"
                  class=" mt-10 mx-auto bg-white p-6 rounded-lg shadow-lg space-y-4">
 

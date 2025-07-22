@@ -59,4 +59,9 @@ class Courses extends Model
     {
         return $this->hasMany(graduationProject::class);
     }
+
+    public function sessionTime()
+    {
+        return $this->hasMany(sessionTime::class);
+    }
 }
