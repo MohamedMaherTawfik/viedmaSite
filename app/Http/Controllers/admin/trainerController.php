@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\courseRequest;
+use App\Http\Requests\lessonRequest;
 use App\Http\Requests\loginRequest;
 use App\Http\Requests\userRequest;
 use App\Models\applyTeacher;
@@ -12,6 +13,7 @@ use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\graduationProject;
+use App\Models\lesson;
 use App\Models\report;
 use App\Models\sessionTime;
 use App\Models\User;
@@ -177,6 +179,21 @@ class trainerController extends Controller
         return redirect()->route('trainer.schedules')->with('success', 'تم تعديل الموعد بنجاح');
     }
 
+    public function createLesson(Courses $course)
+    {
+        return view('trainerDashboard.lesson.create', compact('course'));
+    }
+
+    public function storeLesson(lessonRequest $request, Courses $course)
+    {
+        $validated = $request->validated();
+        $validated['courses_id'] = $course->id;
+        $validated['user_id'] = Auth::user()->id;
+        $validated['slug'] = Str::slug($validated['title']) . '-' . time();
+        $request->file('image')->store('public/lessonImages');
+        lesson::create($validated);
+        return redirect()->back()->with('Lesson Created Successfully');
+    }
     public function deleteSessionTime(SessionTime $sessionTime)
     {
         $sessionTime->delete();

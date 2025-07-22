@@ -55,12 +55,18 @@
                         @foreach ($course->lessons as $item)
                             <tr>
                                 <td>{{ $item->title }}</td>
-                                <td><a href="#" class="text-green-600">تحميل</a></td>
+                                <td><a href="{{ $item->video_url }}" target="_blank" rel="noopener noreferrer"
+                                        class="text-green-600">مشاهدة</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-                <button class="mt-4 bg-blue-600 text-white py-2 px-4 rounded">+ إضافة درس</button>
+                <div class="mt-8">
+                    <a href="{{ route('trainer.lesson.create', $course) }}"
+                        class="mt-4 bg-blue-600 text-white py-2 px-4 rounded">+
+                        إضافة درس</a>
+                </div>
             </div>
 
             <!-- مواعيد الجلسات التدريبية -->

@@ -131,6 +131,9 @@ Route::group([], function () {
         Route::get('/trainer/courses/create', 'createCourse')->name('trainer.courses.create');
         Route::post('/trainer/courses/create', 'storeCourse')->name('trainer.courses.store');
         Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
+        Route::get('/trainer/course/{course}/lesson/create', 'createLesson')->name('trainer.lesson.create');
+        Route::post('/trainer/course/{course}/lesson/store', 'storeLesson')->name('trainer.lesson.store');
+        Route::delete('/trainer/course/{course}/lesson/delete', 'deleteLesson')->name('trainer.lesson.lesson');
         Route::get('/trainer/projects', 'trainerProjects')->name('trainer.projects');
         Route::get('/trainer/evaluations', 'trainerEvaluations')->name('trainer.evaluations');
         Route::get('/trainer/schedules', 'trainerSchedules')->name('trainer.schedules');
