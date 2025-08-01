@@ -17,4 +17,14 @@ class graduationNotes extends Model
     {
         return $this->belongsTo(assignment_submission::class, 'graduation_project_id');
     }
+
+    public function teacherUpload()
+    {
+        return $this->belongsTo(User::class, 'uploaded_teacher_id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(graduationProject::class, 'graduation_project_id');
+    }
 }

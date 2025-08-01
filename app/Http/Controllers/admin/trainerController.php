@@ -161,7 +161,7 @@ class trainerController extends Controller
     }
     public function trainerEvaluations()
     {
-        $reports = report::where('user_id', Auth::user()->id);
+        $reports = graduationNotes::where('user_id', Auth::user()->id)->get();
         return view('trainerDashboard.evaluations.index', compact('reports'));
     }
 

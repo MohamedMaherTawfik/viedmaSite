@@ -23,4 +23,9 @@ class graduationProject extends Model
     {
         return $this->belongsTo(Courses::class, 'courses_id');
     }
+
+    public function note()
+    {
+        return $this->hasMany(graduationNotes::class, 'graduation_project_id');
+    }
 }
