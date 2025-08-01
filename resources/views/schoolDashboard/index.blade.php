@@ -12,15 +12,15 @@
         <main class="p-6 flex-1">
             <x-teacher-header />
 
-            <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
+            {{-- <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
                 <span class="text-gray-800 text-lg">احصائيات سريعة</span>
                 <button class="bg-white border rounded text-black px-4 py-2 rounded hover:bg-gray-300 transition">
                     اداره دوراتي
                 </button>
-            </div>
+            </div> --}}
 
             <!-- إحصائيات سريعة -->
-            <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+            <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full" style="margin-top: 5%">
                 <!-- عدد الطلاب -->
                 <div class="bg-blue-200 text-center p-4 rounded w-full">
                     <div class="text-blue-700 text-3xl mb-2">
@@ -94,7 +94,7 @@
                 إدارة المعلمين
             </a>
 
-            <a href="{{ route('school.enrollments', $slug) }}"
+            <a href="{{ route('school.pendings', $slug) }}"
                 class="block text-center bg-blue-500 text-white py-3 rounded font-semibold hover:bg-blue-600 transition">
                 طلبات التسجيل
             </a>

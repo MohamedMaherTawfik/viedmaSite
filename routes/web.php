@@ -52,6 +52,7 @@ Route::group([
         Route::get('school/{slug}/dashboard', 'schoolDashboard')->name('school.dashboard');
         Route::get('school/{slug}/dashboard/teachers', 'schoolTeachers')->name('school.teachers');
         Route::get('school/{slug}/dashboard/teachers/{name}', 'showTeacher')->name('school.teachers.show');
+        Route::get('school/{slug}/dashboard/teachers/{teacher}/notify', 'notifyTeacher')->name('sendNotification');
         Route::get('school/{slug}/dashboard/teachers/create/form', 'createUser')->name('school.teachers.create');
         Route::post('school/{slug}/dashboard/teachers/create/form', 'storeUser')->name('school.teachers.store');
         Route::get('school/{slug}/dashboard/teachers/{name}/edit', 'editTeacher')->name('school.teachers.edit');
@@ -70,7 +71,6 @@ Route::group([
         Route::get('school/{slug}/dashboard/students', 'schoolStudents')->name('school.students');
         Route::get('school/{slug}/dashboard/training', 'schoolTraining')->name('school.training');
         Route::get('school/{slug}/dashboard/projects', 'schoolProjects')->name('school.projects');
-        Route::get('school/{slug}/dashboard/enrollments', 'schoolEnrollments')->name('school.enrollments');
         Route::get('school/{slug}/dashboard/reports', 'schoolReports')->name('school.reports');
         Route::get('school/{slug}/dashboard/reports/{name}', 'showReport')->name('school.reports.show');
         Route::get('school/{slug}/dashboard/reports/create', 'createReport')->name('school.reports.create');

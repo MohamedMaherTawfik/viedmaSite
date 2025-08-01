@@ -93,7 +93,7 @@ class SuperAdminController extends Controller
     {
         $courses = $this->courses->allCourses();
         $studentsCount = student::count();
-        $teachersCount = User::where('role', 'teacher')->count();
+        $teachersCount = User::where('role', 'trainer')->count();
         $assignmentsCount = assignment_submission::count();
         return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount', 'assignmentsCount'));
     }
@@ -492,13 +492,18 @@ class SuperAdminController extends Controller
 
     public function schoolProjects()
     {
-        $submissions = assignment_submission::with('student')->get();
-        return view('schoolDashboard.projects.index', compact('submissions'));
+        $reports = report::with('user')->get();
+        return view('schoolDashboard.projects.index', compact('reports'));
     }
 
     public function schoolReports()
     {
         $reports = report::with('student')->get();
         return view('schoolDashboard.reports.index', compact('reports'));
+    }
+
+    public function notifyTeacher(User $teacher)
+    {
+        return view('schoolDashboard.teachers.notify', compact('teacher'));
     }
 }

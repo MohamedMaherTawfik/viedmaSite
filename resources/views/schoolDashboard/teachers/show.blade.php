@@ -1,3 +1,11 @@
+@php
+    use App\Models\Courses;
+    use Carbon\Carbon;
+    $courses = Courses::where('user_id', $teacher->id)->pluck('title')->join(', ');
+    $courseNumbers = Courses::where('user_id', $teacher->id)->count();
+    $latestDate = $teacher->sessionTimes->sortByDesc('created_at')->first()?->date;
+    $formattedDate = Carbon::parse($latestDate)->translatedFormat('j F');
+@endphp
 <x-layout>
 
     <!-- Sidebar -->
@@ -20,12 +28,9 @@
                             <h2 class="text-xl font-bold text-gray-800">تفاصيل المعلم</h2>
                         </div>
                         <div class="flex gap-2">
-                            <a href="#"
+                            <a href="{{ route('sendNotification', [request('slug'), $teacher]) }}"
                                 class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">إرسال إشعار /
                                 ملاحظة</a>
-                            <a href="#"
-                                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">تحميل تقرير
-                                المعلم PDF</a>
                         </div>
                     </div>
 
@@ -48,8 +53,8 @@
                         </div>
                         <div class="space-y-2">
                             <div> المقرر الدراسي</div>
-                            <input value="{{ $teacher->applyTeacher->topic }}"
-                                class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
+                            <input value="{{ $courses }}" class="w-full border rounded px-3 py-2 bg-gray-100"
+                                disabled>
                         </div>
                         <div class="space-y-2">
                             <div>الحاله</div>
@@ -154,12 +159,25 @@
 
                         <!-- General Status -->
                         <div class="bg-gray-100 border border-dashed rounded-lg p-4 text-sm">
-                            <p class="mb-2">✅ الدورات المتاحة للمعلم فقط ومشارك في <span
-                                    class="font-semibold text-green-600">2 دورة</span></p>
+                            <p class="mb-2">✅ الدورات الخاصه بالمدرب وهم {{ $courseNumbers }} دوره</p>
                             <p class="mb-2">📚 عدد الشهادات المكتسبة: <span class="font-semibold">1</span></p>
-                            <p class="mb-2">📅 آخر دخول للنظام في <span class="font-semibold text-blue-600">10 مايو
-                                    2025</span></p>
-                            <p>❗آخر اختبار لم يتم إرساله لأنه "تم قبول مشروعات التدريب"</p>
+                            <p class="mb-2">📅 آخر دخول للنظام في <span class="font-semibold text-blue-600">
+
+                                    {{ $teacher->sessionTimes->sortByDesc('created_at')->first()?->time }} -
+                                    {{ $formattedDate }}
+                                </span></p>
+                            @php
+                                $latestProject = $teacher->graduationProjects->sortByDesc('created_at')->first();
+                            @endphp
+
+                            @if ($latestProject)
+                                <p>❗آخر مشروع مرفوع بتاريخ
+                                    {{ \Carbon\Carbon::parse($latestProject->created_at)->translatedFormat('j F Y') }}
+                                </p>
+                            @else
+                                <p class="text-red-500">لم يتم رفع مشاريع بعد</p>
+                            @endif
+
                         </div>
                     @else
                     @endif
