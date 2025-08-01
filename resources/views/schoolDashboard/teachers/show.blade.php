@@ -29,7 +29,8 @@
                         </div>
                         <div class="flex gap-2">
                             <a href="{{ route('sendNotification', [request('slug'), $teacher]) }}"
-                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">إرسال إشعار /
+                                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-center rounded-lg">إرسال
+                                إشعار /
                                 ملاحظة</a>
                         </div>
                     </div>
@@ -38,34 +39,34 @@
                     <div class="grid grid-cols-2 gap-4 text-sm mb-8">
                         <div class="space-y-2">
                             <div>الاسم الكامل</div>
-                            <input value="{{ $teacher->name }}" class="w-full border rounded px-3 py-2 bg-gray-100"
-                                disabled>
+                            <input value="{{ $teacher->name }}"
+                                class="w-full border rounded px-3 py-2 text-center bg-gray-100" disabled>
                         </div>
                         <div class="space-y-2">
                             <div>البريد الإلكتروني</div>
-                            <input value="{{ $teacher->email }}" class="w-full border rounded px-3 py-2 bg-gray-100"
-                                disabled>
+                            <input value="{{ $teacher->email }}"
+                                class="w-full border rounded px-3 py-2 text-center bg-gray-100" disabled>
                         </div>
                         <div class="space-y-2">
                             <div>رقم الجوال</div>
                             <input value="{{ $teacher->applyTeacher->phone }}"
-                                class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
+                                class="w-full border rounded px-3 py-2 text-center bg-gray-100" disabled>
                         </div>
                         <div class="space-y-2">
                             <div> المقرر الدراسي</div>
-                            <input value="{{ $courses }}" class="w-full border rounded px-3 py-2 bg-gray-100"
-                                disabled>
+                            <input value="{{ $courses }}"
+                                class="w-full border rounded px-3 py-2 text-center bg-gray-100" disabled>
                         </div>
                         <div class="space-y-2">
                             <div>الحاله</div>
                             <input value="{{ $teacher->applyTeacher->status }}"
-                                class="w-full border border-green-500 text-green-600 font-semibold rounded px-3 py-2 bg-green-50"
+                                class="w-full border border-green-500 text-green-600 font-semibold rounded px-3 py-2 text-center bg-green-50"
                                 disabled>
                         </div>
                         <div class="space-y-2">
                             <div>تاريخ التسجيل</div>
                             <input value="{{ $teacher->created_at->format('d F Y') }}"
-                                class="w-full border rounded px-3 py-2 bg-gray-100" disabled>
+                                class="w-full border rounded px-3 py-2 text-center bg-gray-100" disabled>
                         </div>
                     </div>
 
@@ -77,19 +78,22 @@
                                 <table class="min-w-full text-sm border-separate border-spacing-y-2 text-right">
                                     <thead class="bg-gray-100 text-gray-700">
                                         <tr>
-                                            <th class="px-4 py-2 rounded-r-lg">الدورة</th>
-                                            <th class="px-4 py-2 rounded-r-lg">عدد الساعات</th>
-                                            <th class="px-4 py-2 rounded-r-lg">المرحله</th>
-                                            <th class="px-4 py-2">تفاصيل الدورة</th>
+                                            <th class="px-4 py-2 text-center rounded-r-lg">الدورة</th>
+                                            <th class="px-4 py-2 text-center rounded-r-lg">عدد الساعات</th>
+                                            <th class="px-4 py-2 text-center rounded-r-lg">المرحله</th>
+                                            <th class="px-4 py-2 text-center">تفاصيل الدورة</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($teacher->course as $item)
                                             <tr class="bg-white shadow rounded-lg">
-                                                <td class="px-4 py-2">{{ $item->title }} </td>
-                                                <td class="px-4 py-2 text-red-600">{{ $item->duration }}</td>
-                                                <td class="px-4 py-2 text-green-600">{{ $item->level }}</td>
-                                                <td class="px-4 py-2 text-blue-500"><a href="#">عرض</a></td>
+                                                <td class="px-4 py-2 text-center">{{ $item->title }} </td>
+                                                <td class="px-4 py-2 text-center text-red-600">{{ $item->duration }}
+                                                </td>
+                                                <td class="px-4 py-2 text-center text-green-600">{{ $item->level }}
+                                                </td>
+                                                <td class="px-4 py-2 text-center text-blue-500"><a
+                                                        href="#">عرض</a></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -104,21 +108,23 @@
                                 <table class="min-w-full text-sm border-separate border-spacing-y-2 text-right">
                                     <thead class="bg-gray-100 text-gray-700">
                                         <tr>
-                                            <th class="px-4 py-2 rounded-r-lg">الاسم</th>
-                                            <th class="px-4 py-2">الحالة</th>
-                                            <th class="px-4 py-2">المحتوى</th>
-                                            {{-- <th class="px-4 py-2">الدورة</th> --}}
-                                            <th class="px-4 py-2">تفاصيل المشروع</th>
+                                            <th class="px-4 py-2 text-center rounded-r-lg">الاسم</th>
+                                            <th class="px-4 py-2 text-center">الحالة</th>
+                                            <th class="px-4 py-2 text-center">المحتوى</th>
+                                            {{-- <th class="px-4 py-2 text-center">الدورة</th> --}}
+                                            <th class="px-4 py-2 text-center">تفاصيل المشروع</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($teacher->graduationProjects as $item)
                                             <tr class="bg-white shadow rounded-lg">
-                                                <td class="px-4 py-2"> {{ $item->title }}</td>
-                                                <td class="px-4 py-2 text-orange-500">{{ $item->status }}</td>
-                                                <td class="px-4 py-2">{{ $item->file }}</td>
-                                                {{-- <td class="px-4 py-2">{{$item->}}</td> --}}
-                                                <td class="px-4 py-2 text-blue-500"><a href="#">عرض</a></td>
+                                                <td class="px-4 py-2 text-center"> {{ $item->title }}</td>
+                                                <td class="px-4 py-2 text-center text-orange-500">{{ $item->status }}
+                                                </td>
+                                                <td class="px-4 py-2 text-center">{{ $item->file }}</td>
+                                                {{-- <td class="px-4 py-2 text-center">{{$item->}}</td> --}}
+                                                <td class="px-4 py-2 text-center text-blue-500"><a
+                                                        href="#">عرض</a></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -133,25 +139,20 @@
                                 <table class="min-w-full text-sm border-separate border-spacing-y-2 text-right">
                                     <thead class="bg-gray-100 text-gray-700">
                                         <tr>
-                                            <th class="px-4 py-2 rounded-r-lg">اسم المقيم</th>
-                                            <th class="px-4 py-2">التاريخ</th>
-                                            <th class="px-4 py-2">التقييم</th>
-                                            <th class="px-4 py-2">منطقة التقييم</th>
+                                            <th class="px-4 py-2 text-center rounded-r-lg">اسم المقيم</th>
+                                            <th class="px-4 py-2 text-center">التاريخ</th>
+                                            <th class="px-4 py-2 text-center">التقييم</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="bg-white shadow rounded-lg">
-                                            <td class="px-4 py-2">أ. أحمد صلاح</td>
-                                            <td class="px-4 py-2">12 يوليو 2025</td>
-                                            <td class="px-4 py-2 text-green-600">جيدة جدًا</td>
-                                            <td class="px-4 py-2">نشاط STEM</td>
-                                        </tr>
-                                        <tr class="bg-white shadow rounded-lg">
-                                            <td class="px-4 py-2">أ. يوسف إسماعيل</td>
-                                            <td class="px-4 py-2">12 يوليو 2025</td>
-                                            <td class="px-4 py-2 text-green-600">ممتاز</td>
-                                            <td class="px-4 py-2">STEM Basics</td>
-                                        </tr>
+                                        @foreach ($reports as $item)
+                                            <tr class="bg-white shadow rounded-lg">
+                                                <td class="px-4 py-2 text-center">{{ $item->student->name }}</td>
+                                                <td class="px-4 py-2 text-center">{{ $item->user->created_at }}</td>
+                                                <td class="px-4 py-2 text-center text-green-600">{{ $item->report }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

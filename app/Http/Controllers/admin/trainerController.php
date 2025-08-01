@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\courseRequest;
 use App\Http\Requests\lessonRequest;
 use App\Http\Requests\loginRequest;
+use App\Http\Requests\noteRequest;
 use App\Http\Requests\projectRequest;
+use App\Http\Requests\reportRequest;
 use App\Http\Requests\userRequest;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
 use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
+use App\Models\graduationNotes;
 use App\Models\graduationProject;
 use App\Models\lesson;
 use App\Models\report;
@@ -128,9 +131,8 @@ class trainerController extends Controller
 
     public function trainerProjects()
     {
-        $graduationProject = graduationProject::where('user_id', auth()->id())->pluck('id');
+        $graduationProject = graduationProject::where('teacher_id', Auth::user()->id)->pluck('id');
         $assignments = assignment_submission::whereIn('graduation_project_id', $graduationProject)->get();
-
         return view('trainerDashboard.projects.index', compact('assignments'));
     }
 
@@ -161,6 +163,15 @@ class trainerController extends Controller
     {
         $reports = report::where('user_id', Auth::user()->id);
         return view('trainerDashboard.evaluations.index', compact('reports'));
+    }
+
+    public function storeEvaluation(noteRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['user_id'] = Auth::id();
+        $validated['status'] = 'accepted';
+        graduationNotes::create($validated);
+        return redirect()->back();
     }
 
     public function trainerSchedules()
@@ -233,5 +244,22 @@ class trainerController extends Controller
 
         $certificates = certificate::where('user_id', 1);
         return view('trainerDashboard.certificate.index', compact('certificates'));
+    }
+
+    public function createReport($slug, User $user)
+    {
+        return view('trainerDashboard.reports.create', compact('user'));
+    }
+
+    public function storeReport(reportRequest $request)
+    {
+        $validated = $request->validated();
+        report::create([
+            'user_id' => Auth::user()->id,
+            'report' => $validated['report'],
+            'student_id' => $validated['user_id'],
+        ]);
+
+        return redirect()->back();
     }
 }

@@ -8,6 +8,7 @@ use App\Interfaces\CourseInterface;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
 use App\Models\Courses;
+use App\Models\graduationProject;
 use App\Models\report;
 use App\Models\school;
 use App\Models\student;
@@ -109,8 +110,9 @@ class SuperAdminController extends Controller
 
     public function showTeacher()
     {
-        $teacher = User::where('name', request('name'))->get()->first();
-        return view('schoolDashboard.teachers.show', compact('teacher', ));
+        $teacher = User::with('report')->where('name', request('name'))->get()->first();
+        $reports = report::where('user_id', $teacher->id)->get();
+        return view('schoolDashboard.teachers.show', compact('teacher', 'reports'));
     }
 
     /**
@@ -492,14 +494,19 @@ class SuperAdminController extends Controller
 
     public function schoolProjects()
     {
-        $reports = report::with('user')->get();
-        return view('schoolDashboard.projects.index', compact('reports'));
+        $graduationProjects = graduationProject::all();
+        return view('schoolDashboard.projects.index', compact('graduationProjects'));
     }
 
     public function schoolReports()
     {
         $reports = report::with('student')->get();
         return view('schoolDashboard.reports.index', compact('reports'));
+    }
+
+    public function showReport($slug, report $report)
+    {
+        return view('schoolDashboard.reports.show', compact('report'));
     }
 
     public function notifyTeacher(User $teacher)

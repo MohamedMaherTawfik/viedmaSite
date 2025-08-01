@@ -33,7 +33,7 @@ class Courses extends Model
 
     public function enrollments()
     {
-        return $this->hasMany(Enrollments::class);
+        return $this->hasMany(Enrollments::class, 'courses_id');
     }
 
     public function category()
@@ -57,7 +57,7 @@ class Courses extends Model
 
     public function graduationProject()
     {
-        return $this->hasMany(graduationProject::class);
+        return $this->hasMany(graduationProject::class, 'courses_id');
     }
 
     public function sessionTime()

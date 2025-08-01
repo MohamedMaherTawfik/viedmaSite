@@ -69,10 +69,9 @@ Route::group([
         Route::post('school/{slug}/dashboard/student/{name}/linkParent/{parent}', 'linkParentStore')->name('school.student.linkParent.store');
         Route::get('school/{slug}/dashboard/student/{name}/delete', 'deleteStudent')->name('school.student.delete');
         Route::get('school/{slug}/dashboard/students', 'schoolStudents')->name('school.students');
-        Route::get('school/{slug}/dashboard/training', 'schoolTraining')->name('school.training');
         Route::get('school/{slug}/dashboard/projects', 'schoolProjects')->name('school.projects');
         Route::get('school/{slug}/dashboard/reports', 'schoolReports')->name('school.reports');
-        Route::get('school/{slug}/dashboard/reports/{name}', 'showReport')->name('school.reports.show');
+        Route::get('school/{slug}/dashboard/reports/{report}', 'showReport')->name('school.reports.show');
         Route::get('school/{slug}/dashboard/reports/create', 'createReport')->name('school.reports.create');
         Route::post('school/{slug}/dashboard/reports/create', 'storeReport')->name('school.reports.store');
         Route::get('school/{slug}/dashboard/settings', 'schoolSettings')->name('school.settings');
@@ -84,12 +83,14 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth', Teacher::class],
+    'middleware' => ['auth',],
 ], function () {
     Route::controller(teacherController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/dashboard/courses', 'allCourses')->name('teacher.courses');
         Route::get('/dashboard/courses/enrolled', 'myCourses')->name('teacher.myCourses');
+        Route::get('/dashboard/courses/enrolled/{course}', 'myCourse')->name('teacher.myCourse');
+        Route::post('/dashboard/courses/enrolled/{course}/uploadProject', 'uploadProject')->name('teacher.project.upload');
         Route::post('/dashboard/course/{slug}/enroll/free', 'freeCourse')->name('teacher.course.enroll.free');
         Route::post('/dashboard/course/{slug}/enroll/paid', 'paidCourse')->name('teacher.course.subscribe');
         Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
@@ -131,6 +132,8 @@ Route::group([], function () {
         Route::get('/trainer/courses/create', 'createCourse')->name('trainer.courses.create');
         Route::post('/trainer/courses/create', 'storeCourse')->name('trainer.courses.store');
         Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
+        Route::get('/trainer/courses/{slug}/report/{user}', 'createReport')->name('trainer.report.create');
+        Route::post('/trainer/courses/{slug}/report/{user}', 'storeReport')->name('trainer.report.store');
         Route::get('/trainer/course/{course}/lesson/create', 'createLesson')->name('trainer.lesson.create');
         Route::post('/trainer/course/{course}/lesson/store', 'storeLesson')->name('trainer.lesson.store');
         Route::delete('/trainer/course/{course}/lesson/delete', 'deleteLesson')->name('trainer.lesson.delete');
@@ -139,6 +142,7 @@ Route::group([], function () {
         Route::delete('/trainer/course/project/delete/{graduationProject}', 'deleteProject')->name('trainer.project.delete');
         Route::get('/trainer/projects', 'trainerProjects')->name('trainer.projects');
         Route::get('/trainer/evaluations', 'trainerEvaluations')->name('trainer.evaluations');
+        Route::post('/trainer/evaluations', 'storeEvaluation')->name('trainer.evaluation.store');
         Route::get('/trainer/schedules', 'trainerSchedules')->name('trainer.schedules');
         Route::get('/trainer/schedules/create', 'createSessionTime')->name('trainer.schedules.create');
         Route::post('/trainer/schedules', 'storeSessionTime')->name('trainer.schedules.store');
@@ -146,5 +150,6 @@ Route::group([], function () {
         Route::post('/trainer/schedules/{sessionTime}/edit', 'updateSessionTime')->name('trainer.schedules.update');
         Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');
         Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
+
     });
 });

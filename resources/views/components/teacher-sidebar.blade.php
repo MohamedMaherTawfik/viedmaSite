@@ -40,11 +40,6 @@
                 طلبات التسجيل
             </a>
 
-            <a href="{{ route('school.training', $slug) }}"
-                class="block text-right px-4 py-2 rounded {{ request()->routeIs('school.training') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                متابعه التدريب
-            </a>
-
             <a href="{{ route('school.reports', $slug) }}"
                 class="block text-right px-4 py-2 rounded {{ request()->routeIs('school.reports') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 التقارير

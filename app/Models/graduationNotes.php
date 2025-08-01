@@ -15,6 +15,6 @@ class graduationNotes extends Model
 
     public function assignment_submission()
     {
-        return $this->belongsTo(assignment_submission::class);
+        return $this->belongsTo(assignment_submission::class, 'graduation_project_id');
     }
 }

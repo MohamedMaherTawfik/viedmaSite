@@ -27,25 +27,8 @@ class AuthController extends Controller
         $user = User::create($validatedData);
         Auth::login($user);
 
-        return view('auth.teacherApplied')->with('success', 'Registration successful! Please apply to become a teacher.');
+        return redirect()->route('dashboard')->with('success', 'Registration successful! Please apply to become a teacher.');
     }
-
-    // public function teacherRegister()
-    // {
-    //     return view('auth.teacherLogin');
-    // }
-
-    // public function teacher(teacherRequest $request)
-    // {
-    //     $validatedData = $request->validated();
-    //     applyTeacher::create([
-    //         'user_id' => Auth::id(),
-    //         'topic' => $validatedData['topics'],
-    //         'phone' => $validatedData['phone'],
-    //         'status' => 'pending',
-    //     ]);
-    //     return view('auth.teacherApplied');
-    // }
 
     public function login()
     {
@@ -57,12 +40,8 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            if (Auth::user()->role == 'teacher') {
-                request()->session()->regenerate();
-                return redirect()->route('dashboard');
-            }
             request()->session()->regenerate();
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         return redirect()->back()->withErrors(['email' => 'Invalid credentials']);

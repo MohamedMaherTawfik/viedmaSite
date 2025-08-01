@@ -26,7 +26,7 @@ class assignment_submission extends Model
 
     public function graduationNotes()
     {
-        return $this->hasMany(graduationNotes::class);
+        return $this->hasMany(graduationNotes::class, 'graduation_project_id');
     }
 
     public function notes()

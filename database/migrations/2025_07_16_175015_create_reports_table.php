@@ -16,8 +16,9 @@ return new class extends Migration {
             $table->foreignIdFor(User::class, 'user_id')
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->string('report')->nullable(22);
+            $table->string('report')->nullable();
             $table->string('file')->nullable();
+
             $table->timestamps();
         });
     }

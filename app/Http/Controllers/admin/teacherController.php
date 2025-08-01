@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminRequest;
+use App\Http\Requests\uploadProjectRequest;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\GraduationProjectInterface;
 use App\Interfaces\LessonInterface;
@@ -61,9 +62,14 @@ class teacherController extends Controller
 
     public function myCourses()
     {
-        $enrollments = Enrollments::where('user_id', auth()->id())->where('enrolled', 'yes')->get();
-        return view('teacherDashboard.courses.EnrolledCourses', compact('enrollments'));
+        $enrollments = Enrollments::where('user_id', auth()->id())->where('enrolled', 'yes')->pluck('courses_id');
+        $courses = Courses::whereIn('id', $enrollments)->get();
+        return view('teacherDashboard.courses.EnrolledCourses', compact('courses'));
+    }
 
+    public function myCourse(Courses $course)
+    {
+        return view('teacherDashboard.courses.EnrolledCourse', compact('course'));
     }
 
     public function showCourse()
@@ -181,5 +187,17 @@ class teacherController extends Controller
     {
         $students = student::get();
         return view('teacherDashboard.evaluations.index');
+    }
+
+    public function uploadProject(uploadProjectRequest $request)
+    {
+        $validated = $request->validated();
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')->store('Projects', 'public');
+        }
+        $validated['grade'] = 'not assigned yet';
+        assignment_submission::create($validated);
+
+        return redirect()->back();
     }
 }

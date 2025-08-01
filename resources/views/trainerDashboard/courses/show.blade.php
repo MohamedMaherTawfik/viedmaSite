@@ -165,19 +165,24 @@
                              <th>الاسم</th>
                              <th>النسبة</th>
                              <th>الشهادة</th>
+                             <th>تقييم</th>
                          </tr>
                      </thead>
                      <tbody>
                          @foreach ($course->enrollments as $item)
                              <tr>
                                  <td>{{ $item->user->name }}</td>
-                                 <td>{{ $item->user->reviews->report }}</td>
+                                 <td>{{ $item->user->report }}</td>
                                  <td>
                                      @if ($item->user && $item->user->reviews && $item->user->reviews->file)
                                          <a href="{{ $item->user->reviews->file }}" class="text-green-600">تحميل</a>
                                      @else
                                          <span class="text-gray-500">لا يوجد ملف</span>
                                      @endif
+                                 </td>
+                                 <td>
+                                     <a href="{{ route('trainer.report.create', ['slug' => request('slug'), 'user' => $item->user]) }}"
+                                         class="text-red-600 font-bold">اضافه</a>
                                  </td>
                              </tr>
                          @endforeach
