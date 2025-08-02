@@ -4,7 +4,7 @@
             <img src="{{ asset('auth/rendered_page.png') }}" class="w-35 h-20 mx-auto mb-2">
         </div>
 
-        <h2 class="text-lg font-semibold mb-6 text-center">مدرسة النور الخاصة</h2>
+        <h2 class="text-lg font-semibold mb-6 text-center">{{ Auth::user()->name }}</h2>
 
         <nav class="space-y-4 text-left">
             <!-- الرئيسية -->

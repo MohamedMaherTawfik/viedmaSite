@@ -38,8 +38,9 @@ class teacherController extends Controller
     }
     public function dashboard()
     {
-        $courses = Courses::with('lessons')->where('user_id', auth()->user()->id)->get();
-        return view('teacherDashboard.index', compact('courses'));
+        $enrollments = Enrollments::where('user_id', Auth::user()->id)->get();
+        $assignments = assignment_submission::where('user_id', Auth::user()->id)->count();
+        return view('teacherDashboard.index', compact('enrollments', 'assignments'));
     }
 
     public function allCourses()
@@ -173,12 +174,18 @@ class teacherController extends Controller
         return redirect()->route('teacher.students')->with('success', 'Excel file uploaded and students created successfully.');
     }
 
-    public function deleteStudent()
+    public function editStudent(student $student)
     {
-        $student = student::where('name', request('name'))->first();
-        if (!$student) {
-            return redirect()->back()->with('error', 'Student not found.');
-        }
+        return view('teacherDashboard.student.edit', compact('student'));
+    }
+
+    public function updateStudent(student $student)
+    {
+        $student->update(request()->all());
+        return redirect()->route('teacher.students');
+    }
+    public function deleteStudent(student $student)
+    {
         $student->delete();
         return redirect()->back()->with('success', 'Student deleted successfully.');
     }

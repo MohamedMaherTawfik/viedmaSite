@@ -131,7 +131,7 @@
 
                                 @if (in_array($course->id, $enrolledCourseIds))
                                     {{-- عرض المزيد لو المستخدم مسجل بالفعل --}}
-                                    <a href=""
+                                    <a href="{{ route('teacher.myCourse', $course) }}"
                                         class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded mr-2 inline-block">
                                         عرض المزيد
                                     </a>

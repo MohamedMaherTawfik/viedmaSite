@@ -101,9 +101,9 @@ Route::group([
         Route::post('/dashboard/student/create/form', 'storeStudent')->name('teacher.student.store');
         Route::get('/dashboard/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
         Route::post('/dashboard/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
-        Route::get('/dashboard/student/{name}/edit', 'editStudent')->name('teacher.student.edit');
-        Route::post('/dashboard/student/{name}/edit', 'updateStudent')->name('teacher.student.update');
-        Route::get('/dashboard/student/{name}/delete', 'deleteStudent')->name('teacher.student.delete');
+        Route::get('/dashboard/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
+        Route::post('/dashboard/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
+        Route::get('/dashboard/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
         Route::get('/dashboard/evaluations', 'evaluation')->name('teacher.evaluations');
     });
 });

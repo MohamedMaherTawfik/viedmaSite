@@ -36,8 +36,8 @@
                         <tbody>
                             @foreach ($students as $student)
                                 <tr class="bg-gray-50 text-gray-800"
-                                    data-edit-url="{{ route('teacher.student.edit', ['name' => $student->name]) }}"
-                                    data-delete-url="{{ route('teacher.student.delete', ['name' => $student->name]) }}">
+                                    data-edit-url="{{ route('teacher.student.edit', ['student' => $student]) }}"
+                                    data-delete-url="{{ route('teacher.student.delete', ['student' => $student]) }}">
                                     <td class="px-4 py-2 flex items-center gap-2 text-center">
                                         <img src="https://th.bing.com/th/id/R.4b6a7d8dc6ff6bd305a872c783d2f450?rik=IcLvZ3InG%2bn33g&pid=ImgRaw&r=0"
                                             class="w-8 h-8 rounded-full" alt="">

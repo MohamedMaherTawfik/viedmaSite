@@ -19,50 +19,50 @@
 
                     <!-- رأس الجدول -->
                     <div class="grid grid-cols-4 gap-4 font-semibold text-gray-700 border-b pb-2 mb-4">
-                        <div class="flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-blue-500" fill="none"
-                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8h18a2 2 0 002-2V8a2 2 0 00-2-2H3a2 2 0 00-2 2v6a2 2 0 002 2z" />
-                            </svg>
+                        <div class="text-center">
+
                             التاريخ
                         </div>
-                        <div>ملاحظات</div>
-                        <div>الحالة</div>
-                        <div>اسم المشروع</div>
+                        <div class="text-center">الدرجه</div>
+                        <div class="text-center">اسم المشروع</div>
                     </div>
 
                     <!-- كل مشروع -->
                     @foreach ($assignments as $item)
-                        <div class="grid grid-cols-4 gap-4 items-center py-3 border-b text-sm">
+                        <div class="grid grid-cols-4 gap-4 text-center items-center py-3 border-b text-sm">
                             <div class="text-gray-600">
                                 {{ \Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y') }}
                             </div>
 
-                            <div class="text-gray-500">
-                                @if ($item->notes->isEmpty())
-                                    لم توجد ملاحظات بعد
-                                @else
-                                    "{{ $item->notes->first()->content }}"
-                                @endif
-                            </div>
+
 
                             <div>
-                                <span class="px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    {{ $item->status }}
+                                <span
+                                    class="px-2 text-center py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    @if ($item->grade == '')
+                                        'لم يتم التقييم بعد'
+                                    @else
+                                        "{{ $item->grade }}"
+                                    @endif
                                 </span>
                             </div>
-                            <div class="text-gray-700"> {{ $item->grade }} </div>
+                            <div class="text-gray-700 text-center"> {{ $item->graduationProject->title }} </div>
                         </div>
 
                         <!-- رسالة فارغة -->
                         <div class="flex justify-center items-center mt-6 text-center text-sm text-red-500 gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M7.5 12h9m-9 3h6m3 6v-3.6A2.4 2.4 0 0018 15.6V6a2.4 2.4 0 00-2.4-2.4H6A2.4 2.4 0 003.6 6v9a2.4 2.4 0 002.4 2.4h3.6L15 21z" />
                             </svg>
-                            "المشروع ناقص – الرجاء توضيح الجزء العملي"
+                            <div class="text-gray-500">
+                                @if ($item->graduationNotes->isEmpty())
+                                    لم توجد ملاحظات بعد
+                                @else
+                                    "{{ $item->graduationNotes->first()->note }}"
+                                @endif
+                            </div>
                         </div>
                     @endforeach
 
