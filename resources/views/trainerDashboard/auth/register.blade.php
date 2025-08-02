@@ -151,7 +151,7 @@
                 </form>
 
                 <!-- تسجيل باستخدام Google -->
-                <div class="flex items-center gap-2 text-sm  w-full mt-4">
+                {{-- <div class="flex items-center gap-2 text-sm  w-full mt-4">
                     <div class="flex-grow h-px bg-gray-300"></div>
                     أو
                     <div class="flex-grow h-px bg-gray-300"></div>
@@ -161,7 +161,7 @@
                     class="border border-gray-300 flex items-center justify-center gap-2 py-2 rounded w-full mb-3 hover:bg-gray-50">
                     <img src="https://img.icons8.com/color/48/google-logo.png" class="w-5 h-5" />
                     تسجيل الدخول باستخدام Google
-                </button>
+                </button> --}}
 
                 <p class="text-sm mt-6 text-center w-full">
                     لديك حساب؟ <a href="{{ route('trainer.login.form') }}" class="text-blue-600 hover:underline">تسجيل

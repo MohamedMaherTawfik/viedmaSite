@@ -18,7 +18,6 @@ class parentController extends Controller
 
     public function parentRegister(parentRequest $request)
     {
-        // dd($request->all());
         $validatedData = $request->validated();
 
         $user = User::create([
@@ -57,5 +56,11 @@ class parentController extends Controller
         }
 
         return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+    }
+
+
+    public function dashboard()
+    {
+        return view('parentDashboard.index');
     }
 }

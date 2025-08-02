@@ -6,7 +6,7 @@
     $latestDate = $teacher->sessionTimes->sortByDesc('created_at')->first()?->date;
     $formattedDate = Carbon::parse($latestDate)->translatedFormat('j F');
 @endphp
-<x-layout>
+<x-layout title="لوحه تحكم المدرسه ">
 
     <!-- Sidebar -->
     <x-teacher-sidebar />

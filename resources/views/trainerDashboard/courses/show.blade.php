@@ -2,7 +2,7 @@
      use App\Models\Courses;
      $course = Courses::where('slug', request('slug'))->first();
  @endphp
- <x-layout>
+ <x-layout title="لوحه تحكم المدرب ">
 
      <!-- Sidebar -->
      <x-trainer-sidebar />

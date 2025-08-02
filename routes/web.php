@@ -111,11 +111,17 @@ Route::group([
 Route::group([
 ], function () {
     Route::controller(parentController::class)->group(function () {
-        Route::get('parent/register', 'registerParent')->name('parent.register');
-        Route::post('parent/register', 'parentRegister')->name('parent.register.store');
-        Route::get('parent/login', 'loginParent')->name('parent.login');
-        Route::post('parent/login', 'parentLogin')->name('parent.login.store');
-        Route::get('parent/logout', 'logout')->name('parent.logout');
+        Route::get('/parent/register', 'registerParent')->name('parent.register');
+        Route::post('/parent/register', 'parentRegister')->name('parent.register.store');
+        Route::get('/parent/login', 'loginParent')->name('parent.login');
+        Route::post('/parent/login', 'parentLogin')->name('parent.login.store');
+        Route::get('/parent/logout', 'logout')->name('parent.logout');
+        Route::get('/parent/dashboard', 'dashboard')->name('parent.dashboard');
+        Route::get('/parentchildren', [ParentController::class, 'children'])->name('parent.children');
+        Route::get('/parentprojects', [ParentController::class, 'projects'])->name('parent.projects');
+        Route::get('/parentevaluations', [ParentController::class, 'evaluations'])->name('parent.evaluations');
+        Route::get('/parentreports', [ParentController::class, 'reports'])->name('parent.reports');
+        Route::get('/parentsettings', [ParentController::class, 'settings'])->name('parent.settings');
     });
 });
 

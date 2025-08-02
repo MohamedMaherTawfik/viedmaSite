@@ -7,7 +7,7 @@
 
 @endphp
 
-<x-layout>
+<x-layout title="لوحه تحكم المعلم ">
 
     <!-- Sidebar -->
     <x-school-sidebar />

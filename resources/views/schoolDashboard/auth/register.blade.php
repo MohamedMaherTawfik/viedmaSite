@@ -125,23 +125,17 @@
                     class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">إرسال بيانات
                     التسجيل</button>
 
-                <div class="flex items-center gap-2 text-sm my-4">
+                {{-- <div class="flex items-center gap-2 text-sm my-4">
                     <div class="flex-grow h-px bg-gray-300"></div>
                     أو
                     <div class="flex-grow h-px bg-gray-300"></div>
                 </div>
 
-                <button
+                <a href=""
                     class="w-full border border-gray-300 flex items-center justify-center gap-2 py-2 rounded hover:bg-gray-50 mb-2">
                     <img src="https://img.icons8.com/color/48/google-logo.png" class="w-5 h-5" />
                     المتابعة من خلال Google
-                </button>
-
-                <button
-                    class="w-full border border-gray-300 flex items-center justify-center gap-2 py-2 rounded hover:bg-gray-50">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/mac-os.png" class="w-5 h-5" />
-                    Apple
-                </button>
+                </a> --}}
 
                 <p class="text-sm text-center mt-6">
                     ليس لديك حساب؟ <a href="{{ route('school.login') }}" class="text-blue-600 hover:underline">حساب

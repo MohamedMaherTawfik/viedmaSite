@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="لوحه تحكم المدرب ">
 
     <!-- Sidebar -->
     <x-trainer-sidebar />
@@ -11,8 +11,9 @@
             <x-teacher-header />
 
             <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
-            <form action="{{ route('trainer.report.store', ['slug' => request('slug'), 'user' => $user]) }}" method="POST"
-                enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto space-y-6">
+            <form action="{{ route('trainer.report.store', ['slug' => request('slug'), 'user' => $user]) }}"
+                method="POST" enctype="multipart/form-data"
+                class="bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto space-y-6">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

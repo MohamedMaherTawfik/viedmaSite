@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="لوحه تحكم المدرب ">
 
     <!-- Sidebar -->
     <x-trainer-sidebar />

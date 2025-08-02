@@ -2,7 +2,7 @@
      use App\Models\School;
      $schools = School::all();
  @endphp
- <x-layout>
+ <x-layout title="لوحه تحكم المدرسه ">
      @php
          $slug = request('slug');
      @endphp
