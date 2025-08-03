@@ -156,6 +156,7 @@ Route::group([], function () {
         Route::post('/trainer/schedules/{sessionTime}/edit', 'updateSessionTime')->name('trainer.schedules.update');
         Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');
         Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
+        Route::post('/trainer/certificates', 'storeCertificate')->name('trainer.certificate.store');
 
     });
 });

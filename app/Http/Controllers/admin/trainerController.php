@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\certificateRequest;
 use App\Http\Requests\courseRequest;
 use App\Http\Requests\lessonRequest;
 use App\Http\Requests\loginRequest;
@@ -234,6 +235,7 @@ class trainerController extends Controller
         lesson::create($validated);
         return redirect()->back()->with('Lesson Created Successfully');
     }
+
     public function deleteSessionTime(SessionTime $sessionTime)
     {
         $sessionTime->delete();
@@ -241,9 +243,23 @@ class trainerController extends Controller
     }
     public function trainerCertificates()
     {
+        $courses = Auth::user()->course->pluck('id');
+        $enrollments = Enrollments::whereIn('courses_id', $courses)->get();
+        $certificates = certificate::where('user_id', Auth::user()->id)->get();
+        return view('trainerDashboard.certificate.index', compact('certificates', 'enrollments'));
+    }
 
-        $certificates = certificate::where('user_id', 1);
-        return view('trainerDashboard.certificate.index', compact('certificates'));
+    public function storeCertificate(certificateRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['certificate']) . '-' . time();
+        $validated['description'] = 'no description';
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')->store('certificates', 'public');
+        }
+        certificate::create($validated);
+        return redirect()->back();
+
     }
 
     public function createReport($slug, User $user)

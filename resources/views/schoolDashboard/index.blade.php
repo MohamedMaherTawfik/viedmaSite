@@ -72,7 +72,7 @@
                     </div>
                     <div class="text-gray-800 text-sm mb-1">الشهادات المصدرة</div>
                     <div class="font-bold text-xl text-orange-900">
-                        20
+                        {{ $certificates }}
                     </div>
                 </div>
             </section>

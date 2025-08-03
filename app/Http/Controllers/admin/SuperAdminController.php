@@ -7,6 +7,7 @@ use App\Http\Requests\schoolRequest;
 use App\Interfaces\CourseInterface;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
+use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\graduationProject;
 use App\Models\report;
@@ -96,7 +97,8 @@ class SuperAdminController extends Controller
         $studentsCount = student::count();
         $teachersCount = User::where('role', 'trainer')->count();
         $assignmentsCount = assignment_submission::count();
-        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount', 'assignmentsCount'));
+        $certificates = certificate::count();
+        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount', 'assignmentsCount', 'certificates'));
     }
     /**
      * Display the admin dashboard.
