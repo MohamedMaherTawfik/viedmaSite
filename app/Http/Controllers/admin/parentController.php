@@ -5,6 +5,10 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\parentRequest;
 use App\Models\applyTeacher;
+use App\Models\games;
+use App\Models\gamesCategorey;
+use App\Models\report;
+use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,9 +62,28 @@ class parentController extends Controller
         return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
 
-
     public function dashboard()
     {
         return view('parentDashboard.index');
+    }
+
+    public function children()
+    {
+        $students = student::where('user_id', Auth::id())->get();
+        return view('parentDashboard.student.index', compact('students'));
+    }
+
+    public function games()
+    {
+        $games = games::all();
+        $gameCategorey = gamesCategorey::all();
+        return view('parentDashboard.games.index', compact('games', 'gameCategorey'));
+    }
+
+    public function reports()
+    {
+        $students = student::where('user_id', Auth::id())->pluck('id');
+        $reports = report::whereIn('student_id', $students)->get();
+        return view('parentDashboard.reports.index', compact('reports'));
     }
 }

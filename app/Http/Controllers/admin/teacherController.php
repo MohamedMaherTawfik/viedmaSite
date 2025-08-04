@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminRequest;
+use App\Http\Requests\evaluationRequest;
 use App\Http\Requests\uploadProjectRequest;
 use App\Interfaces\CourseInterface;
 use App\Interfaces\GraduationProjectInterface;
@@ -12,6 +13,7 @@ use App\Models\assignment_submission;
 use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
+use App\Models\report;
 use App\Models\school;
 use App\Models\student;
 use Illuminate\Http\Request;
@@ -83,7 +85,7 @@ class teacherController extends Controller
 
     public function certificates()
     {
-        $certificates = certificate::where('user_id', auth()->id())->get();
+        $certificates = certificate::where('teacher_id', auth()->id())->get();
         return view('teacherDashboard.certificates.index', compact('certificates'));
     }
 
@@ -193,7 +195,17 @@ class teacherController extends Controller
     public function evaluation()
     {
         $students = student::get();
-        return view('teacherDashboard.evaluations.index');
+        return view('teacherDashboard.evaluations.index', compact('students'));
+    }
+
+    public function storeEvaluation(evaluationRequest $request)
+    {
+        $validated = $request->validated();
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')->store('reports', 'public');
+        }
+        report::create($validated);
+        return redirect()->back();
     }
 
     public function uploadProject(uploadProjectRequest $request)

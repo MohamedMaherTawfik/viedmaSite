@@ -24,24 +24,18 @@
                 <span class="mr-2">أبنائي</span>
             </a>
 
-            <!-- المشاريع -->
-            <a href="{{ route('parent.projects') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas text-2xl fa-cube text-blue-600"></i>
-                <span class="mr-2">المشاريع</span>
+            <!-- الالعب -->
+            <a href="{{ route('parent.games') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.games') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fas fa-gamepad text-2xl text-blue-600"></i>
+                <span class="mr-2">الالعاب</span>
             </a>
 
-            <!-- التقييمات -->
-            <a href="{{ route('parent.evaluations') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.evaluations') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas text-2xl fa-smile text-blue-600"></i>
-                <span class="mr-2">التقييمات</span>
-            </a>
 
             <!-- التقارير -->
             <a href="{{ route('parent.reports') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.reports') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas text-2xl fa-file-alt text-blue-600"></i>
+                <i class="fas fa-file-alt text-2xl text-blue-600"></i>
                 <span class="mr-2">التقارير</span>
             </a>
 

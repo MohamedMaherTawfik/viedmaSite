@@ -105,6 +105,7 @@ Route::group([
         Route::post('/dashboard/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
         Route::get('/dashboard/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
         Route::get('/dashboard/evaluations', 'evaluation')->name('teacher.evaluations');
+        Route::post('/dashboard/evaluations', 'storeEvaluation')->name('teacher.evaluation.store');
     });
 });
 
@@ -117,11 +118,10 @@ Route::group([
         Route::post('/parent/login', 'parentLogin')->name('parent.login.store');
         Route::get('/parent/logout', 'logout')->name('parent.logout');
         Route::get('/parent/dashboard', 'dashboard')->name('parent.dashboard');
-        Route::get('/parentchildren', [ParentController::class, 'children'])->name('parent.children');
-        Route::get('/parentprojects', [ParentController::class, 'projects'])->name('parent.projects');
-        Route::get('/parentevaluations', [ParentController::class, 'evaluations'])->name('parent.evaluations');
-        Route::get('/parentreports', [ParentController::class, 'reports'])->name('parent.reports');
-        Route::get('/parentsettings', [ParentController::class, 'settings'])->name('parent.settings');
+        Route::get('/parent/children', 'children')->name('parent.children');
+        Route::get('/parent/games', 'games')->name('parent.games');
+        Route::get('/parent/reports', 'reports')->name('parent.reports');
+        Route::get('/parent/settings', 'settings')->name('parent.settings');
     });
 });
 

@@ -62,7 +62,7 @@
                                 <td class="px-6 py-4 text-center">
                                     <button onclick="openEvaluationModal({{ $item->user->id }} )"
                                         class="text-yellow-500 hover:text-yellow-700">
-                                        تقييم
+                                        اصدرا شهاده
                                     </button>
                                 </td>
                             </tr>

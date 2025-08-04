@@ -22,14 +22,13 @@
                     <div class="text-lg font-bold">{{ count(Auth::user()->student) }}</div>
                 </div>
 
-
                 <!-- تقييم أخير -->
                 <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg shadow text-center">
                     <div class="flex justify-center mb-2">
                         <i class="fas fa-circle text-2xl"></i>
                     </div>
                     <div class="text-sm font-semibold">تقييم أخير</div>
-                    <div class="text-lg font-bold">{{ }}</div>
+                    <div class="text-lg font-bold"></div>
                 </div>
 
             </div>
