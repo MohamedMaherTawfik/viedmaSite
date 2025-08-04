@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\parentRequest;
+use App\Http\Requests\userEditRequest;
 use App\Models\applyTeacher;
 use App\Models\games;
 use App\Models\gamesCategorey;
@@ -85,5 +86,20 @@ class parentController extends Controller
         $students = student::where('user_id', Auth::id())->pluck('id');
         $reports = report::whereIn('student_id', $students)->get();
         return view('parentDashboard.reports.index', compact('reports'));
+    }
+
+    public function settings()
+    {
+        return view('parentDashboard.settings.index');
+    }
+
+    public function storeSetting(userEditRequest $request)
+    {
+        $validated = $request->validated();
+        if ($request->hasFile('photo')) {
+            $validated['photo'] = $request->file('photo')->store('users', 'public');
+        }
+        User::find(Auth::id())->update($validated);
+        return redirect()->back();
     }
 }

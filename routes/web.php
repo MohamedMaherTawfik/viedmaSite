@@ -122,9 +122,9 @@ Route::group([
         Route::get('/parent/games', 'games')->name('parent.games');
         Route::get('/parent/reports', 'reports')->name('parent.reports');
         Route::get('/parent/settings', 'settings')->name('parent.settings');
+        Route::post('/parent/settings', 'storeSetting')->name('parent.setting.store');
     });
 });
-
 
 Route::group([], function () {
     Route::controller(trainerController::class)->group(function () {
