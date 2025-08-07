@@ -4,7 +4,10 @@ use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\home\homeController;
+use App\Http\Middleware\parentMiddleware;
 use App\Http\Middleware\Teacher;
+use App\Http\Middleware\teacherMiddleware;
+use App\Http\Middleware\trainerMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -83,7 +86,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth'],
+    'middleware' => ['auth', teacherMiddleware::class],
 ], function () {
     Route::controller(teacherController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
@@ -120,7 +123,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth'],
+    'middleware' => ['auth', parentMiddleware::class],
 ], function () {
     Route::controller(parentController::class)->group(function () {
         Route::get('/parent/logout', 'logout')->name('parent.logout');
@@ -150,7 +153,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth'],
+    'middleware' => ['auth', trainerMiddleware::class],
 ], function () {
     Route::controller(trainerController::class)->group(function () {
         Route::post('/trainer/logout', 'logout')->name('trainer.logout');
@@ -172,7 +175,7 @@ Route::group([
         Route::post('/trainer/evaluations', 'storeEvaluation')->name('trainer.evaluation.store');
         Route::get('/trainer/schedules', 'trainerSchedules')->name('trainer.schedules');
         Route::get('/trainer/schedules/create', 'createSessionTime')->name('trainer.schedules.create');
-        Route::post('/trainer/schedules', 'storeSessionTime')->name('trainer.schedules.store');
+        Route::post('/trainer/schedules/create', 'storeSessionTime')->name('trainer.schedules.store');
         Route::get('/trainer/schedules/{sessionTime}/edit', 'editSessionTime')->name('trainer.schedules.edit');
         Route::post('/trainer/schedules/{sessionTime}/edit', 'updateSessionTime')->name('trainer.schedules.update');
         Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');

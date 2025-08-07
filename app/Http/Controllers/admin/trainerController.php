@@ -187,7 +187,7 @@ class trainerController extends Controller
         return view('trainerDashboard.schedules.create', compact('courses'));
     }
 
-    public function storeSessionTime(Request $request)
+    public function storeSessionTime(Request $request, )
     {
         $validated = $request->validate([
             'courses_id' => 'required',
@@ -198,7 +198,7 @@ class trainerController extends Controller
 
         SessionTime::create($validated);
 
-        return redirect()->back()->with('success', 'تم إضافة الموعد بنجاح');
+        return redirect()->route('trainer.schedules', )->with('success', 'تم إضافة الموعد بنجاح');
     }
     public function editSessionTime(SessionTime $sessionTime)
     {
@@ -233,7 +233,7 @@ class trainerController extends Controller
         }
 
         lesson::create($validated);
-        return redirect()->back()->with('Lesson Created Successfully');
+        return redirect()->route('trainer.courses.show', $course->slug)->with('Lesson Created Successfully');
     }
 
     public function deleteSessionTime(SessionTime $sessionTime)

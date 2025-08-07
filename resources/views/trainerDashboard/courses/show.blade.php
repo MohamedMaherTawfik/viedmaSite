@@ -51,6 +51,7 @@
                  <table class="w-full text-center table-auto border">
                      <thead>
                          <tr class="bg-gray-100">
+                             <th>رقم الدرس</th>
                              <th class="py-2">المحور</th>
                              <th>الملف المرفق</th>
                          </tr>
@@ -58,9 +59,10 @@
                      <tbody>
                          @foreach ($course->lessons as $item)
                              <tr>
+                                 <td>{{ $loop->iteration }}</td>
                                  <td>{{ $item->title }}</td>
                                  <td><a href="{{ $item->video_url }}" target="_blank" rel="noopener noreferrer"
-                                         class="text-green-600">مشاهدة</a>
+                                         class="text-green-600 hover:underline">مشاهدة</a>
                                  </td>
                              </tr>
                          @endforeach
@@ -87,7 +89,7 @@
                  </div>
 
                  <div class="mt-16">
-                     <a href="{{ route('trainer.schedules.create') }}"
+                     <a href="{{ route('trainer.schedules.create', $course) }}"
                          class="inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
                          إضافة موعد جديد
                      </a>

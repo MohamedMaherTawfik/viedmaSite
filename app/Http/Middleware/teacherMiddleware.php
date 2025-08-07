@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckSuper
+class teacherMiddleware
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,12 @@ class CheckSuper
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->role === 'admin') {
-            return $next($request);
+        if (auth()->check()) {
+            if (auth()->user()->role == 'teacher') {
+                return $next($request);
+            }
         }
-        return redirect()->route('home')->with('error', 'You do not have permission to access this page.');
+
+        abort(403, 'Unauthorized action.');
     }
 }
