@@ -49,7 +49,7 @@
     </div>
 
     <!-- زر تسجيل الخروج -->
-    <form action="{{ route('logout') }}" method="GET">
+    <form action="{{ route('logout') }}" method="POST">
         @csrf
         <button type="submit"
             class="flex items-center w-full px-4 py-3 mt-6 bg-red-100 text-red-500 rounded text-base hover:bg-red-200">

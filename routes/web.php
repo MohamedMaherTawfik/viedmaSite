@@ -83,7 +83,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['auth',],
+    'middleware' => ['auth'],
 ], function () {
     Route::controller(teacherController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
@@ -116,22 +116,43 @@ Route::group([
         Route::post('/parent/register', 'parentRegister')->name('parent.register.store');
         Route::get('/parent/login', 'loginParent')->name('parent.login');
         Route::post('/parent/login', 'parentLogin')->name('parent.login.store');
+    });
+});
+
+Route::group([
+    'middleware' => ['auth'],
+], function () {
+    Route::controller(parentController::class)->group(function () {
         Route::get('/parent/logout', 'logout')->name('parent.logout');
         Route::get('/parent/dashboard', 'dashboard')->name('parent.dashboard');
         Route::get('/parent/children', 'children')->name('parent.children');
         Route::get('/parent/games', 'games')->name('parent.games');
+        Route::get('/parent/games/cart', 'parentCart')->name('parent.cart');
+        Route::delete('/parent/games/cart/{game}', 'deleteFromCart')->name('parent.game.removeFromCart');
+        Route::post('/parent/games/cart', 'checkout')->name('checkout');
+        Route::post('/parent/games/{game}', 'addToCart')->name('parent.game.AddToCart');
         Route::get('/parent/reports', 'reports')->name('parent.reports');
         Route::get('/parent/settings', 'settings')->name('parent.settings');
+        Route::get('/parent/order/{order}', 'myorder')->name('parent.order');
         Route::post('/parent/settings', 'storeSetting')->name('parent.setting.store');
+        Route::post('/parent/settingsPassword', 'storeSettingPassword')->name('parent.setting.password');
     });
 });
 
-Route::group([], function () {
+Route::group([
+], function () {
     Route::controller(trainerController::class)->group(function () {
         Route::get('/trainer/signin', 'loginTrainer')->name('trainer.login.form');
         Route::get('/trainer/register', 'signUpTrainer')->name('trainer.register.form');
         Route::post('/trainer/login', 'signinTrainer')->name('trainer.login');
         Route::post('/trainer/register', 'registerTrainer')->name('trainer.register');
+    });
+});
+
+Route::group([
+    'middleware' => ['auth'],
+], function () {
+    Route::controller(trainerController::class)->group(function () {
         Route::post('/trainer/logout', 'logout')->name('trainer.logout');
         Route::get('/trainer/dashbaord', 'trainerDashboard')->name('trainerDashboard');
         Route::get('/trainer/courses', 'trainerCourses')->name('trainer.courses');
@@ -157,6 +178,5 @@ Route::group([], function () {
         Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');
         Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
         Route::post('/trainer/certificates', 'storeCertificate')->name('trainer.certificate.store');
-
     });
 });

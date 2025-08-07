@@ -10,13 +10,35 @@
         <main class="p-6 flex-1" x-data="{ category: '', maxPrice: '' }">
             <x-parent-header />
 
+
             <h1 class="text-2xl font-bold mb-6">جميع الألعاب</h1>
 
-            <!-- فلترة -->
-            <div class="mb-6 flex flex-col md:flex-row gap-4">
+            <div class="mb-6 flex flex-col md:flex-row items-center gap-4">
+                <!-- Max Price Input -->
                 <input type="number" x-model="maxPrice" placeholder="أقصى سعر"
                     class="w-full md:w-1/6 border rounded px-3 py-2" />
+
+                <!-- Cart Icon Button -->
+                @if (Auth::user()->cart)
+                    <a href="{{ route('parent.cart') }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2">
+                        <!-- Cart Icon (Heroicons) -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 3h1.386c.51 0 .955.343 1.087.836L5.81 6.75m0 0l1.395 5.582a2.25 2.25 0 002.184 1.668h7.755a2.25 2.25 0 002.184-1.668l1.208-4.832A1.125 1.125 0 0019.46 6.75H5.81zm0 0H4.312M6 21a.75.75 0 100-1.5.75.75 0 000 1.5zm12 0a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+                        </svg>
+                        <span>السلة</span>
+                    </a>
+                @endif
             </div>
+
+            @if (session('error'))
+                <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-800 border border-red-300">
+                    {{ session('error') }}
+                </div>
+            @endif
+
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($games as $game)
@@ -30,7 +52,7 @@
 
                         <!-- Game Cover with Badges -->
                         <div class="relative">
-                            <img src="{{ asset($game->cover_image ? 'images/' . $game->cover_image : $game->cover_image) }}"
+                            <img src="{{ asset($game->cover_image ? 'storage/' . $game->cover_image : $game->cover_image) }}"
                                 alt="{{ $game->title }}"
                                 class="w-full h-56 object-cover hover:opacity-90 transition-opacity duration-200">
 
@@ -117,13 +139,27 @@
                             </div>
 
                             <!-- Action Buttons -->
-                            <div class="mt-4 flex gap-2">
+                            <div class="mt-4 flex flex-col sm:flex-row gap-3 sm:items-end">
+                                <form action="{{ route('parent.game.AddToCart', $game) }}" method="POST"
+                                    class="flex-1 space-y-2">
+                                    @csrf
+                                    <input type="hidden" name="game_id" value="{{ $game->id }}">
+
+                                    <div>
+                                        <label for="quantity"
+                                            class="block text-sm font-medium text-gray-700 mb-1">الكمية</label>
+                                        <input type="number" id="quantity" name="quantity" min="1"
+                                            class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
+                                    </div>
+
+                                    <button type="submit"
+                                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
+                                        إضافة إلى السلة
+                                    </button>
+                                </form>
+
                                 <button
-                                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
-                                    إضافة إلى السلة
-                                </button>
-                                <button
-                                    class="p-2 text-gray-600 hover:text-blue-600 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors duration-200">
+                                    class="h-11 sm:h-auto px-4 py-2 border border-gray-300 rounded-lg text-gray-600 hover:text-blue-600 hover:border-blue-400 transition-colors duration-200 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -131,6 +167,7 @@
                                     </svg>
                                 </button>
                             </div>
+
 
                         </div>
                     </div>

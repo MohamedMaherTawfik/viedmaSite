@@ -24,6 +24,7 @@
         </div>
 
         <!-- Right Form -->
+
         <div class="p-10 flex flex-col justify-center">
             <div class="flex items-center gap-2 mb-4 self-center">
                 <img src="{{ asset('auth/rendered_page.png') }}" alt="robot" class="w-72 h-48">
@@ -32,6 +33,31 @@
             <p class="text-sm text-gray-500 mb-6 self-center">
                 الرجاء تسجيل الدخول لمتابعة إلى حسابك.
             </p>
+
+
+            {{-- رسالة الفشل --}}
+            @if (session('failed'))
+                <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-4 text-right">
+                    {{ session('failed') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-4 text-right">
+                    {{ session('error') }}
+                </div>
+            @endif
+
+            @if ($errors->any())
+                <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded mb-4 text-right">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
 
 
             <form method="POST" action="{{ route('parent.login.store') }}" class="w-full text-right">
