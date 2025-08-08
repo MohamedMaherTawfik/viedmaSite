@@ -8,10 +8,6 @@ class games extends Model
 {
     protected $guarded = [];
     protected $table = 'games';
-    public function gameCategorey()
-    {
-        return $this->belongsTo(gamesCategorey::class, 'games_categorey_id');
-    }
 
     public function cart()
     {
