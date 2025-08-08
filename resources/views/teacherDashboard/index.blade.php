@@ -52,7 +52,7 @@
                 <div class="bg-white rounded-lg shadow p-4 flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500">عدد الشهادات المستلمة</p>
-                        <p class="text-xl font-bold">5</p>
+                        <p class="text-xl font-bold">{{ count(Auth::user()->certificates) }}</p>
                     </div>
                     <i class="fas fa-certificate text-yellow-500 text-xl"></i>
                 </div>
