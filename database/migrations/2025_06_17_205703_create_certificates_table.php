@@ -16,7 +16,6 @@ return new class extends Migration {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->nullable()->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(student::class)->nullable()->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Courses::class)->nullable()->constrained()->cascadeOnDelete();
             $table->string('certificate');
             $table->timestamps();

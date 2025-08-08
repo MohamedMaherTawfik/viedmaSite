@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\student;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -13,6 +14,7 @@ return new class extends Migration {
     {
         Schema::table('certificates', function (Blueprint $table) {
             $table->foreignIdFor(User::class, 'teacher_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(student::class, 'student_id')->nullable()->constrained()->cascadeOnDelete();
         });
     }
 
