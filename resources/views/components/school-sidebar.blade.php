@@ -43,17 +43,18 @@
                 <span class="ml-2">جميع الطلاب</span>
             </a>
             <!-- تقييم الطلاب -->
-            <a href="{{ route('teacher.evaluations') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('teacher.evaluations') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/rating.png" alt="تقييم الطلاب">
-                <span class="ml-2">تقييم الطلاب</span>
-            </a>
+            <form action="{{ route('logout') }}" method="POST" class="mt-6">
+                @csrf
+                <button type="submit"
+                    class="flex items-center px-4 py-3 bg-red-100 text-red-500 rounded text-base w-full">
+                    <img src="https://img.icons8.com/ios-filled/24/fa314a/logout-rounded-left.png" alt="تسجيل الخروج">
+                    <span class="ml-2">تسجيل الخروج</span>
+                </button>
+            </form>
+
         </nav>
     </div>
 
     <!-- تسجيل الخروج -->
-    <a href="{{ route('logout') }}" class="flex items-center px-4 py-3 mt-6 bg-red-100 text-red-500 rounded text-base">
-        <img src="https://img.icons8.com/ios-filled/24/fa314a/logout-rounded-left.png" alt="تسجيل الخروج">
-        <span class="ml-2">تسجيل الخروج</span>
-    </a>
+
 </aside>

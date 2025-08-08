@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
+use App\Http\Controllers\home\ClickPayController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Middleware\parentMiddleware;
 use App\Http\Middleware\Teacher;
@@ -95,7 +96,6 @@ Route::group([
         Route::get('/dashboard/courses/enrolled/{course}', 'myCourse')->name('teacher.myCourse');
         Route::post('/dashboard/courses/enrolled/{course}/uploadProject', 'uploadProject')->name('teacher.project.upload');
         Route::post('/dashboard/course/{slug}/enroll/free', 'freeCourse')->name('teacher.course.enroll.free');
-        Route::post('/dashboard/course/{slug}/enroll/paid', 'paidCourse')->name('teacher.course.subscribe');
         Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
         Route::get('/dashboard/certificates', 'certificates')->name('teacher.certificates');
         Route::get('/dashboard/courses/assisnments/me', 'allProjects')->name('teacher.projects');
@@ -183,3 +183,12 @@ Route::group([
         Route::post('/trainer/certificates', 'storeCertificate')->name('trainer.certificate.store');
     });
 });
+
+
+Route::get('/pay/{course}/form', [ClickPayController::class, 'showPaymentForm'])->name('pay.form');
+Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment'])->name('pay.initiate');
+Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback');
+Route::get('/pay/success/done/{course}', [ClickPayController::class, 'success'])->name('pay.success');
+Route::get('/pay/fail/done', function () {
+    return view('payment.failed');
+})->name('pay.fail');

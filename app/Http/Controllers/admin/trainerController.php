@@ -91,7 +91,7 @@ class trainerController extends Controller
         $courses = Courses::where('user_id', auth()->id())->get();
         $ids = $courses->pluck('id');
         $enrollments = Enrollments::whereIn('courses_id', $ids)->get();
-        $graduationProject = graduationProject::where('user_id', auth()->id())->pluck('id');
+        $graduationProject = graduationProject::where('teacher_id', auth()->id())->pluck('id');
         $assignments = assignment_submission::whereIn('graduation_project_id', $graduationProject)->get();
         $latestSessionTime = sessionTime::orderBy('id', 'desc')->first();
         return view('trainerDashboard.index', compact('courses', 'enrollments', 'assignments', 'latestSessionTime'));

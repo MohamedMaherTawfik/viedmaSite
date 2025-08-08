@@ -147,8 +147,8 @@
                                     </form>
                                 @else
                                     {{-- زر الاشتراك المدفوع --}}
-                                    <form action="{{ route('teacher.course.subscribe', $course->slug) }}"
-                                        method="POST" class="inline-block">
+                                    <form action="{{ route('pay.form', $course) }}" method="GET"
+                                        class="inline-block">
                                         @csrf
                                         <button type="submit"
                                             class="bg-[#176b98] hover:bg-[#176b98] text-white font-bold py-2 px-4 rounded mr-2">
