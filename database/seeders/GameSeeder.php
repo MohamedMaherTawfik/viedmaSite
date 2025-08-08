@@ -20,7 +20,6 @@ class GameSeeder extends Seeder
 
         foreach (range(1, 10) as $i) {
             games::create([
-                'games_categorey_id' => $categories[array_rand($categories)],
                 'title' => "Game Title $i",
                 'description' => "This is a description for game $i.",
                 'price' => rand(50, 300),
