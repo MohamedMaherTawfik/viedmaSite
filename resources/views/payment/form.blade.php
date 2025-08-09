@@ -216,6 +216,8 @@
             <input type="hidden" name="amount" value="{{ $course->price }}">
             <input type="hidden" name="name" value="{{ Auth::user()->name }}">
             <input type="hidden" name="email" value="{{ Auth::user()->email }}">
+            <input type="hidden" name="return_url" value="{{ route('pay.success', $course->id) }}">
+            <input type="hidden" name="callback_url" value="{{ route('pay.callback', $course->id) }}">
 
             <button type="submit"
                 class="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300">

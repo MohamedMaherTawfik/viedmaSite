@@ -43,9 +43,14 @@ class ClickPayController
             'state' => 'required|string',
             'zip' => 'required|string',
         ]);
+
         $amount = $request->amount;
         $email = $request->email;
         $name = $request->name;
+
+        // Allow custom return/callback from form, else fallback to defaults
+        $returnUrl = $request->input('return_url', route('pay.success', ['course' => $course]));
+        $callbackUrl = $request->input('callback_url', route('pay.callback', ['course' => $course]));
 
         $billingData = [
             'first_name' => explode(' ', $name)[0],
@@ -58,6 +63,7 @@ class ClickPayController
             'state' => $request->state,
             'zip' => $request->zip,
         ];
+
         $payload = [
             "profile_id" => $this->profileId,
             "tran_type" => "sale",
@@ -66,16 +72,16 @@ class ClickPayController
             "cart_description" => "Payment for products",
             "cart_currency" => $this->currency,
             "cart_amount" => $amount,
-            "callback" => route('pay.callback', ['course' => $course]),
-            "return" => route('pay.success', ['course' => $course]),
+            "callback" => $callbackUrl,
+            "return" => $returnUrl,
             "billing_details" => $billingData,
         ];
-
 
         $response = Http::withHeaders([
             'Authorization' => $this->serverKey,
             'Content-Type' => 'application/json'
         ])->post("{$this->baseUrl}/payment/request", $payload);
+
         if ($response->successful()) {
             $data = $response->json();
             if (isset($data['redirect_url'])) {
@@ -85,8 +91,8 @@ class ClickPayController
 
         Log::error('ClickPay Initiation Failed', $response->json());
         return redirect()->back()->withErrors('Payment initiation failed. Please try again.');
-
     }
+
 
     public function callback(Request $request, Courses $course)
     {
@@ -97,7 +103,6 @@ class ClickPayController
             return redirect()->route('pay.fail')->withErrors('Missing payment details.');
         }
 
-        // تحقق من حالة الدفع
         try {
             $response = Http::withHeaders([
                 'Authorization' => $this->serverKey,
