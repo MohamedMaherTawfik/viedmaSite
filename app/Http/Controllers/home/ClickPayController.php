@@ -124,7 +124,6 @@ class ClickPayController
 
     public function success(Courses $course)
     {
-        request()->session()->regenerateToken();
         Enrollments::create([
             'user_id' => auth()->user()->id,
             'courses_id' => $course->id,
