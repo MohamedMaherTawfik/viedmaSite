@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(school::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('national_id')->nullable();
             $table->string('nationallity')->nullable();
             $table->string('parent_phone')->nullable();
