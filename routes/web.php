@@ -192,5 +192,6 @@ Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController:
     ->name('pay.success')
     ->middleware('auth');
 Route::match(['get', 'post'], '/pay/fail/done', function () {
+    request()->session()->regenerateToken();
     return view('payment.failed');
 })->name('pay.fail');
