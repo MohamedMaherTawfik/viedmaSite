@@ -161,36 +161,54 @@
                     <label for="address">العنوان</label>
                     <input type="text" name="address" id="address" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('address')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="phone">رقم الهاتف</label>
                     <input type="text" name="phone" id="phone" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('phone')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="city">المدينة</label>
                     <input type="text" name="city" id="city" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('city')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="country">الدولة</label>
                     <input type="text" name="country" id="country" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('country')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="state">المحافظة / الولاية</label>
                     <input type="text" name="state" id="state" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('state')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="zip">الرمز البريدي</label>
                     <input type="text" name="zip" id="zip" required
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('zip')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
