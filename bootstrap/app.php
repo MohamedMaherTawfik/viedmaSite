@@ -1,11 +1,6 @@
 <?php
 
-use App\Http\Middleware\CheckAdmin;
-use App\Http\Middleware\parentMiddleware;
-use App\Http\Middleware\teacherMiddleware;
-use App\Http\Middleware\trainerMiddleware;
 use App\Http\Middleware\VerifyCsrfToken;
-use App\Http\Middleware\zoomMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -18,6 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web([
+            VerifyCsrfToken::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
