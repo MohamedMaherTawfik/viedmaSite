@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\api\auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\updateUserRequest;
+
 use App\Http\Requests\userApiRequest;
+use App\Http\Requests\userEditRequest;
 use App\Mail\OtpMail;
 use App\Models\applyTeacher;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -147,7 +146,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateProfile(updateUserRequest $request)
+    public function updateProfile(userEditRequest $request)
     {
         $fields = $request->validated();
         if ($request->hasFile('photo')) {
@@ -160,4 +159,8 @@ class AuthController extends Controller
         return $this->success($user, __('messages.update_profile'));
     }
 
+    public function userNotifications()
+    {
+        $user = User::with('notifications')->find(Auth::guard('api')->id());
+    }
 }

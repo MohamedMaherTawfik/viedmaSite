@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\schoolRequest;
 use App\Interfaces\CourseInterface;
+use App\Mail\TeacherAcceptedMail;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
 use App\Models\certificate;
@@ -19,6 +20,7 @@ use App\Models\User;
 use App\Http\Requests\updateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
@@ -56,14 +58,14 @@ class SuperAdminController extends Controller
             'slug' => Str::slug($validtedData['school_name']),
         ]);
         $user = User::create([
-            'name' => $validtedData['name'],
+            'name' => $validtedData['name'] . '-' . time(),
             'email' => $validtedData['email'],
             'password' => $validtedData['password'],
             'role' => $validtedData['role'],
             'school_id' => $school->id,
         ]);
         Auth::login($user);
-        return redirect()->route('school.dashboard', ['slug' => $school->slug])->with('success', 'School registered successfully. Please login.');
+        return redirect()->route('school.dashboard', ['slug' => $school->slug])->with('success', 'School registered successfully');
     }
 
     public function schoolLogin()
@@ -180,7 +182,7 @@ class SuperAdminController extends Controller
             return redirect()->back()->with('error', 'User not found.');
         }
         $user->delete();
-        return redirect()->back();
+        return redirect()->back() >> with('success', 'User deleted successfully.');
     }
 
     public function schoolStudents()
@@ -315,7 +317,7 @@ class SuperAdminController extends Controller
         $applyTeacher = applyTeacher::where('user_id', $user->first()->id)->firstOrFail();
         $applyTeacher->status = 'accepted';
         $applyTeacher->save();
-        // Mail::to($user->first()->email)->send(new TeacherAcceptedMail($user->first()));
+        Mail::to($user->first()->email)->send(new TeacherAcceptedMail($user->first()));
 
         return redirect()->back()->with('success', 'Apply accepted and email sent successfully.');
     }
@@ -332,7 +334,6 @@ class SuperAdminController extends Controller
         $applyTeacher->save();
         $user->first()->role = 'user';
         $user->first()->save();
-        // Optionally, you can send an email to the user notifying them of the rejection
         // Mail::to($user->first()->email)->send(new TeacherRejectedMail($user->first()));
         return redirect()->back()->with('success', 'Apply rejected.');
     }

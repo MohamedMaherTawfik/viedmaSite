@@ -60,7 +60,7 @@ class teacherController extends Controller
             'enrolled' => 'yes',
             'price' => 0
         ]);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Course enrolled successfully.');
     }
 
     public function myCourses()
@@ -184,7 +184,7 @@ class teacherController extends Controller
     public function updateStudent(student $student)
     {
         $student->update(request()->all());
-        return redirect()->route('teacher.students');
+        return redirect()->route('teacher.students')->with('success', 'Student updated successfully.');
     }
     public function deleteStudent(student $student)
     {
@@ -205,7 +205,7 @@ class teacherController extends Controller
             $validated['file'] = $request->file('file')->store('reports', 'public');
         }
         report::create($validated);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Evaluation submitted successfully.');
     }
 
     public function uploadProject(uploadProjectRequest $request)
@@ -217,6 +217,6 @@ class teacherController extends Controller
         $validated['grade'] = 'not assigned yet';
         assignment_submission::create($validated);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Project uploaded successfully.');
     }
 }

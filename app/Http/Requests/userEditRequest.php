@@ -22,9 +22,9 @@ class userEditRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3',
-            'phone' => 'required|string|min:8',
-            'email' => 'required|string|email',
+            'name' => 'nullable|string|min:3',
+            'phone' => 'nullable|string|min:8',
+            'email' => 'nullable|string|email',
             'photo' => 'nullable',
         ];
     }

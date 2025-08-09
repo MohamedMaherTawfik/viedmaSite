@@ -33,6 +33,31 @@
                 @endif
             </div>
 
+            {{-- Success Message --}}
+            @if (session('success'))
+                <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            {{-- Fail Message
+            @if (session('fail'))
+                <div class="p-4 mb-4 text-red-800 bg-red-200 border border-red-300 rounded">
+                    {{ session('fail') }}
+                </div>
+            @endif --}}
+
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+                <div class="p-4 mb-4 text-red-800 bg-red-100 border border-red-300 rounded">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if (session('error'))
                 <div class="mb-4 p-4 rounded-lg bg-red-100 text-red-800 border border-red-300">
                     {{ session('error') }}

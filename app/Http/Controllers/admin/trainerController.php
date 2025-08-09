@@ -83,7 +83,7 @@ class trainerController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Logged out successfully.');
     }
 
     public function trainerDashboard()
@@ -158,7 +158,7 @@ class trainerController extends Controller
     public function deleteProject(graduationProject $graduationProject)
     {
         $graduationProject->delete();
-        return redirect()->back()->with('graduation project deleted');
+        return redirect()->back()->with('success', 'Project deleted successfully.');
     }
     public function trainerEvaluations()
     {
@@ -172,7 +172,7 @@ class trainerController extends Controller
         $validated['user_id'] = Auth::id();
         $validated['status'] = 'accepted';
         graduationNotes::create($validated);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Evaluation submitted successfully.');
     }
 
     public function trainerSchedules()
@@ -233,7 +233,7 @@ class trainerController extends Controller
         }
 
         lesson::create($validated);
-        return redirect()->route('trainer.courses.show', $course->slug)->with('Lesson Created Successfully');
+        return redirect()->route('trainer.courses.show', $course->slug)->with('success', 'تم اضافة المحاضرة بنجاح');
     }
 
     public function deleteSessionTime(SessionTime $sessionTime)
@@ -258,7 +258,7 @@ class trainerController extends Controller
             $validated['file'] = $request->file('file')->store('certificates', 'public');
         }
         certificate::create($validated);
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Certificate uploaded successfully.');
 
     }
 
@@ -276,6 +276,6 @@ class trainerController extends Controller
             'student_id' => $validated['user_id'],
         ]);
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Report submitted successfully.');
     }
 }

@@ -6,6 +6,30 @@
     <div class="flex flex-col flex-1">
         <main class="p-6 flex-1">
             <x-school-header />
+            {{-- Success Message --}}
+            @if (session('success'))
+                <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            {{-- Fail Message --}}
+            @if (session('fail'))
+                <div class="p-4 mb-4 text-red-800 bg-red-200 border border-red-300 rounded">
+                    {{ session('fail') }}
+                </div>
+            @endif
+
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+                <div class="p-4 mb-4 text-red-800 bg-red-100 border border-red-300 rounded">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <section class="bg-white p-4 rounded shadow mt-6 overflow-visible relative z-[1]">
                 <div class="overflow-x-auto overflow-visible relative z-[1]">

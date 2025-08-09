@@ -145,7 +145,7 @@ class parentController extends Controller
             $item->delete();
         }
         $cart->delete();
-        return redirect()->route('parent.games');
+        return redirect()->route('parent.games')->with('success', 'Order placed successfully!');
     }
 
     public function reports()

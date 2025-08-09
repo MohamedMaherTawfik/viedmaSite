@@ -97,7 +97,7 @@ class homeController extends Controller
 
         $course = $this->coursesRepository->getCourseBySlug(request('slug'));
         $this->enrollmentRepository->store($course->id, $course->price);
-        return redirect('/');
+        return redirect('/')->with('success', 'Course enrolled successfully.');
     }
 
     public function enrolledCourses()
@@ -147,7 +147,7 @@ class homeController extends Controller
     {
         $course = $this->coursesRepository->getCourseBySlug(request('slug'));
         $this->reviewRepository->makeReview(request('rating'), $course->id);
-        return redirect()->route('myCourse', ['slug' => $course->slug]);
+        return redirect()->route('myCourse', ['slug' => $course->slug])->with('success', 'Review added successfully.');
     }
 
     public function allCourses()

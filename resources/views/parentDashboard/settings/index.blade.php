@@ -12,18 +12,31 @@
             <x-parent-header />
 
             {{-- رسالة النجاح --}}
+            {{-- Success Message --}}
             @if (session('success'))
-                <div class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded mb-4">
+                <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
                     {{ session('success') }}
                 </div>
             @endif
 
-            {{-- رسالة الفشل --}}
-            @if (session('failed'))
-                <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded mb-4">
-                    {{ session('failed') }}
+            {{-- Fail Message --}}
+            @if (session('fail'))
+                <div class="p-4 mb-4 text-red-800 bg-red-200 border border-red-300 rounded">
+                    {{ session('fail') }}
                 </div>
             @endif
+
+            {{-- Validation Errors --}}
+            @if ($errors->any())
+                <div class="p-4 mb-4 text-red-800 bg-red-100 border border-red-300 rounded">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
 
 
             <div class="bg-white p-8 rounded-lg shadow-md mt-6">
