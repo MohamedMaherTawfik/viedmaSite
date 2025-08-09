@@ -44,9 +44,7 @@ class SuperAdminController extends Controller
 
     public function registerSchool(schoolRequest $request)
     {
-        // dd($request->all());
         $validtedData = $request->validated();
-        // dd($validtedData);
         $validtedData['password'] = bcrypt($validtedData['password']);
         $validtedData['role'] = 'admin';
         $school = school::create([
@@ -164,11 +162,17 @@ class SuperAdminController extends Controller
     /**
      * Update the specified user in storage.
      */
-    public function updateUser(updateRequest $request)
+    public function editStudent()
     {
-        $validatedData = $request->validated();
-        User::findOrFail(request('id'))->update($validatedData);
-        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+        $student = student::where('name', request('name'))->get()->first();
+        return view('schoolDashboard.students.edit', compact('student'));
+    }
+
+    public function updateStudent(Request $request)
+    {
+        $student = student::where('name', request('name'))->get()->first();
+        $student->update($request->all());
+        return redirect()->route('school.students', request('slug'))->with('success', 'Student updated successfully.');
     }
 
     /**
