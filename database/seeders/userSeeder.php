@@ -18,7 +18,7 @@ class userSeeder extends Seeder
                     'school_id' => 1,
                     'name' => 'Admin',
                     'email' => 'admin@gmail.com',
-                    'password' => bcrypt('Oxford11'),
+                    'password' => bcrypt('Viedma11'),
                     'role' => 'admin',
                 ]
             ];
