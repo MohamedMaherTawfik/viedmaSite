@@ -188,7 +188,7 @@ Route::group([
 Route::get('/pay/{course}/form', [ClickPayController::class, 'showPaymentForm'])->name('pay.form');
 Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment'])->name('pay.initiate');
 Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback');
-Route::get('/pay/success/done/{course}', [ClickPayController::class, 'success'])->name('pay.success');
-Route::get('/pay/fail/done', function () {
+Route::post('/pay/success/done/{course}', [ClickPayController::class, 'success'])->name('pay.success');
+Route::post('/pay/fail/done', function () {
     return view('payment.failed');
 })->name('pay.fail');
