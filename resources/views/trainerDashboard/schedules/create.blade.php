@@ -29,6 +29,10 @@
                                 <option value="{{ $course->id }}">{{ $course->title }}</option>
                             @endforeach
                         </select>
+
+                        @error('courses_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Date Input -->
@@ -40,6 +44,9 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                             </div>
                         </div>
+                        @error('date')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Time Input -->
@@ -51,6 +58,9 @@
                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                             </div>
                         </div>
+                        @error('time')
+                            <span class="text-red-600">{{ $message }}</span>
+                        @enderror
                     </div>
 
 

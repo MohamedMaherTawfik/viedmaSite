@@ -152,7 +152,7 @@ class trainerController extends Controller
             $validated['file'] = $request->file('file')->store('Projects', 'public');
         }
         graduationProject::create($validated);
-        return redirect()->back()->with('Project Uploaded Successfully');
+        return redirect()->route('trainer.courses.show', $course->slug)->with('Project Uploaded Successfully');
     }
 
     public function deleteProject(graduationProject $graduationProject)
