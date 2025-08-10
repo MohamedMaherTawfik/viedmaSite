@@ -83,7 +83,8 @@
                                 {{ $lesson->created_at->format('Y-m-d') }}
                             </span>
                             <div>
-                                <a href="{{ $lesson->video_url }}" class="text-blue-500 hover:underline text-sm">
+                                <a href="{{ $lesson->video_url }}" class="text-blue-500 hover:underline text-sm"
+                                    target="_blank">
                                     مشاهدة الدرس
                                 </a>
                             </div>
