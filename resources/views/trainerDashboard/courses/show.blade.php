@@ -189,7 +189,6 @@
                      <thead class="bg-gray-100">
                          <tr>
                              <th>الاسم</th>
-                             <th>النسبة</th>
                              <th>الشهادة</th>
                              <th>تقييم</th>
                          </tr>
@@ -198,7 +197,6 @@
                          @foreach ($course->enrollments as $item)
                              <tr>
                                  <td>{{ $item->user->name }}</td>
-                                 <td>{{ $item->user->report }}</td>
                                  <td>
                                      @if ($item->user && $item->user->reviews && $item->user->reviews->file)
                                          <a href="{{ $item->user->reviews->file }}" class="text-green-600">تحميل</a>
