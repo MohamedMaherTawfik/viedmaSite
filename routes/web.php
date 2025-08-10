@@ -9,6 +9,7 @@ use App\Http\Middleware\parentMiddleware;
 use App\Http\Middleware\Teacher;
 use App\Http\Middleware\teacherMiddleware;
 use App\Http\Middleware\trainerMiddleware;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -190,8 +191,7 @@ Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment']
 Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback')->middleware('auth');
 Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController::class, 'success'])
     ->name('pay.success')
-    ->middleware('auth');
+    ->middleware('auth', VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {
-    request()->session()->regenerateToken();
     return view('payment.failed');
-})->name('pay.fail');
+})->name('pay.fail')->middleware('auth', VerifyCsrfToken::class);
