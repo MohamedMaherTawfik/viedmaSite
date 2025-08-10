@@ -80,8 +80,7 @@ class parentController extends Controller
     public function games()
     {
         $games = games::all();
-        $gameCategorey = gamesCategorey::all();
-        return view('parentDashboard.games.index', compact('games', 'gameCategorey'));
+        return view('parentDashboard.games.index', compact('games', ));
     }
 
     public function addToCart(games $game)
