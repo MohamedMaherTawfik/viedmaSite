@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\cartRequest;
 use App\Http\Requests\parentRequest;
 use App\Http\Requests\userEditRequest;
 use App\Models\applyTeacher;
@@ -83,8 +84,10 @@ class parentController extends Controller
         return view('parentDashboard.games.index', compact('games', ));
     }
 
-    public function addToCart(games $game)
+    public function addToCart(cartRequest $request, games $game)
     {
+        $validatedData = $request->validated();
+
         $cart = cart::where('user_id', Auth::id())->first();
         if (!$cart) {
             $cart = cart::create([
@@ -97,7 +100,7 @@ class parentController extends Controller
         cartItems::create([
             'cart_id' => $cart->id,
             'games_id' => $game->id,
-            'quantity' => request('quantity'),
+            'quantity' => $validatedData['quantity'],
         ]);
         return redirect()->back()->with('success', 'Game added to cart successfully!');
     }

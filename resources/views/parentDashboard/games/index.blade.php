@@ -176,6 +176,9 @@
                                         <input type="number" id="quantity" name="quantity" min="1"
                                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm">
                                     </div>
+                                    @error('quantity')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
 
                                     <button type="submit"
                                         class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
