@@ -79,14 +79,11 @@
                             <p class="text-gray-700">
                                 {{ $loop->iteration }}. {{ $lesson->title }}
                             </p>
-
                             <span class="text-gray-500 text-sm">
                                 {{ $lesson->created_at->format('Y-m-d') }}
                             </span>
-
                             <div>
-                                <a href="{{ $lesson->viedo_url }}" target="_blank"
-                                    class="text-blue-500 hover:underline text-sm">
+                                <a href="{{ $lesson->video_url }}" class="text-blue-500 hover:underline text-sm">
                                     مشاهدة الدرس
                                 </a>
                             </div>
