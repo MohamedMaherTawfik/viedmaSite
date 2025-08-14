@@ -3,30 +3,20 @@
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
+use App\Http\Controllers\adminstrator\adminController;
 use App\Http\Controllers\home\ClickPayController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Middleware\parentMiddleware;
-use App\Http\Middleware\Teacher;
 use App\Http\Middleware\teacherMiddleware;
 use App\Http\Middleware\trainerMiddleware;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
+use App\Http\Controllers\public\AuthController as PublicAuthController;
 use App\Http\Middleware\CheckAdmin;
 
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/register', 'signUp')->name('register');
-    Route::post('/register', 'register')->name('signup');
-    Route::get('/teacher', 'teacherRegister')->name('teacher');
-    Route::post('/teacher', 'teacher')->name('teacher.info');
-    Route::get('/login', 'login')->name('login');
-    Route::post('/login', 'signin')->name('signin');
-    Route::post('/logout', 'logout')->name('logout');
-    Route::get('/reset-password', 'resetPage')->name('reset.password')->middleware('auth');
-    Route::post('/reset-password', 'updatePassword')->name('password.reset')->middleware('auth');
-});
 
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar'])) {
@@ -35,18 +25,39 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang.switch');
 
+
+Route::group([], function () {
+    Route::get('/login', [PublicAuthController::class, 'login'])->name('login');
+    Route::post('/login', [PublicAuthController::class, 'storeLogin'])->name('login.store');
+    Route::get('/register', [PublicAuthController::class, 'register'])->name('register');
+    Route::post('/register', [PublicAuthController::class, 'storeRegister'])->name('register.store');
+    Route::post('/logout', [PublicAuthController::class, 'logout'])->name('logout');
+});
+
 Route::group([], function () {
     Route::get('/', [homeController::class, 'index'])->name('home');
+    Route::get('/about-us', [homeController::class, 'about'])->name('about');
+    Route::get('/contact', [homeController::class, 'contact'])->name('contact');
+    Route::get('/profile', [homeController::class, 'profile'])->name('profile');
+    Route::post('/profile', [homeController::class, 'UpdateProfile'])->name('profile.update');
+    Route::post('/profile/password', [homeController::class, 'UpdatePassword'])->name('password.update');
+    Route::get('/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
+    Route::get('/game', [homeController::class, 'allGames'])->name('game.all');
+    Route::get('/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
+    Route::delete('/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
+    Route::post('/games/cart', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
+    Route::post('/games/{game}', [homeController::class, 'addToCart'])->name('game.AddToCart')->middleware('auth');
+
 });
 
 Route::group([
 ], function () {
     Route::controller(SuperAdminController::class)->group(function () {
-        Route::get('school/register', 'schoolRegister')->name('school.register');
-        Route::post('school/register', 'registerSchool')->name('school.register.store');
-        Route::get('school/login', 'schoolLogin')->name('school.login');
-        Route::post('school/login', 'loginSchool')->name('school.login.store');
-        Route::get('school/logout', 'logout')->name('school.logout');
+        Route::get('/school/register', 'schoolRegister')->name('school.register');
+        Route::post('/school/register', 'registerSchool')->name('school.register.store');
+        Route::get('/school/login', 'schoolLogin')->name('school.login');
+        Route::post('/school/login', 'loginSchool')->name('school.login.store');
+        Route::get('/school/logout', 'logout')->name('school.logout');
     });
 });
 
@@ -86,6 +97,19 @@ Route::group([
         Route::get('school/{slug}/dashboard/pendings/{name}/show', 'showPending')->name('school.pendings.show');
     });
 });
+
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/teacher/register', 'signUp')->name('teacher.register');
+    Route::post('/teacher/register', 'register')->name('teacher.signup');
+    Route::get('/teacher', 'teacherRegister')->name('teacher');
+    Route::post('/teacher', 'teacher')->name('teacher.info');
+    Route::get('/teacher/login', 'login')->name('teacher.login');
+    Route::post('/teacher/login', 'signin')->name('teacher.signin');
+    Route::post('/logout', 'logout')->name('logout');
+    Route::get('/reset-password', 'resetPage')->name('reset.password')->middleware('auth');
+    Route::post('/reset-password', 'updatePassword')->name('password.reset')->middleware('auth');
+});
+
 
 Route::group([
     'middleware' => ['auth', teacherMiddleware::class],
@@ -131,10 +155,6 @@ Route::group([
         Route::get('/parent/dashboard', 'dashboard')->name('parent.dashboard');
         Route::get('/parent/children', 'children')->name('parent.children');
         Route::get('/parent/games', 'games')->name('parent.games');
-        Route::get('/parent/games/cart', 'parentCart')->name('parent.cart');
-        Route::delete('/parent/games/cart/{game}', 'deleteFromCart')->name('parent.game.removeFromCart');
-        Route::post('/parent/games/cart', 'checkout')->name('checkout');
-        Route::post('/parent/games/{game}', 'addToCart')->name('parent.game.AddToCart');
         Route::get('/parent/reports', 'reports')->name('parent.reports');
         Route::get('/parent/settings', 'settings')->name('parent.settings');
         Route::get('/parent/order/{order}', 'myorder')->name('parent.order');
@@ -195,3 +215,19 @@ Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController:
 Route::match(['get', 'post'], '/pay/fail/done', function () {
     return view('payment.failed');
 })->name('pay.fail')->middleware('auth', VerifyCsrfToken::class);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [adminController::class, 'login'])->name('admin.login');
+    Route::post('/login', [adminController::class, 'storeLogin'])->name('admin.login.store');
+    Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/schools', [adminController::class, 'schools'])->name('admin.schools.index');
+    Route::get('/schools/create', [adminController::class, 'createSchool'])->name('admin.schools.create');
+    Route::post('/schools', [adminController::class, 'storeSchool'])->name('admin.schools.store');
+    Route::get('/schools/{school}', [adminController::class, 'showSchool'])->name('admin.schools.show');
+    Route::get('/schools/{school}/teachers', [adminController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
+    Route::get('/trainers', [adminController::class, 'trainers'])->name('admin.trainers.index');
+    Route::get('/settings', [adminController::class, 'settings'])->name('admin.settings.index');
+    Route::post('/settings/user', [adminController::class, 'updateUser'])->name('admin.settings.user.update');
+    Route::post('/settings/password', [adminController::class, 'updatePassword'])->name('admin.settings.password.update');
+
+});

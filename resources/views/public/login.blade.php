@@ -59,7 +59,7 @@
             </p>
 
 
-            <form method="POST" action="{{ route('teacher.signin') }}" class="w-full text-right">
+            <form method="POST" action="{{ route('login.store') }}" class="w-full text-right">
                 @csrf
 
                 <!-- البريد الإلكتروني -->
@@ -113,8 +113,7 @@
             </button> --}}
 
             <p class="text-center text-sm mt-6">
-                ليس لديك حساب؟ <a href="{{ route('teacher.register') }}" class="text-blue-600 hover:underline">حساب
-                    جديد</a>
+                ليس لديك حساب؟ <a href="{{ route('register') }}" class="text-blue-600 hover:underline">حساب جديد</a>
             </p>
         </div>
     </div>

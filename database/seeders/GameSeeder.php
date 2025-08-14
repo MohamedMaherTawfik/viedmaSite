@@ -20,13 +20,14 @@ class GameSeeder extends Seeder
 
         foreach (range(1, 10) as $i) {
             games::create([
+                'user_id' => 1,
                 'title' => "Game Title $i",
                 'description' => "This is a description for game $i.",
                 'price' => rand(50, 300),
                 'discount' => rand(0, 50),
                 'release_date' => Carbon::now()->subDays(rand(10, 100)),
                 'developer_name' => "Dev Studio $i",
-                'cover_image' => "https://via.placeholder.com/300x400?text=Game+$i",
+                'cover_image' => "games/game.png",
                 'platform' => $platforms[array_rand($platforms)],
                 'trailer_url' => "https://example.com/trailer/$i",
                 'stock' => rand(10, 100),
