@@ -1,8 +1,10 @@
 <?php
 use App\Models\cartItems;
 use App\Models\cart;
-$cart = cart::where('user_id', Auth::id())->first();
-$cartitems = cartItems::where('cart_id', $cart->id)->count();
+if (Auth::check()) {
+    $cart = cart::where('user_id', Auth::id())->first();
+    $cartitems = cartItems::where('cart_id', $cart->id)->count();
+}
 ?>
 <header class="bg-white shadow-sm z-50 relative">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
