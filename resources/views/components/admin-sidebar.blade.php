@@ -11,30 +11,30 @@
         <!-- قائمة التنقل -->
         <nav class="space-y-4 text-right">
             <!-- الرئيسية -->
-            <a href="{{ route('parent.dashboard') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.dashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+            <a href="{{ route('admin.dashboard') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.dashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas text-2xl fa-th-large text-blue-600"></i>
                 <span class="mr-2">الرئيسية</span>
             </a>
 
-            <!-- أبنائي -->
-            <a href="{{ route('parent.children') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.children') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas text-2xl fa-user-check text-blue-600"></i>
-                <span class="mr-2">أبنائي</span>
+            <!-- المدارس -->
+            <a href="{{ route('admin.schools.index') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.schools.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fas fa-school text-2xl text-blue-600"></i>
+
+                <span class="mr-2">المدارس</span>
             </a>
 
-
-            <!-- التقارير -->
-            <a href="{{ route('parent.reports') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.reports') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas fa-file-alt text-2xl text-blue-600"></i>
-                <span class="mr-2">التقارير</span>
+            <!-- الالعب -->
+            <a href="{{ route('admin.games.index') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.games.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fas fa-gamepad text-2xl text-blue-600"></i>
+                <span class="mr-2">الالعاب</span>
             </a>
 
             <!-- الإعدادات -->
-            <a href="{{ route('parent.settings') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('parent.settings') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+            <a href="{{ route('admin.settings.index') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.settings.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas text-2xl fa-cog text-blue-600"></i>
                 <span class="mr-2">الإعدادات</span>
             </a>

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\adminstrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminLoginRequest;
+use App\Http\Requests\GameRequest;
 use App\Http\Requests\schoolRequest;
+use App\Models\games;
 use App\Models\school;
+use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +19,7 @@ class adminController extends Controller
 {
     public function login()
     {
-        return view('adminstrator.auth.login');
+        return view('admin.auth.login', );
     }
 
     public function storeLogin(adminLoginRequest $request)
@@ -31,17 +34,59 @@ class adminController extends Controller
     }
     public function dashboard()
     {
-        return view('adminstrator.index');
+
+        $schoolsCount = school::count();
+        $parentsCount = User::where('role', 'parent')->count();
+        $teachersCount = User::where('role', 'teacher')->count();
+        $trainersCount = User::where('role', 'trainer')->count();
+        $studentsCount = student::count();
+        return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount'));
+    }
+
+    public function games()
+    {
+        $games = games::all();
+        return view('admin.games.index', compact('games'));
+    }
+
+    public function createGame()
+    {
+        return view('admin.games.create');
+    }
+
+    public function storeGame(GameRequest $request)
+    {
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['title']) . '-' . time();
+        if ($request->hasFile('cover_image')) {
+            $validated['cover_image'] = $request->file('cover_image')->store('photos', 'public');
+        }
+        games::create($validated);
+        return redirect()->route('admin.games.index')->with('success', 'Game created successfully');
+
+    }
+
+    public function showGame(games $game)
+    {
+        return view('admin.games.show', compact('game'));
+    }
+
+    public function deleteGame(games $game)
+    {
+        $game->delete();
+        return redirect()->route('admin.games.index')->with('success', 'Game deleted successfully');
     }
 
     public function schools()
     {
-        return view('adminstrator.schools.index');
+        $schools = school::with('user')->get();
+        // dd($schools);
+        return view('admin.schools.index', compact('schools'));
     }
 
     public function createSchool()
     {
-        return view('adminstrator.schools.create');
+        return view('admin.schools.create');
     }
 
     public function storeSchool(schoolRequest $request)
@@ -52,7 +97,7 @@ class adminController extends Controller
         $school = school::create([
             'name' => $validated['school_name'],
             'type' => $validated['type'],
-            'License_number' => $validated['License_number'],
+            'License_number' => $validated['license_number'],
             'address' => $validated['address'],
             'city' => $validated['city'],
             'slug' => Str::slug($validated['school_name']) . '-' . time(),
@@ -69,30 +114,35 @@ class adminController extends Controller
 
     public function showSchool(school $school)
     {
-        $school->load('users');
-        return view('adminstrator.schools.show', compact('school'));
+        $school->load('user');
+        return view('admin.schools.show', compact('school'));
     }
 
     public function SchoolTeachers(school $school)
     {
-        $school->load('users');
-        return view('adminstrator.school.teachers.index', compact('school'));
+        $school->load('user');
+        return view('admin.teachers.index', compact('school'));
     }
 
     public function trainers()
     {
         $users = User::where('role', 'trainer')->get();
-        return view('adminstrator.trainers.index', compact('users'));
+        return view('admin.trainers.index', compact('users'));
     }
 
     public function settings()
     {
-        return view('adminstrator.settings.index');
+        return view('admin.settings.index');
     }
 
     public function updateUser(Request $request)
     {
-        $fields = request()->all();
+        $fields = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'photo' => ['nullable', 'image', 'max:2048'],
+            'phone' => ['required', 'string', 'max:255'],
+        ]);
         if ($request->hasFile('photo')) {
             $fields['photo'] = $request->file('photo')->store('photos', 'public');
         }

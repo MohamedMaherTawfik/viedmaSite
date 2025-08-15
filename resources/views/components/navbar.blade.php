@@ -41,43 +41,6 @@ if (Auth::check()) {
 
         <!-- Right Section -->
         <div class="flex items-center gap-4">
-            {{-- Language Switch
-            <div x-data="{ openLang: false }" class="relative">
-                <button @click="openLang = !openLang" @click.away="openLang = false"
-                    class="text-sm font-medium px-2 py-1">
-                    {{ app()->getLocale() === 'ar' ? 'AR' : 'EN' }}
-                </button>
-
-                <div x-show="openLang" x-transition x-cloak
-                    class="absolute right-0 mt-1 w-24 bg-white text-black shadow z-50">
-                    <a href="{{ route('lang.switch', 'en') }}"
-                        class="block px-3 py-1 text-sm hover:text-[#79131d]">EN</a>
-                    <a href="{{ route('lang.switch', 'ar') }}"
-                        class="block px-3 py-1 text-sm hover:text-[#79131d]">AR</a>
-                </div>
-            </div> --}}
-            {{--
-            @if (Auth::check())
-                <a href="{{ route('notifications.index') }}" class="relative inline-block">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-700 hover:text-gray-900"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C8.67 6.165 8 7.388 8 9v5.159c0 .538-.214 1.055-.595 1.436L6 17h5m4 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                    </svg>
-
-                </a>
-            @endif --}}
-
-            {{-- Company Profile Link --}}
-            {{-- <a href="
-            https://profile.oxford-cis.com/"
-                class="px-4 py-2 text-white bg-[#79131d] rounded-md hover:bg-[#5a0e16] transition">
-                Profile
-            </a> --}}
-
-            {{-- User Auth Menu --}}
-
             @auth
 
                 <div class="relative mr-4">
@@ -126,6 +89,9 @@ if (Auth::check()) {
 
                     <div x-show="open" x-transition x-cloak
                         class="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg z-50">
+                        <a href="{{ route('login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
+                            الدخول
+                        </a>
                         <a href="{{ route('teacher.login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
                             الدخول
                             معلم</a>

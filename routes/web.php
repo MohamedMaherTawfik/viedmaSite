@@ -7,6 +7,7 @@ use App\Http\Controllers\adminstrator\adminController;
 use App\Http\Controllers\home\ClickPayController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Middleware\parentMiddleware;
+use App\Http\Middleware\superAdminMiddleware;
 use App\Http\Middleware\teacherMiddleware;
 use App\Http\Middleware\trainerMiddleware;
 use App\Http\Middleware\VerifyCsrfToken;
@@ -15,7 +16,7 @@ use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\public\AuthController as PublicAuthController;
 use App\Http\Middleware\CheckAdmin;
-
+use App\Http\Controllers\adminstrator\adminController as AdminstratorController;
 
 
 Route::get('lang/{locale}', function ($locale) {
@@ -217,17 +218,24 @@ Route::match(['get', 'post'], '/pay/fail/done', function () {
 })->name('pay.fail')->middleware('auth', VerifyCsrfToken::class);
 
 Route::prefix('admin')->group(function () {
-    Route::get('/login', [adminController::class, 'login'])->name('admin.login');
-    Route::post('/login', [adminController::class, 'storeLogin'])->name('admin.login.store');
-    Route::get('/dashboard', [adminController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/schools', [adminController::class, 'schools'])->name('admin.schools.index');
-    Route::get('/schools/create', [adminController::class, 'createSchool'])->name('admin.schools.create');
-    Route::post('/schools', [adminController::class, 'storeSchool'])->name('admin.schools.store');
-    Route::get('/schools/{school}', [adminController::class, 'showSchool'])->name('admin.schools.show');
-    Route::get('/schools/{school}/teachers', [adminController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
-    Route::get('/trainers', [adminController::class, 'trainers'])->name('admin.trainers.index');
-    Route::get('/settings', [adminController::class, 'settings'])->name('admin.settings.index');
-    Route::post('/settings/user', [adminController::class, 'updateUser'])->name('admin.settings.user.update');
-    Route::post('/settings/password', [adminController::class, 'updatePassword'])->name('admin.settings.password.update');
-
+    Route::get('/login', [AdminstratorController::class, 'login'])->name('admin.login');
+    Route::post('/login', [AdminstratorController::class, 'storeLogin'])->name('admin.login.store');
 });
+
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminstratorController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/games', [AdminstratorController::class, 'games'])->name('admin.games.index');
+    Route::get('/games/create', [AdminstratorController::class, 'createGame'])->name('admin.games.create');
+    Route::post('/games', [AdminstratorController::class, 'storeGame'])->name('admin.games.store');
+    Route::get('/games/{game}', [AdminstratorController::class, 'showGame'])->name('admin.games.show');
+    Route::delete('/games/{game}', [AdminstratorController::class, 'deleteGame'])->name('admin.games.delete');
+    Route::get('/schools', [AdminstratorController::class, 'schools'])->name('admin.schools.index');
+    Route::get('/schools/create', [AdminstratorController::class, 'createSchool'])->name('admin.schools.create');
+    Route::post('/schools', [AdminstratorController::class, 'storeSchool'])->name('admin.schools.store');
+    Route::get('/schools/{school}', [AdminstratorController::class, 'showSchool'])->name('admin.schools.show');
+    Route::get('/schools/{school}/teachers', [AdminstratorController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
+    Route::get('/trainers', [AdminstratorController::class, 'trainers'])->name('admin.trainers.index');
+    Route::get('/settings', [AdminstratorController::class, 'settings'])->name('admin.settings.index');
+    Route::post('/settings/user', [AdminstratorController::class, 'updateUser'])->name('admin.settings.user.update');
+    Route::post('/settings/password', [AdminstratorController::class, 'updatePassword'])->name('admin.settings.password.update');
+})->middleware(superAdminMiddleware::class);

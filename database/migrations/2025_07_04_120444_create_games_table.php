@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('title')->unique();
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->double('price');
             $table->double('discount')->default(0);
             $table->string('release_date')->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration {
             $table->string('platform')->nullable();
             $table->string('trailer_url')->nullable();
             $table->integer('stock')->default(0);
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(true);
             $table->string('slug');
             $table->timestamps();
         });

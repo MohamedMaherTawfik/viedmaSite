@@ -25,7 +25,7 @@ class schoolRequest extends FormRequest
         return [
             'school_name' => 'required|string|max:255|unique:schools,name',
             'type' => 'required|string|max:255',
-            'License_number' => 'required|string|max:255',
+            'license_number' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
