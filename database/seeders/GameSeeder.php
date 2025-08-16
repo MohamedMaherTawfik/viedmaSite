@@ -27,7 +27,7 @@ class GameSeeder extends Seeder
                 'discount' => rand(0, 50),
                 'release_date' => Carbon::now()->subDays(rand(10, 100)),
                 'developer_name' => "Dev Studio $i",
-                'cover_image' => "games/game.png",
+                'cover_image' => "games/game" . rand(1, 2) . ".png",
                 'platform' => $platforms[array_rand($platforms)],
                 'trailer_url' => "https://example.com/trailer/$i",
                 'stock' => rand(10, 100),
