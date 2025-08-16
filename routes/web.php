@@ -232,7 +232,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/schools', [AdminstratorController::class, 'schools'])->name('admin.schools.index');
     Route::get('/schools/create', [AdminstratorController::class, 'createSchool'])->name('admin.schools.create');
     Route::post('/schools', [AdminstratorController::class, 'storeSchool'])->name('admin.schools.store');
-    Route::get('/schools/{school}', [AdminstratorController::class, 'showSchool'])->name('admin.schools.show');
+    Route::get('/schools/{school}/show', [AdminstratorController::class, 'showSchool'])->name('admin.schools.show');
+    Route::get('/schools/{school}/show/{user}', [AdminstratorController::class, 'editUser'])->name('admin.schools.user.edit');
+    Route::post('/schools/{school}/edit/{user}', [AdminstratorController::class, 'updateSchoolUser'])->name('admin.schools.user.update');
+    Route::delete('/schools/{school}/delete/{user}', [AdminstratorController::class, 'deleteUser'])->name('admin.schools.user.delete');
+    Route::get('/schools/{school}/edit', [AdminstratorController::class, 'editSchool'])->name('admin.schools.edit');
+    Route::post('/schools/{school}/edit', [AdminstratorController::class, 'updateSchool'])->name('admin.schools.update');
+    Route::delete('/schools/{school}/delete', [AdminstratorController::class, 'deleteSchool'])->name('admin.schools.destroy');
     Route::get('/schools/{school}/teachers', [AdminstratorController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
     Route::get('/trainers', [AdminstratorController::class, 'trainers'])->name('admin.trainers.index');
     Route::get('/settings', [AdminstratorController::class, 'settings'])->name('admin.settings.index');

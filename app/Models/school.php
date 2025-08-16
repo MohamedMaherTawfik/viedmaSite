@@ -19,4 +19,9 @@ class school extends Model
     {
         return $this->hasMany(student::class);
     }
+
+    public function admin()
+    {
+        return $this->hasOne(User::class, 'school_id')->where('role', 'admin');
+    }
 }

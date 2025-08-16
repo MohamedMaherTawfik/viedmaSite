@@ -61,19 +61,39 @@
                             @forelse ($schools as $school)
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-4 py-2 border text-center">{{ $school->name }}</td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->user->first()->email }}</td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->user->first()->name }}</td>
+                                    <td class="px-4 py-2 border text-center">{{ $school->admin?->email ?? 'No admin' }}
+                                    </td>
+                                    <td class="px-4 py-2 border text-center">{{ $school->admin?->name ?? 'No admin' }}
+                                    </td>
                                     <td class="px-4 py-2 border text-center">{{ $school->address }}</td>
                                     <td class="px-4 py-2 border text-center">{{ $school->city }}</td>
                                     <td class="px-4 py-2 border text-center">{{ $school->License_number }}</td>
                                     <td class="px-4 py-2 border text-center">{{ $school->type }}</td>
-                                    <td class="px-4 py-2 text-center">
+                                    <td class="px-4 py-2 text-center flex items-center justify-center gap-3">
+
+                                        {{-- Show --}}
                                         <a href="{{ route('admin.schools.show', $school) }}"
                                             class="text-blue-500 hover:text-blue-700">
                                             <i class="fas fa-eye text-lg"></i>
                                         </a>
-                                    </td>
 
+                                        {{-- Edit --}}
+                                        <a href="{{ route('admin.schools.edit', $school) }}"
+                                            class="text-green-500 hover:text-green-700">
+                                            <i class="fas fa-edit text-lg"></i>
+                                        </a>
+
+                                        {{-- Delete --}}
+                                        <form action="{{ route('admin.schools.destroy', $school) }}" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this school?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:text-red-700">
+                                                <i class="fas fa-trash text-lg"></i>
+                                            </button>
+                                        </form>
+
+                                    </td>
 
                                 </tr>
                             @empty

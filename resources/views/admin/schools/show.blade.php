@@ -41,8 +41,8 @@
                             <th class="px-4 py-2 text-center">اسم المستخدم</th>
                             <th class="px-4 py-2 text-center">الدور</th>
                             <th class="px-4 py-2 text-center">البريد الإلكتروني</th>
-                            <th class="px-4 py-2 text-center">النوع</th>
-                            <th class="px-4 py-2 text-center">رقم الترخيص</th>
+                            <th class="px-4 py-2 text-center">رقم التلفون</th>
+                            <th class="px-4 py-2 text-center">العمليات</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,8 +52,28 @@
                                 <td class="px-4 py-2 text-center">{{ $user->name }}</td>
                                 <td class="px-4 py-2 text-center">{{ $user->role }}</td>
                                 <td class="px-4 py-2 text-center">{{ $user->email }}</td>
-                                <td class="px-4 py-2 text-center">{{ $school->type }}</td>
-                                <td class="px-4 py-2 text-center">{{ $school->License_number }}</td>
+                                <td class="px-4 py-2 text-center">{{ $user->phone }}</td>
+                                <td class="px-4 py-2 text-center flex items-center justify-center gap-3">
+
+                                    {{-- Edit --}}
+                                    <a href="{{ route('admin.schools.user.edit', ['school' => $school, 'user' => $user]) }}"
+                                        class="text-green-500 hover:text-green-700">
+                                        <i class="fas fa-edit text-lg"></i>
+                                    </a>
+
+                                    {{-- Delete --}}
+                                    <form
+                                        action="{{ route('admin.schools.user.delete', ['school' => $school, 'user' => $user]) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this school?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:text-red-700">
+                                            <i class="fas fa-trash text-lg"></i>
+                                        </button>
+                                    </form>
+
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

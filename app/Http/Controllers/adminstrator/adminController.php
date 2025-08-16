@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\adminLoginRequest;
 use App\Http\Requests\GameRequest;
 use App\Http\Requests\schoolRequest;
+use App\Http\Requests\schoolUpdateRequest;
+use App\Http\Requests\userUpdateRequest;
 use App\Models\games;
 use App\Models\school;
 use App\Models\student;
@@ -40,6 +42,7 @@ class adminController extends Controller
         $teachersCount = User::where('role', 'teacher')->count();
         $trainersCount = User::where('role', 'trainer')->count();
         $studentsCount = student::count();
+
         return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount'));
     }
 
@@ -79,8 +82,7 @@ class adminController extends Controller
 
     public function schools()
     {
-        $schools = school::with('user')->get();
-        // dd($schools);
+        $schools = school::with('admin')->get();
         return view('admin.schools.index', compact('schools'));
     }
 
@@ -116,6 +118,26 @@ class adminController extends Controller
     {
         $school->load('user');
         return view('admin.schools.show', compact('school'));
+    }
+
+    public function editSchool(school $school)
+    {
+        $school->load('admin');
+        return view('admin.schools.edit', compact('school'));
+    }
+
+    public function updateSchool(schoolUpdateRequest $request, school $school)
+    {
+        $validated = $request->validated();
+        $validated['slug'] = Str::slug($validated['name']) . '-' . time();
+        $school->update($validated);
+        return redirect()->route('admin.schools.index')->with('success', 'School updated successfully');
+    }
+
+    public function deleteSchool(school $school)
+    {
+        $school->delete();
+        return redirect()->route('admin.schools.index')->with('success', 'School deleted successfully');
     }
 
     public function SchoolTeachers(school $school)
@@ -172,6 +194,25 @@ class adminController extends Controller
 
         return back()->with('success', 'تم تغيير كلمة المرور بنجاح.');
     }
+
+    public function editUser(school $school, User $user)
+    {
+        return view('admin.user.edit', compact('user', 'school'));
+    }
+
+    public function updateSchoolUser(userUpdateRequest $request, school $school, User $user)
+    {
+        $validated = $request->validated();
+        $user->update($validated);
+        return redirect()->back()->with('success', 'User updated successfully');
+    }
+
+    public function deleteUser(school $school, User $user)
+    {
+        $user->delete();
+        return redirect()->back()->with('success', 'User deleted successfully.');
+    }
+
 
 
 }
