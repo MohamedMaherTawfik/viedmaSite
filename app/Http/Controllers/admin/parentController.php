@@ -44,6 +44,13 @@ class parentController extends Controller
         ]);
 
         Auth::login($user);
+        $cart = cart::where('user_id', Auth::id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
+
         return view('parentDashboard.auth.parentApllied')->with('success', 'Parent registered successfully!');
     }
 
@@ -59,6 +66,12 @@ class parentController extends Controller
         if (Auth::attempt($credentials)) {
             $parent = Auth::user();
             if ($parent->role == 'parent' && $parent->applyTeacher->status == 'accepted') {
+                $cart = cart::where('user_id', Auth::id())->first();
+                if (!$cart) {
+                    $cart = cart::create([
+                        'user_id' => Auth::id(),
+                    ]);
+                }
                 return view('parentDashboard.index')->with('success', 'Logged in successfully!');
             }
             return view('welcome')->with('success', 'Logged in successfully!');

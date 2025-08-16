@@ -13,6 +13,7 @@ use App\Http\Requests\reportRequest;
 use App\Http\Requests\userRequest;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
+use App\Models\cart;
 use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
@@ -55,7 +56,12 @@ class trainerController extends Controller
         ]);
 
         Auth::login($user);
-
+        $cart = cart::where('user_id', Auth::id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
 
         return view('trainerDashboard.auth.trainerApplied')->with('success', 'Registration successful! Please apply to become a teacher.');
     }
@@ -70,6 +76,12 @@ class trainerController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::user()->role == 'trainer' && Auth::user()->applyTeacher->status == 'accepted') {
+                $cart = cart::where('user_id', Auth::id())->first();
+                if (!$cart) {
+                    $cart = cart::create([
+                        'user_id' => Auth::id(),
+                    ]);
+                }
                 request()->session()->regenerate();
                 return redirect()->route('trainerDashboard');
             }

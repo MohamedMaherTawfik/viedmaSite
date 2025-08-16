@@ -8,6 +8,7 @@ use App\Http\Requests\GameRequest;
 use App\Http\Requests\schoolRequest;
 use App\Http\Requests\schoolUpdateRequest;
 use App\Http\Requests\userUpdateRequest;
+use App\Models\cart;
 use App\Models\games;
 use App\Models\school;
 use App\Models\student;
@@ -29,6 +30,12 @@ class adminController extends Controller
         $validated = $request->validated();
 
         if (Auth()->attempt($validated)) {
+            $cart = cart::where('user_id', Auth::id())->first();
+            if (!$cart) {
+                $cart = cart::create([
+                    'user_id' => Auth::id(),
+                ]);
+            }
             return redirect()->route('admin.dashboard');
         }
 

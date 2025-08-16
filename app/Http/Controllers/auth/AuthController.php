@@ -4,6 +4,7 @@ namespace App\Http\Controllers\auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\userRequest;
+use App\Models\cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -26,6 +27,12 @@ class AuthController extends Controller
         $validatedData['role'] = 'teacher';
         $user = User::create($validatedData);
         Auth::login($user);
+        $cart = cart::where('user_id', Auth::id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
 
         return redirect()->route('dashboard')->with('success', 'Registration successful! Please apply to become a teacher.');
     }
@@ -40,6 +47,13 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            $cart = cart::where('user_id', Auth::id())->first();
+            if (!$cart) {
+                $cart = cart::create([
+                    'user_id' => Auth::id(),
+                ]);
+            }
+
             request()->session()->regenerate();
             return redirect()->route('dashboard');
         }

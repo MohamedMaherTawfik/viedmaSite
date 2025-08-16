@@ -8,6 +8,7 @@ use App\Interfaces\CourseInterface;
 use App\Mail\TeacherAcceptedMail;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
+use App\Models\cart;
 use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\graduationProject;
@@ -62,7 +63,15 @@ class SuperAdminController extends Controller
             'role' => $validtedData['role'],
             'school_id' => $school->id,
         ]);
+
         Auth::login($user);
+        $cart = cart::where('user_id', Auth::id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
+
         return redirect()->route('school.dashboard', ['slug' => $school->slug])->with('success', 'School registered successfully');
     }
 
@@ -73,13 +82,20 @@ class SuperAdminController extends Controller
 
     public function loginSchool(Request $request)
     {
+
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             if ($user->role === 'admin') {
+                $cart = cart::where('user_id', Auth::id())->first();
+                if (!$cart) {
+                    $cart = cart::create([
+                        'user_id' => Auth::id(),
+                    ]);
+                }
                 return redirect()->route('school.dashboard', ['slug' => $user->school->slug]);
             } else {
-                return redirect()->route('schoolDashboard.index');
+                return redirect()->route('school.login')->withErrors(['email' => 'You are not an admin']);
             }
         }
         return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
