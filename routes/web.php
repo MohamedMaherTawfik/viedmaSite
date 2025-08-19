@@ -3,14 +3,14 @@
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
-use App\Http\Controllers\adminstrator\adminController;
 use App\Http\Controllers\home\ClickPayController;
+use App\Http\Controllers\home\ClickPayStoreController;
 use App\Http\Controllers\home\homeController;
+use App\Http\Controllers\home\schoolController;
 use App\Http\Middleware\parentMiddleware;
 use App\Http\Middleware\superAdminMiddleware;
 use App\Http\Middleware\teacherMiddleware;
 use App\Http\Middleware\trainerMiddleware;
-use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
 use App\Http\Controllers\auth\AuthController;
@@ -37,7 +37,6 @@ Route::group([], function () {
 
 Route::group([], function () {
     Route::get('/', [homeController::class, 'separate'])->name('choose');
-    Route::get('/diffent', [homeController::class, 'different'])->name('different');
     Route::get('/home/store', [homeController::class, 'index'])->name('home');
     Route::get('/about-us', [homeController::class, 'about'])->name('about');
     Route::get('/contact', [homeController::class, 'contact'])->name('contact');
@@ -50,6 +49,9 @@ Route::group([], function () {
     Route::delete('/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
     Route::post('/games/cart', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
     Route::post('/games/{game}', [homeController::class, 'addToCart'])->name('game.AddToCart')->middleware('auth');
+    Route::get('/schools', [schoolController::class, 'schools'])->name('schools');
+    Route::get('/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
+    Route::get('/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
 
 });
 
@@ -214,10 +216,10 @@ Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment']
 Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback')->middleware('auth');
 Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController::class, 'success'])
     ->name('pay.success')
-    ->middleware('auth', VerifyCsrfToken::class);
+    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {
     return view('payment.failed');
-})->name('pay.fail')->middleware('auth', VerifyCsrfToken::class);
+})->name('pay.fail')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminstratorController::class, 'login'])->name('admin.login');
@@ -247,3 +249,19 @@ Route::prefix('admin')->group(function () {
     Route::post('/settings/user', [AdminstratorController::class, 'updateUser'])->name('admin.settings.user.update');
     Route::post('/settings/password', [AdminstratorController::class, 'updatePassword'])->name('admin.settings.password.update');
 })->middleware(superAdminMiddleware::class);
+
+
+Route::get('/pay/{game}/form', [ClickPayStoreController::class, 'showPaymentForm'])->name('pay.form.store')->middleware('auth');
+Route::post('/pay/{game}/init', [ClickPayStoreController::class, 'initiatePayment'])->name('pay.initiate.store')->middleware('auth');
+Route::get('/pay/callback/{game}', [ClickPayStoreController::class, 'callback'])->name('pay.callback.store')->middleware('auth');
+Route::match(['get', 'post'], '/pay/success/done/{game}', [ClickPayStoreController::class, 'success'])
+    ->name('pay.success.store')
+    ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+Route::match(['get', 'post'], '/pay/fail/done', function () {
+    return view('payment.failed');
+})->name('pay.fail')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminstratorController::class, 'login'])->name('admin.login');
+    Route::post('/login', [AdminstratorController::class, 'storeLogin'])->name('admin.login.store');
+});

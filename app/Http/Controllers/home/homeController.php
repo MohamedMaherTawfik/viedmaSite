@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\cartRequest;
 use App\Models\cart;
 use App\Models\cartItems;
+use App\Models\Courses;
 use App\Models\games;
 use App\Models\orderdetails;
 use App\Models\orders;
+use App\Models\school;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +20,10 @@ class homeController extends Controller
 {
     public function separate()
     {
-        return view('home.separate');
-    }
-
-    public function different()
-    {
-        return view('home.different');
+        $users = User::count();
+        $courses = Courses::count();
+        $schools = school::count();
+        return view('home.separate', compact('users', 'courses', 'schools'));
     }
     public function index()
     {
@@ -49,13 +50,13 @@ class homeController extends Controller
 
     public function showGame(games $game)
     {
-        return view('home.singleGame', compact('game'));
+        return view('home..store.singleGame', compact('game'));
     }
 
     public function allGames()
     {
         $games = games::all();
-        return view('home.allGames', compact('games'));
+        return view('home.store.allGames', compact('games'));
     }
 
     public function addToCart(cartRequest $request, games $game)
@@ -114,7 +115,6 @@ class homeController extends Controller
         }
         return redirect()->route('home')->with('success', 'Order placed successfully!');
     }
-
     public function cart()
     {
         $cart = cart::where('user_id', Auth::id())->first();
@@ -124,7 +124,7 @@ class homeController extends Controller
             $total += $item->games->price * $item->quantity;
         }
         $cartCount = count($cartItems);
-        return view('home.cart', compact('cartItems', 'total', 'cartCount'));
+        return view('home.store.cart', compact('cartItems', 'total', 'cartCount'));
     }
     public function updateProfile()
     {

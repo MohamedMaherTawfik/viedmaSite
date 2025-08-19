@@ -16,7 +16,7 @@ if (Auth::check()) {
 
         <!-- Navigation Menu (Desktop) -->
         <nav class="hidden md:flex items-center gap-6 font-semibold text-gray-800">
-            <a href="/">الصفحه الرئيسيه</a>
+            <a href="{{ route('home') }}">الصفحه الرئيسيه</a>
 
 
 
