@@ -92,16 +92,10 @@ if (Auth::check()) {
                         <a href="{{ route('login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
                             الدخول
                         </a>
-                        <a href="{{ route('teacher.login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
-                            الدخول
-                            معلم</a>
-                        <a href="{{ route('trainer.login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
-                            الدخول
-                            ولي امر</a>
-                        <a href="{{ route('parent.login') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">تسجيل
-                            الدخول
-                            مدرب</a>
 
+                        <a href="{{ route('register') }}" class="block px-4 py-2 text-sm hover:text-[#79131d]">
+                            انشاء حساب
+                        </a>
                     </div>
                 </div>
             @endauth

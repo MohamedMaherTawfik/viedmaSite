@@ -15,6 +15,15 @@ use Illuminate\Support\Facades\Hash;
 
 class homeController extends Controller
 {
+    public function separate()
+    {
+        return view('home.separate');
+    }
+
+    public function different()
+    {
+        return view('home.different');
+    }
     public function index()
     {
         $games = games::all();

@@ -36,7 +36,9 @@ Route::group([], function () {
 });
 
 Route::group([], function () {
-    Route::get('/', [homeController::class, 'index'])->name('home');
+    Route::get('/', [homeController::class, 'separate'])->name('choose');
+    Route::get('/diffent', [homeController::class, 'different'])->name('different');
+    Route::get('/home/store', [homeController::class, 'index'])->name('home');
     Route::get('/about-us', [homeController::class, 'about'])->name('about');
     Route::get('/contact', [homeController::class, 'contact'])->name('contact');
     Route::get('/profile', [homeController::class, 'profile'])->name('profile');

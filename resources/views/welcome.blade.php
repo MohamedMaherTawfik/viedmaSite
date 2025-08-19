@@ -28,7 +28,7 @@
     <!-- Hero Section with <img> as Background -->
     <section class="py-20 relative ">
         <!-- الصورة كخلفية باستخدام <img> -->
-        <img src="{{ asset('images/game.avif') }}" alt="Game Background"
+        <img src="{{ asset('images/background.png') }}" alt="Game Background"
             class="absolute inset-0 w-full h-full object-cover object-center opacity-100">
 
         <!-- Overlay أزرق شفاف -->
@@ -37,14 +37,14 @@
         <!-- المحتوى (النص والزر) -->
         <div
             class="container mx-auto px-4 relative z-10 text-center md:text-right flex flex-col items-center justify-center h-full pt-20 pb-20">
-            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4 max-w-2xl leading-tight">
+            <h1 class="text-3xl md:text-4xl font-bold text-black mb-4 max-w-2xl leading-tight">
                 اكتشف مغامرتك القادمة في عالم الألعاب
             </h1>
-            <p class="text-lg text-white mb-8 max-w-xl">
+            <p class="text-lg text-black mb-8 max-w-xl">
                 استكشف عالمًا من الألعاب الممتعة والمُعدّة خصيصًا للمعلمين، الآباء، والمدربين.
             </p>
             <button
-                class="bg-gold hover:bg-yellow-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
+                class="bg-[#D60000AB] hover:bg-[#FF0000FF] text-black font-bold py-3 px-6 rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
                 ابدأ الآن
             </button>
         </div>
