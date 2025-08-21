@@ -223,9 +223,12 @@
                                 <i class="fas fa-graduation-cap"></i>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">منصة التعليم</h3>
-                        <p class="text-gray-600 text-center mb-6">استكشف دوراتنا التفاعلية ووسّع معرفتك بمختلف المجالات
-                            مع معلمين خبراء</p>
+                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">الذهاب إلى المدارس</h3>
+                        <p class="text-gray-600 text-center mb-6">
+                            تعرّف على المدارس المتاحة بالقرب منك، واستكشف تفاصيلها لتحديد الأنسب لرحلتك التعليمية.
+                        </p>
+
+                        مع معلمين خبراء</p>
                         <a href="{{ route('schools') }}"
                             class="block text-center bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
                             ابدأ التعلم الآن
