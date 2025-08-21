@@ -228,7 +228,6 @@
                             تعرّف على المدارس المتاحة بالقرب منك، واستكشف تفاصيلها لتحديد الأنسب لرحلتك التعليمية.
                         </p>
 
-                        مع معلمين خبراء</p>
                         <a href="{{ route('schools') }}"
                             class="block text-center bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
                             ابدأ التعلم الآن
