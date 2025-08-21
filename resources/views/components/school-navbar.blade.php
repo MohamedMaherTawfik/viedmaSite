@@ -32,14 +32,13 @@
         </nav>
 
         <!-- Right Section -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-center mr-10 gap-4">
             <!-- زرار company profile -->
             <a href="{{ asset('profile/profile.pdf') }}"
                 class="bg-[#1E40AFD2] hover:bg-[#1E40AF] text-white font-bold py-2 px-4 rounded-lg shadow">
                 our Profile
             </a>
-            @auth
-
+            {{-- @auth
                 <div class="relative mr-4">
                     <a href="{{ route('cart') }}" class="flex items-center text-gray-700 hover:text-[#79131d]">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -47,7 +46,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.6 8H19m-12 0a2 2 0 104 0m4 0a2 2 0 104 0" />
                         </svg>
-                        {{-- عدد العناصر في الكارت --}}
                         <span class="absolute -top-2 -right-2 bg-[#79131d] text-white text-xs rounded-full px-1">
                             {{ $cartitems }}
                         </span>
@@ -95,7 +93,7 @@
                         </a>
                     </div>
                 </div>
-            @endauth
+            @endauth --}}
         </div>
     </div>
 </header>

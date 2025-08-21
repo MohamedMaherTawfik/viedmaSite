@@ -263,9 +263,12 @@
                                 <i class="fas fa-school"></i>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">إدارة المدارس</h3>
-                        <p class="text-gray-600 text-center mb-6">نظام متكامل لإدارة المدارس وتتبع الطلاب وتسهيل
-                            التواصل مع أولياء الأمور</p>
+                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">تعليم و تطوير مدرسين</h3>
+                        <p class="text-gray-600 text-center mb-6">
+                            نوفر برامج تدريبية متخصصة،
+                            استخدام أحدث أساليب التدريس والتكنولوجيا في العملية التعليمية.
+                        </p>
+
                         <a href="#"
                             class="block text-center bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300">
                             اكتشف المزيد
