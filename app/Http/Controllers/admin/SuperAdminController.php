@@ -238,8 +238,23 @@ class SuperAdminController extends Controller
         // dd($request->all());
         $validatedData = $request->validated();
         $validatedData['slug'] = Str::slug($validatedData['name']);
-        $user = student::create($validatedData);
-        // dd($user);
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role' => 'student',
+            'school_id' => $validatedData['school_id'],
+
+        ]);
+        $student = student::create([
+            'me_id' => $user->id,
+            'name' => $validatedData['name'],
+            'national_id' => $validatedData['national_id'],
+            'nationallity' => $validatedData['nationallity'],
+            'Academic_stage' => $validatedData['Academic_stage'],
+            'school_id' => $validatedData['school_id'],
+            'parent_phone' => $validatedData['parent_phone'],
+        ]);
+
         return redirect()->route('school.students', request('slug'))->with('success', 'Student created successfully.');
     }
     /**

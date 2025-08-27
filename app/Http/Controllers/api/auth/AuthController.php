@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api\auth;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\userApiRequest;
 use App\Http\Requests\userEditRequest;
 use App\Mail\OtpMail;
@@ -23,22 +22,25 @@ class AuthController extends Controller
     {
         $fields = $request->validated();
         $fields['password'] = bcrypt($fields['password']);
-        $fields['photo'] = $request->file('photo')->store('photos', 'public');
-
+        if ($request->hasFile('photo')) {
+            $fields['photo'] = $request->file('photo')->store('photos', 'public');
+        }
         $otp = rand(100000, 999999);
 
         $user = User::create([
+            'school_id' => $fields['school_id'],
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => $fields['password'],
             'role' => $fields['role'],
-            'photo' => $fields['photo'],
+            'photo' => $fields['photo'] ?? null,
+            'phone' => $fields['phone'] ?? null,
             'otp' => $otp,
             'otp_expires_at' => now()->addMinutes(10),
             'is_verified' => false
         ]);
 
-        if ($user->role === 'teacher') {
+        if ($user->role === 'trainer') {
             $fields['cv'] = $request->file('cv')->store('CVs', 'public');
             $fields['certificate'] = $request->file('certificate')->store('certificatess', 'public');
 
@@ -108,15 +110,12 @@ class AuthController extends Controller
 
     public function profile()
     {
-        $user = Auth::user()->load('course');
-        $enrollment = Enrollments::with('course')->where('user_id', $user->id)->where('enrolled', 'yes')->pluck('courses_id');
-        $courses = Courses::whereIn('id', $enrollment)->get();
+        $user = Auth::user();
         return response()->json(
             [
                 'status' => 'success',
                 'message' => 'Profile',
                 'data' => $user,
-                'courses' => $courses,
             ]
         );
 
@@ -157,10 +156,5 @@ class AuthController extends Controller
             return $this->unauthorized(__('messages.Error_update_profile'));
         }
         return $this->success($user, __('messages.update_profile'));
-    }
-
-    public function userNotifications()
-    {
-        $user = User::with('notifications')->find(Auth::guard('api')->id());
     }
 }
