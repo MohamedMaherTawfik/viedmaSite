@@ -66,13 +66,19 @@ class AuthController extends Controller
             'otp' => 'required|digits:6',
         ]);
 
-        $user = User::where('email', $request->email)
-            ->where('otp', $request->otp)
-            ->where('otp_expires_at', '>=', now())
-            ->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
-            return response()->json(['message' => 'Invalid or expired OTP'], 422);
+            return response()->json(['message' => 'User not found'], 404);
+        }
+
+        if ($user->otp_expires_at < now()) {
+            $user->delete();
+            return response()->json(['message' => 'OTP expired. User has been deleted.'], 422);
+        }
+
+        if ($user->otp !== $request->otp) {
+            return response()->json(['message' => 'Invalid OTP'], 422);
         }
 
         $user->is_verified = true;
@@ -90,8 +96,6 @@ class AuthController extends Controller
             'user' => $user->load('applyTeacher'),
         ]);
     }
-
-
 
     public function login()
     {
