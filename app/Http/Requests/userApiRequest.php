@@ -24,7 +24,7 @@ class userApiRequest extends FormRequest
         return [
             'school_id' => 'required|exists:schools,id',
             'name' => 'required|string|min:3',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|min:8',
             'topics' => 'nullable|string',
