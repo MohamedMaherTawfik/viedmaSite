@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\api_key;
 use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->api(api_key::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

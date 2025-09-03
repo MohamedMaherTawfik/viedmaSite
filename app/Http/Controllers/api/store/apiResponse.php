@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\api\student;
+namespace App\Http\Controllers\api\store;
 
 use Illuminate\Http\JsonResponse;
 

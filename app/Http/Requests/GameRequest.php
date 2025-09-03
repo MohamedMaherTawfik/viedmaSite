@@ -32,7 +32,7 @@ class GameRequest extends FormRequest
             'trailer_url' => 'nullable',
             'stock' => 'nullable',
             'discount' => 'nullable',
-            'user_id' => 'required',
+            'user_id' => 'nullable',
         ];
     }
 }

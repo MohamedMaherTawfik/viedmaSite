@@ -7,6 +7,7 @@ use App\Http\Requests\userApiRequest;
 use App\Http\Requests\userEditRequest;
 use App\Mail\OtpMail;
 use App\Models\applyTeacher;
+use App\Models\cart;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\User;
@@ -87,7 +88,12 @@ class AuthController extends Controller
         $user->save();
 
         $token = Auth::guard('api')->login($user);
-
+        $cart = cart::where('user_id', auth()->id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => auth()->id(),
+            ]);
+        }
         return response()->json([
             'message' => 'Account verified successfully.',
             'access_token' => $token,
@@ -101,7 +107,12 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
         $token = Auth::guard('api')->attempt($credentials);
-
+        $cart = cart::where('user_id', auth()->id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => auth()->id(),
+            ]);
+        }
         if (!$token) {
             return $this->unauthorized(__('messages.Error_login'));
         }

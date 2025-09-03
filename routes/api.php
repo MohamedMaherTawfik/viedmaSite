@@ -1,12 +1,8 @@
 <?php
 use App\Http\Controllers\api\auth\AuthController;
-use App\Http\Controllers\api\student\categoreyController;
-use App\Http\Controllers\api\student\commentController;
-use App\Http\Controllers\api\student\CourseController;
-use App\Http\Controllers\api\student\enrollmentController;
-use App\Http\Controllers\api\student\lessonController;
-use App\Http\Middleware\api\ownComment;
-use App\Http\Middleware\courseMiddleware;
+use App\Http\Controllers\api\store\cartController;
+use App\Http\Controllers\api\store\GamesController;
+use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -22,74 +18,27 @@ Route::group([
     Route::post('/updateProfile', [AuthController::class, 'updateProfile'])->middleware('jwt.auth');
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'categorey'
-], function () {
-    Route::controller(categoreyController::class)->group(
-        function () {
-            Route::get('/all', 'allCategories');
-            Route::get('/detail/{id}', 'singleCategorey');
-            Route::post('/create', 'createCategory');
-            Route::post('/update/{id}', 'updateCategory');
-            Route::delete('/delete/{id}', 'deleteCategory');
-        }
-    );
-});
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'course',
+    'prefix' => 'games'
 ], function () {
-    Route::controller(CourseController::class)->group(
-        function () {
-            Route::get('/all', 'allCourses');
-            Route::get('/detail/{id}', 'courseDetail');
-            Route::post('/create', 'createCourse');
-            Route::get('/search', 'searchCourses');
-            Route::post('/update/{id}', 'updateCourse')->middleware(courseMiddleware::class);
-            Route::delete('/delete/{id}', 'deleteCourse')->middleware(courseMiddleware::class);
-        }
-    );
+    Route::get('/allGames', [GamesController::class, 'allGames']);
+    Route::get('/showGame/{id}', [GamesController::class, 'showGame']);
+    Route::post('/createGame', [GamesController::class, 'createGames'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::post('/updateGame/{id}', [GamesController::class, 'updateGame'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::delete('/deleteGame/{id}', [GamesController::class, 'deleteGame'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::post('/searchforGame', [GamesController::class, 'searchforGame']);
 });
+
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'lesson',
+    'prefix' => 'cart'
 ], function () {
-    Route::controller(lessonController::class)->group(
-        function () {
-            Route::get('/all/{id}', 'allLessons');
-            Route::get('/detail/{id}', 'lessonDetails');
-            Route::post('/{id}/create', 'createLesson');
-            Route::post('/update/{id}', 'updateLesson');
-            Route::delete('/delete/{id}', 'deleteLesson');
-        }
-    );
-});
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'comment',
-], function () {
-    Route::controller(commentController::class)->group(
-        function () {
-            Route::post('/add/{lessonId}', 'addComment')->middleware('jwt.auth');
-            Route::get('/all/{lessonId}', 'allComments');
-            Route::post('/update/{id}', 'updateComment')->middleware('jwt.auth', ownComment::class);
-            Route::delete('/delete/{id}', 'deleteComment')->middleware('jwt.auth', ownComment::class);
-        }
-    );
-});
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'enrollment',
-], function () {
-    Route::controller(enrollmentController::class)->group(
-        function () {
-            Route::get('/all/{courseId}', 'allEnrollments');
-            Route::post('/enroll/{courseId}', 'enrollCourse')->middleware('jwt.auth');
-        }
-    );
+    Route::post('/createCart', [cartController::class, 'createCart'])->middleware('jwt.auth');
+    Route::post('/addToCart/{id}', [cartController::class, 'addToCart'])->middleware('jwt.auth');
+    Route::post('/updateCart/{id}', [cartController::class, 'updateCart'])->middleware('jwt.auth');
+    Route::get('/getCart', [cartController::class, 'getCart'])->middleware('jwt.auth');
+    Route::delete('/removeFromCart/{id}', [cartController::class, 'removeFromCart'])->middleware('jwt.auth');
 });
