@@ -2,6 +2,7 @@
 use App\Http\Controllers\api\auth\AuthController;
 use App\Http\Controllers\api\store\cartController;
 use App\Http\Controllers\api\store\GamesController;
+use App\Http\Controllers\api\store\orderController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +42,15 @@ Route::group([
     Route::post('/updateCart/{id}', [cartController::class, 'updateCart'])->middleware('jwt.auth');
     Route::get('/getCart', [cartController::class, 'getCart'])->middleware('jwt.auth');
     Route::delete('/removeFromCart/{id}', [cartController::class, 'removeFromCart'])->middleware('jwt.auth');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'orders'
+], function () {
+    Route::get('/allOrders', [orderController::class, 'allOrders'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::post('/createOrder', [orderController::class, 'createOrder'])->middleware('jwt.auth');
+    Route::get('/getOrders', [orderController::class, 'getOrders'])->middleware('jwt.auth');
+    Route::get('/getOrder/{id}', [orderController::class, 'getOrder'])->middleware('jwt.auth');
+    Route::delete('/deleteOrder/{id}', [orderController::class, 'deleteOrder'])->middleware('jwt.auth');
 });

@@ -88,7 +88,7 @@ class AuthController extends Controller
         $user->save();
 
         $token = Auth::guard('api')->login($user);
-        $cart = cart::where('user_id', auth()->id())->first();
+        $cart = cart::where('user_id', Auth::guard('api')->id())->first();
         if (!$cart) {
             $cart = cart::create([
                 'user_id' => auth()->id(),
@@ -107,7 +107,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
         $token = Auth::guard('api')->attempt($credentials);
-        $cart = cart::where('user_id', auth()->id())->first();
+        $cart = cart::where('user_id', Auth::guard('api')->id())->first();
         if (!$cart) {
             $cart = cart::create([
                 'user_id' => auth()->id(),
