@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\api\school;
 
-use App\Http\Controllers\api\store\ApiResponse;
+use App\Http\Controllers\api\store\apiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\schoolRequest;
 use App\Models\school;
