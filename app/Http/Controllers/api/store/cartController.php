@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class cartController extends Controller
 {
-    use ApiResponse;
+    use apiResponse;
 
     public function createCart()
     {

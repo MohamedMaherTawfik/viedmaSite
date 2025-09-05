@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class GamesController extends Controller
 {
-    use ApiResponse;
+    use apiResponse;
     public function allGames()
     {
         $games = games::paginate(10);
