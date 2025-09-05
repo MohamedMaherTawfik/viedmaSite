@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class orderController extends Controller
 {
-    use ApiResponse;
+    use apiResponse;
 
     public function allOrders()
     {

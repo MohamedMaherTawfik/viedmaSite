@@ -15,7 +15,7 @@ class SchoolsController extends Controller
     use ApiResponse;
     public function allSchools()
     {
-        $schools = school::paginate(5);
+        $schools = school::get();
         if (!$schools) {
             return $this->noContent();
         }
