@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\api\auth\AuthController;
+use App\Http\Controllers\api\school\SchoolsController;
 use App\Http\Controllers\api\store\cartController;
 use App\Http\Controllers\api\store\GamesController;
 use App\Http\Controllers\api\store\orderController;
@@ -18,6 +19,18 @@ Route::group([
     Route::post('/profile', [AuthController::class, 'profile'])->middleware('jwt.auth');
     Route::post('/updateProfile', [AuthController::class, 'updateProfile'])->middleware('jwt.auth');
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'school'
+], function () {
+    Route::get('/allSchools', [SchoolsController::class, 'allSchools']);
+    Route::get('/singleSchool/{id}', [SchoolsController::class, 'singleSchool']);
+    Route::post('/createSchool', [SchoolsController::class, 'createSchool'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::post('/updateSchool/{id}', [SchoolsController::class, 'updateSchool'])->middleware('jwt.auth', AdminMiddleware::class);
+    Route::delete('/deleteSchool/{id}', [SchoolsController::class, 'deleteSchool'])->middleware('jwt.auth', AdminMiddleware::class);
+});
+
 
 
 Route::group([
