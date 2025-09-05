@@ -26,10 +26,11 @@ class SchoolsController extends Controller
     public function singleSchool()
     {
         $school = school::find(request('id'));
+        $users = User::where('school_id', $school->id)->get();
         if (!$school) {
             return $this->notFound('School not found');
         }
-        return $this->success($school);
+        return $this->success(['school' => $school, 'users' => $users]);
     }
 
     public function createSchool(schoolRequest $request)
