@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 class SchoolsController extends Controller
 {
     use ApiResponse;
-
     public function allSchools()
     {
         $schools = school::paginate(5);
