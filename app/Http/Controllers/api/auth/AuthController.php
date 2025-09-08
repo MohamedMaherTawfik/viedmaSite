@@ -106,21 +106,25 @@ class AuthController extends Controller
     public function login()
     {
         $credentials = request(['email', 'password']);
+
         $token = Auth::guard('api')->attempt($credentials);
-        $cart = cart::where('user_id', Auth::guard('api')->id())->first();
-        if (!$cart) {
-            $cart = cart::create([
-                'user_id' => auth()->id(),
-            ]);
-        }
+
         if (!$token) {
             return $this->unauthorized(__('messages.Error_login'));
         }
+        $userId = Auth::guard('api')->id();
 
+        $cart = cart::where('user_id', $userId)->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => $userId,
+            ]);
+        }
         $success = $this->respondWithToken($token);
 
         return $this->success($success->original, __('messages.login'));
     }
+
 
 
     public function profile()
