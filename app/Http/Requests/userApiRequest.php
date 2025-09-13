@@ -28,7 +28,7 @@ class userApiRequest extends FormRequest
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|min:8',
             'topics' => 'nullable|string',
-            'role' => 'required|string|in:student,teacher,parent,trainer,user',
+            'role' => 'required|string|in:student,teacher,parent,trainer,user,admin',
             'cv' => 'nullable',
             'certificate' => 'nullable',
         ];
