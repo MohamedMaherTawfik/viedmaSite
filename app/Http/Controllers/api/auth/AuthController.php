@@ -29,7 +29,7 @@ class AuthController extends Controller
         $otp = rand(100000, 999999);
 
         $user = User::create([
-            'school_id' => $fields['school_id'],
+            'school_id' => $fields['school_id'] ?? null,
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => $fields['password'],
