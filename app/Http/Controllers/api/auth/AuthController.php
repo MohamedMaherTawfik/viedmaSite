@@ -125,8 +125,6 @@ class AuthController extends Controller
         return $this->success($success->original, __('messages.login'));
     }
 
-
-
     public function profile()
     {
         $user = Auth::user();

@@ -22,7 +22,7 @@ class userApiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'school_id' => 'required|exists:schools,id',
+            'school_id' => 'nullable|exists:schools,id',
             'name' => 'required|string|min:3',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
