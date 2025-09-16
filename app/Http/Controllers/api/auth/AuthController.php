@@ -88,12 +88,14 @@ class AuthController extends Controller
         $user->save();
 
         $token = Auth::guard('api')->login($user);
-        $cart = cart::where('user_id', Auth::guard('api')->id())->first();
+
+        $cart = cart::where('user_id', $user->id)->first();
         if (!$cart) {
             $cart = cart::create([
-                'user_id' => auth()->id(),
+                'user_id' => $user->id,
             ]);
         }
+
         return response()->json([
             'message' => 'Account verified successfully.',
             'access_token' => $token,
@@ -101,6 +103,7 @@ class AuthController extends Controller
             'expires_in' => Auth::guard('api')->factory()->getTTL() * 60,
             'user' => $user->load('applyTeacher'),
         ]);
+
     }
 
     public function login()
