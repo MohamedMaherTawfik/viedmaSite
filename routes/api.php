@@ -1,10 +1,13 @@
 <?php
 use App\Http\Controllers\api\auth\AuthController;
+use App\Http\Controllers\api\school\ActivitesController;
 use App\Http\Controllers\api\school\SchoolsController;
+use App\Http\Controllers\api\school\TeacherController;
 use App\Http\Controllers\api\store\cartController;
 use App\Http\Controllers\api\store\GamesController;
 use App\Http\Controllers\api\store\orderController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\teacherMiddelware;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -66,4 +69,35 @@ Route::group([
     Route::get('/getOrders', [orderController::class, 'getOrders'])->middleware('jwt.auth');
     Route::get('/getOrder/{id}', [orderController::class, 'getOrder'])->middleware('jwt.auth');
     Route::delete('/deleteOrder/{id}', [orderController::class, 'deleteOrder'])->middleware('jwt.auth');
+});
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'Activites'
+], function () {
+    Route::post('/activity/all', [ActivitesController::class, 'getActivity']);
+    Route::post('/activity/create', [ActivitesController::class, 'createActivity']);
+    Route::post('/activity/update/{id}', [ActivitesController::class, 'updateActivity']);
+    Route::delete('/activity/delete/{id}', [ActivitesController::class, 'deleteActivity']);
+
+    Route::post('/behaviour/create', [ActivitesController::class, 'createbehaviour']);
+    Route::post('/behaviour/update/{id}', [ActivitesController::class, 'updatebehaviour']);
+    Route::delete('/behaviour/delete/{id}', [ActivitesController::class, 'deletebehaviour']);
+
+    Route::post('/interaction/create', [ActivitesController::class, 'createinteraction']);
+    Route::post('/interaction/update/{id}', [ActivitesController::class, 'updateinteraction']);
+    Route::delete('/interaction/delete/{id}', [ActivitesController::class, 'deleteinteraction']);
+});
+
+
+Route::group([
+    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class],
+    'prefix' => 'teacher'
+], function () {
+    Route::get('/user/all', [TeacherController::class, 'allUsers']);
+    Route::get('/user/single/{id}', [TeacherController::class, 'getUser']);
+    Route::post('/user/create', [TeacherController::class, 'createUser']);
+    Route::post('/user/update/{id}', [TeacherController::class, 'updateUser']);
+    Route::delete('/user/delete/{id}', [TeacherController::class, 'deleteUser']);
 });
