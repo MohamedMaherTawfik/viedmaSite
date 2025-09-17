@@ -15,14 +15,14 @@ class TeacherController extends Controller
 
     public function allUsers()
     {
-        $users = User::where('role', 'student')->where('school_id', auth()->user()->school_id)->get();
+        $users = User::with('student')->where('role', 'student')->where('school_id', auth()->user()->school_id)->get();
 
         return $this->success($users, 'all users');
     }
 
     public function getUser()
     {
-        $user = User::where('id', request('id'))->first();
+        $user = User::with('student')->where('id', request('id'))->first();
         return $this->success($user, 'user fetched successfully');
     }
 

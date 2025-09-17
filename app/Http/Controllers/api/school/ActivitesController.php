@@ -16,7 +16,7 @@ class ActivitesController extends Controller
 
     public function getActivity(Request $request)
     {
-        $data = User::with('activity', 'behaviour', 'interaction')->find($request->user_id);
+        $data = User::with('activity', 'behaviour', 'interaction', 'student')->find($request->user_id);
         return $this->success($data, 'user activity fetched');
     }
 
