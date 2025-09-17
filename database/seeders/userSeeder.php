@@ -58,7 +58,7 @@ class userSeeder extends Seeder
         $roles = ['teacher', 'trainer', 'parent'];
         $schoolIds = [1, 2, 3, 4];
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             User::create([
                 'school_id' => $schoolIds[array_rand($schoolIds)],
                 'name' => "User{$i}",

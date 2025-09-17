@@ -21,7 +21,7 @@ class studentSeeder extends Seeder
         $academicStages = ['Primary', 'Preparatory', 'Secondary'];
         $nationalities = ['Egyptian', 'Sudanese', 'Syrian', 'Other'];
 
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 15; $i++) {
             student::create([
                 'school_id' => $schoolIds[array_rand($schoolIds)],
                 'user_id' => $parents[array_rand($parents)],
