@@ -1,6 +1,10 @@
 <?php
 use App\Http\Controllers\api\auth\AuthController;
+use App\Http\Controllers\api\school\achievementController;
 use App\Http\Controllers\api\school\ActivitesController;
+use App\Http\Controllers\api\school\certificatesController;
+use App\Http\Controllers\api\school\coursesController;
+use App\Http\Controllers\api\school\projectsController;
 use App\Http\Controllers\api\school\SchoolsController;
 use App\Http\Controllers\api\school\TeacherController;
 use App\Http\Controllers\api\store\cartController;
@@ -100,4 +104,50 @@ Route::group([
     Route::post('/user/create', [TeacherController::class, 'createUser']);
     Route::post('/user/update/{id}', [TeacherController::class, 'updateUser']);
     Route::delete('/user/delete/{id}', [TeacherController::class, 'deleteUser']);
+});
+
+
+
+
+Route::group([
+    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class],
+    'prefix' => 'achievement'
+], function () {
+    Route::get('/users/all', [achievementController::class, 'allUsers']);
+    Route::get('/singleUser/{id}', [achievementController::class, 'singleUser']);
+    Route::post('/addUser', [achievementController::class, 'addUser']);
+    Route::delete('/deleteUser/{id}', [achievementController::class, 'deleteUser']);
+});
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'courses'
+], function () {
+    Route::get('/all', [coursesController::class, 'allCourses']);
+    Route::get('/myCourses', [coursesController::class, 'myCourses'])->middleware('jwt.auth');
+    Route::get('/single/{id}', [coursesController::class, 'singleCourse']);
+    Route::post('/create', [coursesController::class, 'createCourse'])->middleware('jwt.auth');
+    Route::delete('/delete/{id}', [coursesController::class, 'deleteCourse'])->middleware('jwt.auth');
+});
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'projects'
+], function () {
+    Route::get('/allperCourse/{id}', [projectsController::class, 'allProjects'])->middleware('jwt.auth');
+    Route::get('/singleProject/{id}', [projectsController::class, 'singleProject'])->middleware('jwt.auth');
+    Route::post('/createProject/{id}', [projectsController::class, 'createProject'])->middleware('jwt.auth');
+    Route::delete('/deleteProject/{id}', [projectsController::class, 'deleteProject'])->middleware('jwt.auth');
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'certificate'
+], function () {
+    Route::get('/allCertificatesPerTeacher/{id}', [certificatesController::class, 'allCertificates'])->middleware('jwt.auth');
+    Route::get('/singleCertificate/{id}', [certificatesController::class, 'singleCertificate'])->middleware('jwt.auth');
+    Route::post('/createCertificate/{id}', [certificatesController::class, 'createCertificate'])->middleware('jwt.auth');
+    Route::delete('/deleteCertificate/{id}', [certificatesController::class, 'deleteCertificate'])->middleware('jwt.auth');
 });
