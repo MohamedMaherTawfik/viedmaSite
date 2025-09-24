@@ -234,9 +234,9 @@ Route::prefix('admin')->group(function () {
     Route::get('/categorey', [categoreyController::class, 'categorey'])->name('admin.categorey');
     Route::get('/categorey/create', [categoreyController::class, 'createCategorey'])->name('admin.create.Categorey');
     Route::post('/categorey/store', [categoreyController::class, 'storeCategorey'])->name('admin.store.Categorey');
-    Route::get('/categorey/edit', [categoreyController::class, 'editCategorey'])->name('admin.edit.Categorey');
-    Route::post('/categorey/update', [categoreyController::class, 'updateCategorey'])->name('admin.update.Categorey');
-    Route::delete('/categorey/delete', [categoreyController::class, 'deleteCategorey'])->name('admin.delete.Categorey');
+    Route::get('/categorey/edit/{categorey}', [categoreyController::class, 'editCategorey'])->name('admin.edit.Categorey');
+    Route::post('/categorey/update/{categorey}', [categoreyController::class, 'updateCategorey'])->name('admin.update.Categorey');
+    Route::delete('/categorey/delete/{categorey}', [categoreyController::class, 'deleteCategorey'])->name('admin.delete.Categorey');
     Route::get('/games', [gamesController::class, 'games'])->name('admin.games.index');
     Route::get('/games/create', [gamesController::class, 'createGame'])->name('admin.games.create');
     Route::post('/games', [gamesController::class, 'storeGame'])->name('admin.games.store');

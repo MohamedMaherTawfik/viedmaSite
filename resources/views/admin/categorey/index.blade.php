@@ -60,16 +60,23 @@
                             <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $category->name }}</h3>
                             <p class="text-gray-600 text-sm mb-4">{{ $category->description }}</p>
 
-                            <!-- زرار حذف -->
-                            <form action="{{ route('admin.delete.Categorey', $category->id) }}" method="POST"
-                                onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                    class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-                                    حذف
-                                </button>
-                            </form>
+                            <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                                <a href="{{ route('admin.edit.Categorey', $category) }}"
+                                    class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                                    تعديل
+                                </a>
+                                <form action="{{ route('admin.delete.Categorey', $category) }}" method="POST"
+                                    onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
+                                        حذف
+                                    </button>
+                                </form>
+                            </div>
+
+
                         </div>
                     </div>
                 @endforeach
