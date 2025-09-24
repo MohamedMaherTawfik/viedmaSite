@@ -128,54 +128,8 @@
         });
     }
 }">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex-shrink-0">
-                    <img src="{{ asset('auth/rendered_page.png') }}" alt="VIEDMA Logo" class="h-18 w-48">
-                </div>
-                <div class="hidden md:flex space-x-8 space-x-reverse">
-                    <a href="#" class="nav-item text-blue-600 font-semibold"
-                        @click="activeSection = 'home'">الرئيسية</a>
-                    <a href="#" class="nav-item text-gray-600 hover:text-blue-600"
-                        @click="activeSection = 'education'">التعليم</a>
-                    <a href="#" class="nav-item text-gray-600 hover:text-blue-600"
-                        @click="activeSection = 'ecommerce'">المتجر</a>
-                    <a href="#" class="nav-item text-gray-600 hover:text-blue-600"
-                        @click="activeSection = 'schools'">المدارس</a>
-                    <a href="#" class="nav-item text-gray-600 hover:text-blue-600"
-                        @click="activeSection = 'about'">عنّا</a>
-                </div>
-                <div class="md:hidden">
-                    <button @click="open = !open" class="text-gray-500 focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Mobile menu -->
-        <div x-show="open" class="md:hidden bg-white border-t" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform -translate-y-3"
-            x-transition:enter-end="opacity-100 transform translate-y-0"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100 transform translate-y-0"
-            x-transition:leave-end="opacity-0 transform -translate-y-3">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
-                <a href="#" class="block px-3 py-2 text-blue-600 font-medium"
-                    @click="activeSection = 'home'; open = false">الرئيسية</a>
-                <a href="#" class="block px-3 py-2 text-gray-600 hover:text-blue-600"
-                    @click="activeSection = 'education'; open = false">التعليم</a>
-                <a href="#" class="block px-3 py-2 text-gray-600 hover:text-blue-600"
-                    @click="activeSection = 'ecommerce'; open = false">المتجر</a>
-                <a href="#" class="block px-3 py-2 text-gray-600 hover:text-blue-600"
-                    @click="activeSection = 'schools'; open = false">المدارس</a>
-                <a href="#" class="block px-3 py-2 text-gray-600 hover:text-blue-600"
-                    @click="activeSection = 'about'; open = false">عنّا</a>
-            </div>
-        </div>
-    </nav>
+    <x-navbar />
 
     <!-- Hero Section -->
     <section x-show="activeSection === 'home'" class="hero-pattern text-white py-20">

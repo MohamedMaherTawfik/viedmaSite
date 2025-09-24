@@ -3,6 +3,9 @@
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
+use App\Http\Controllers\adminstrator\categoreyController;
+use App\Http\Controllers\adminstrator\gamesController;
+use App\Http\Controllers\adminstrator\settingsController;
 use App\Http\Controllers\home\ClickPayController;
 use App\Http\Controllers\home\ClickPayStoreController;
 use App\Http\Controllers\home\homeController;
@@ -44,11 +47,11 @@ Route::group([], function () {
     Route::post('/profile', [homeController::class, 'UpdateProfile'])->name('profile.update');
     Route::post('/profile/password', [homeController::class, 'UpdatePassword'])->name('password.update');
     Route::get('/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
-    Route::get('/game', [homeController::class, 'allGames'])->name('game.all');
+    Route::get('/games', [homeController::class, 'allGames'])->name('games.all');
     Route::get('/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
     Route::delete('/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
-    Route::post('/games/cart', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
-    Route::post('/games/{game}', [homeController::class, 'addToCart'])->name('game.AddToCart')->middleware('auth');
+    Route::post('/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
+    Route::post('/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart')->middleware('auth');
     Route::get('/schools', [schoolController::class, 'schools'])->name('schools');
     Route::get('/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
     Route::get('/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
@@ -228,26 +231,32 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminstratorController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/games', [AdminstratorController::class, 'games'])->name('admin.games.index');
-    Route::get('/games/create', [AdminstratorController::class, 'createGame'])->name('admin.games.create');
-    Route::post('/games', [AdminstratorController::class, 'storeGame'])->name('admin.games.store');
-    Route::get('/games/{game}', [AdminstratorController::class, 'showGame'])->name('admin.games.show');
-    Route::delete('/games/{game}', [AdminstratorController::class, 'deleteGame'])->name('admin.games.delete');
-    Route::get('/schools', [AdminstratorController::class, 'schools'])->name('admin.schools.index');
-    Route::get('/schools/create', [AdminstratorController::class, 'createSchool'])->name('admin.schools.create');
-    Route::post('/schools', [AdminstratorController::class, 'storeSchool'])->name('admin.schools.store');
-    Route::get('/schools/{school}/show', [AdminstratorController::class, 'showSchool'])->name('admin.schools.show');
-    Route::get('/schools/{school}/show/{user}', [AdminstratorController::class, 'editUser'])->name('admin.schools.user.edit');
-    Route::post('/schools/{school}/edit/{user}', [AdminstratorController::class, 'updateSchoolUser'])->name('admin.schools.user.update');
-    Route::delete('/schools/{school}/delete/{user}', [AdminstratorController::class, 'deleteUser'])->name('admin.schools.user.delete');
-    Route::get('/schools/{school}/edit', [AdminstratorController::class, 'editSchool'])->name('admin.schools.edit');
-    Route::post('/schools/{school}/edit', [AdminstratorController::class, 'updateSchool'])->name('admin.schools.update');
-    Route::delete('/schools/{school}/delete', [AdminstratorController::class, 'deleteSchool'])->name('admin.schools.destroy');
-    Route::get('/schools/{school}/teachers', [AdminstratorController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
-    Route::get('/trainers', [AdminstratorController::class, 'trainers'])->name('admin.trainers.index');
-    Route::get('/settings', [AdminstratorController::class, 'settings'])->name('admin.settings.index');
-    Route::post('/settings/user', [AdminstratorController::class, 'updateUser'])->name('admin.settings.user.update');
-    Route::post('/settings/password', [AdminstratorController::class, 'updatePassword'])->name('admin.settings.password.update');
+    Route::get('/categorey', [categoreyController::class, 'categorey'])->name('admin.categorey');
+    Route::get('/categorey/create', [categoreyController::class, 'createCategorey'])->name('admin.create.Categorey');
+    Route::post('/categorey/store', [categoreyController::class, 'storeCategorey'])->name('admin.store.Categorey');
+    Route::get('/categorey/edit', [categoreyController::class, 'editCategorey'])->name('admin.edit.Categorey');
+    Route::post('/categorey/update', [categoreyController::class, 'updateCategorey'])->name('admin.update.Categorey');
+    Route::delete('/categorey/delete', [categoreyController::class, 'deleteCategorey'])->name('admin.delete.Categorey');
+    Route::get('/games', [gamesController::class, 'games'])->name('admin.games.index');
+    Route::get('/games/create', [gamesController::class, 'createGame'])->name('admin.games.create');
+    Route::post('/games', [gamesController::class, 'storeGame'])->name('admin.games.store');
+    Route::get('/games/{game}', [gamesController::class, 'showGame'])->name('admin.games.show');
+    Route::delete('/games/{game}', [gamesController::class, 'deleteGame'])->name('admin.games.delete');
+    Route::get('/schools', [\App\Http\Controllers\adminstrator\schoolController::class, 'schools'])->name('admin.schools.index');
+    Route::get('/schools/create', [\App\Http\Controllers\adminstrator\schoolController::class, 'createSchool'])->name('admin.schools.create');
+    Route::post('/schools', [\App\Http\Controllers\adminstrator\schoolController::class, 'storeSchool'])->name('admin.schools.store');
+    Route::get('/schools/{school}/show', [\App\Http\Controllers\adminstrator\schoolController::class, 'showSchool'])->name('admin.schools.show');
+    Route::get('/schools/{school}/show/{user}', [\App\Http\Controllers\adminstrator\schoolController::class, 'editUser'])->name('admin.schools.user.edit');
+    Route::post('/schools/{school}/edit/{user}', [\App\Http\Controllers\adminstrator\schoolController::class, 'updateSchoolUser'])->name('admin.schools.user.update');
+    Route::delete('/schools/{school}/delete/{user}', [\App\Http\Controllers\adminstrator\schoolController::class, 'deleteUser'])->name('admin.schools.user.delete');
+    Route::get('/schools/{school}/edit', [\App\Http\Controllers\adminstrator\schoolController::class, 'editSchool'])->name('admin.schools.edit');
+    Route::post('/schools/{school}/edit', [\App\Http\Controllers\adminstrator\schoolController::class, 'updateSchool'])->name('admin.schools.update');
+    Route::delete('/schools/{school}/delete', [\App\Http\Controllers\adminstrator\schoolController::class, 'deleteSchool'])->name('admin.schools.destroy');
+    Route::get('/schools/{school}/teachers', [\App\Http\Controllers\adminstrator\schoolController::class, 'SchoolTeachers'])->name('admin.schools.teachers');
+    Route::get('/trainers', [\App\Http\Controllers\adminstrator\schoolController::class, 'trainers'])->name('admin.trainers.index');
+    Route::get('/settings', [settingsController::class, 'settings'])->name('admin.settings.index');
+    Route::post('/settings/user', [settingsController::class, 'updateUser'])->name('admin.settings.user.update');
+    Route::post('/settings/password', [settingsController::class, 'updatePassword'])->name('admin.settings.password.update');
 })->middleware(superAdminMiddleware::class);
 
 

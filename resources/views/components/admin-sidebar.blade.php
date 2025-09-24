@@ -19,22 +19,30 @@
 
             <!-- المدارس -->
             <a href="{{ route('admin.schools.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.schools.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas fa-school text-2xl text-blue-600"></i>
 
                 <span class="mr-2">المدارس</span>
             </a>
 
             <!-- الالعب -->
+            <a href="{{ route('admin.categorey') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/categorey/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                {{-- categorey icon --}}
+                <i class="fa-solid fa-list text-2xl text-blue-600"></i>
+                <span class="mr-2">فئات الالعاب</span>
+            </a>
+
+            <!-- الالعب -->
             <a href="{{ route('admin.games.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.games.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/games/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas fa-gamepad text-2xl text-blue-600"></i>
                 <span class="mr-2">الالعاب</span>
             </a>
 
             <!-- الإعدادات -->
             <a href="{{ route('admin.settings.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.settings.index') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/settings/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas text-2xl fa-cog text-blue-600"></i>
                 <span class="mr-2">الإعدادات</span>
             </a>
