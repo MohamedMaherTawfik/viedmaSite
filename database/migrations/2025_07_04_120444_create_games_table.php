@@ -15,18 +15,18 @@ return new class extends Migration {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->string('title')->unique();
+            $table->string('title')->nullable();
             $table->string('description')->nullable();
-            $table->double('price');
+            $table->double('price')->default(0);
             $table->double('discount')->default(0);
             $table->string('release_date')->nullable();
             $table->string('developer_name')->nullable();
-            $table->string('cover_image');
+            $table->string('cover_image')->nullable();
             $table->string('platform')->nullable();
             $table->string('trailer_url')->nullable();
             $table->integer('stock')->default(0);
             $table->boolean('is_active')->default(true);
-            $table->string('slug');
+            $table->string('slug')->nullable();
             $table->timestamps();
         });
     }

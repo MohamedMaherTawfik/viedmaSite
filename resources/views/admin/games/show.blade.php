@@ -33,65 +33,61 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <div class="bg-white shadow-lg rounded-lg p-6 max-w-3xl mx-auto mt-6">
+            <div class="bg-white shadow-xl rounded-2xl p-8 max-w-4xl mx-auto mt-10">
                 <!-- عنوان -->
-                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">{{ $game->title }}</h2>
+                <h2 class="text-3xl font-extrabold mb-8 text-gray-800 border-b-2 border-gray-200 pb-4 text-center">
+                    {{ $game->title }}
+                </h2>
 
                 <!-- صورة الغلاف -->
-                <div class="flex justify-center mb-6">
-                    <img src="{{ asset('storage/' . $game->cover_image) }}" alt="{{ $game->title }}"
-                        class="w-128 h-40 object-cover rounded-lg shadow">
+                <div class="flex justify-center mb-8">
+                    <img src="{{ $game->cover_image
+                        ? asset('storage/' . $game->cover_image)
+                        : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
+                        alt="{{ $game->name ?? 'Game Image' }}"
+                        class="w-full max-w-lg h-64 object-cover rounded-xl shadow-md border border-gray-200">
                 </div>
 
                 <!-- التفاصيل -->
-                <div class="grid grid-cols-2 gap-4 text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-base text-gray-700">
                     <div>
-                        <strong>الوصف:</strong>
-                        <p class="text-gray-700">{{ $game->description }}</p>
-                    </div>
-                    <div>
-                        <strong>السعر:</strong>
-                        <p class="text-gray-700">{{ $game->price }} $</p>
+                        <strong class="block text-gray-900 mb-1">الوصف:</strong>
+                        <p>{{ $game->description }}</p>
                     </div>
                     <div>
-                        <strong>الخصم:</strong>
-                        <p class="text-gray-700">{{ $game->discount }}%</p>
+                        <strong class="block text-gray-900 mb-1">السعر:</strong>
+                        <p class="font-semibold text-green-600">{{ $game->price }} $</p>
                     </div>
                     <div>
-                        <strong>تاريخ الإصدار:</strong>
-                        <p class="text-gray-700">{{ $game->release_date }}</p>
+                        <strong class="block text-gray-900 mb-1">الخصم:</strong>
+                        <p class="text-red-600">{{ $game->discount }}%</p>
                     </div>
                     <div>
-                        <strong>المطور:</strong>
-                        <p class="text-gray-700">{{ $game->developer_name }}</p>
+                        <strong class="block text-gray-900 mb-1">تاريخ الإصدار:</strong>
+                        <p>{{ $game->release_date }}</p>
                     </div>
-                    <div>
-                        <strong>المنصة:</strong>
-                        <p class="text-gray-700">{{ $game->platform }}</p>
-                    </div>
-                    <div class="col-span-2">
-                        <strong>رابط العرض الدعائي:</strong>
-                        <a href="{{ $game->trailer_url }}" target="_blank" class="text-blue-600 underline">مشاهدة</a>
-                    </div>
+
                 </div>
 
                 <!-- أزرار -->
-                <div class="flex justify-between items-center mt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center mt-10 gap-4">
                     <a href="{{ route('admin.games.index') }}"
-                        class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md">
+                        class="w-full md:w-auto text-center bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg shadow-md transition">
                         رجوع
                     </a>
 
                     <form action="{{ route('admin.games.delete', $game) }}" method="POST"
-                        onsubmit="return confirm('هل أنت متأكد من حذف هذه اللعبة؟');">
+                        onsubmit="return confirm('هل أنت متأكد من حذف هذه اللعبة؟');" class="w-full md:w-auto">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md">
+                        <button type="submit"
+                            class="w-full md:w-auto bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg shadow-md transition">
                             حذف اللعبة
                         </button>
                     </form>
                 </div>
             </div>
+
         </main>
     </div>
 

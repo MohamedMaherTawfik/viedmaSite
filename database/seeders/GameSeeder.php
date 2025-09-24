@@ -16,7 +16,7 @@ class GameSeeder extends Seeder
     public function run(): void
     {
         $platforms = ['Steam', 'Epic Games', 'Origin'];
-        $categories = [1, 2, 3]; // حط IDات حقيقية من جدول games_categories
+        $categories = [1, 2, 3];
 
         foreach (range(1, 10) as $i) {
             games::create([
@@ -27,7 +27,6 @@ class GameSeeder extends Seeder
                 'discount' => rand(0, 50),
                 'release_date' => Carbon::now()->subDays(rand(10, 100)),
                 'developer_name' => "Dev Studio $i",
-                'cover_image' => "photos/game" . rand(1, 2) . ".png",
                 'platform' => $platforms[array_rand($platforms)],
                 'trailer_url' => "https://example.com/trailer/$i",
                 'stock' => rand(10, 100),

@@ -58,8 +58,8 @@
                                     <div
                                         class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
                                         <div class="h-48 overflow-hidden relative">
-                                            <img src="{{ asset('storage/' . $course->cover_image) }}"
-                                                alt="{{ $course->cover_image }}"
+                                            <img src="{{ $course->cover_image ? asset('storage/' . $course->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
+                                                alt="{{ $course->name ?? 'Course Image' }}"
                                                 class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
 
                                             <!-- تاريخ الإصدار -->
@@ -100,7 +100,8 @@
                                                     <div>
 
                                                         <span class="font-bold text-base"> المنشئ : </span>
-                                                        <span class="opacity-60">{{ $course->developer_name }}</span>
+                                                        <span
+                                                            class="opacity-60">{{ $course->developer_name ?? 'غير محدد' }}</span>
                                                     </div>
                                                     <div class="flex items-center">
                                                         <span class="text-gold">★</span>

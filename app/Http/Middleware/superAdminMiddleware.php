@@ -19,8 +19,11 @@ class superAdminMiddleware
         if (Auth::check()) {
             if (Auth::user()->role == 'super_admin') {
                 return $next($request);
+            } else {
+                abort(403, 'Unauthorized action.');
             }
         }
-        abort(403, 'Unauthorized action.');
+
+        return redirect('/admin/login');
     }
 }
