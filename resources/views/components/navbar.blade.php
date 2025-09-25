@@ -88,6 +88,8 @@
         @if (request()->is('home/*'))
             Don't miss out! Explore Our New Games
             <a href="{{ route('games.all') }}" class="underline text-[#e4ce96] hover:text-[#E4C474FF]">Explore Games</a>
+        @else
+            Welcome to Viedma | Where Education Meets Entertainment
         @endif
 
     </div>
@@ -121,7 +123,7 @@
 
                 <!-- Left: Menu Links (2/3) -->
                 <div class="w-1/2 p-6 flex flex-col justify-start space-y-6">
-                    <a href="{{ route('home') }}"
+                    <a href="/"
                         class="text-2xl font-semibold text-[#e4ce96] hover:text-[#C7AE70FF]  transition">Home</a>
 
                     <a href="{{ route('about') }}"
@@ -132,10 +134,6 @@
                         class="text-2xl font-semibold text-[#e4ce96] hover:text-[#C7AE70FF]  transition">FAQ</a>
                     <a href="#"
                         class="text-2xl font-semibold text-[#e4ce96] hover:text-[#C7AE70FF]  transition">Blog</a>
-
-                    <a href="#"
-                        class="text-2xl font-semibold text-[#e4ce96] hover:text-[#C7AE70FF]  transition">Student
-                        Reviews</a>
                     @if (Auth::check())
                         <a href="{{ route('profile') }}"
                             class="text-2xl font-semibold text-[#e4ce96] hover:text-[#C7AE70FF]  transition"> profile
@@ -153,7 +151,7 @@
                     <!-- Image 1 -->
                     <a href="{{ route('home') }}"
                         class="flex-1 bg-cover bg-center bg-no-repeat relative mt-3 border-4 border-[#FEBE35] rounded-3xl block transform transition duration-300 hover:scale-105"
-                        style="background-image: url({{ asset('images/store.png') }})">
+                        style="background-image: url('https://images.pexels.com/photos/1329645/pexels-photo-1329645.jpeg')">
                         <div
                             class="absolute bottom-3 left-3 bg-[#176b98] bg-opacity-75 text-[#FEBE35] font-bold px-3 py-1 rounded text-sm font-medium">
                             Games Zone
@@ -163,7 +161,7 @@
                     <!-- Image 2 -->
                     <a href="#"
                         class="flex-1 bg-cover bg-center bg-no-repeat relative mt-3 border-4 border-[#FEBE35] rounded-3xl block transform transition duration-300 hover:scale-105"
-                        style="background-image: url({{ asset('images/courses.png') }})">
+                        style="background-image: url('https://images.pexels.com/photos/5912280/pexels-photo-5912280.jpeg')">
                         <div
                             class="absolute bottom-3 left-3 bg-[#176b98] bg-opacity-75 text-[#FEBE35] font-bold px-3 py-1 rounded text-sm font-medium">
                             Courses Zone
