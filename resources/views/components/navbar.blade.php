@@ -32,6 +32,17 @@
                     </svg>
                     <span>Games</span>
                 </a>
+                @if (Auth::check())
+                    {{-- cart with items number --}}
+                    <a href="{{ route('cart') }}"
+                        class="flex items-center gap-2 text-gray-700 hover:text-[#176b98] transition text-base font-medium">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2.678a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                    </a>
+                @endif
             @endif
 
             <!-- Dropdown -->
@@ -74,9 +85,11 @@
 
     <!-- Promo Banner -->
     <div class="bg-[#176b98] text-white text-sm text-center py-2 text-base font-medium">
-        Don't miss out! Enrol by September 30th and save £250! Need advice?
-        <a href="{{ route('contact') }}" class="underline text-[#e4ce96] hover:text-[#E4C474FF]">Book a call with our
-            team</a>
+        @if (request()->is('home/*'))
+            Don't miss out! Explore Our New Games
+            <a href="{{ route('games.all') }}" class="underline text-[#e4ce96] hover:text-[#E4C474FF]">Explore Games</a>
+        @endif
+
     </div>
 
     <!-- Sidebar Menu (Overlay) -->

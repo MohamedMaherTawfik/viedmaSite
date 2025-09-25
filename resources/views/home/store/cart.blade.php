@@ -9,14 +9,14 @@
                     @foreach ($cartItems as $item)
                         <div class="flex flex-col sm:flex-row border rounded-lg p-4 shadow-sm">
                             <!-- games Image -->
-                            <div class="sm:w-1/4 mb-4 sm:mb-0">
-                                <img src="{{ asset('storage/' . $item->games->cover_image) }}"
+                            <div class="sm:w-1/5 sm:h-1/5 mb-4 sm:mb-0">
+                                <img src="{{ $item->games->cover_image ? asset('storage/' . $item->games->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
                                     alt="{{ $item->games->name }}" class="w-full h-auto object-cover rounded">
                             </div>
 
                             <!-- games Info -->
                             <div class="sm:w-3/4 sm:pl-6">
-                                <h2 class="text-xl font-semibold">{{ $item->games->name }}</h2>
+                                <h2 class="text-xl font-semibold">{{ $item->games->title }}</h2>
                                 <p class="text-gray-600 mt-2">{{ $item->games->description }}</p>
 
                                 <div class="mt-4 flex items-center justify-between">

@@ -8,6 +8,7 @@ use App\Models\cart;
 use App\Models\cartItems;
 use App\Models\Courses;
 use App\Models\games;
+use App\Models\gamesCategorey;
 use App\Models\orderdetails;
 use App\Models\orders;
 use App\Models\school;
@@ -27,8 +28,9 @@ class homeController extends Controller
     }
     public function index()
     {
+        $gameCategorey = gamesCategorey::all();
         $games = games::all();
-        return view('welcome', compact('games'));
+        return view('welcome', compact('games', 'gameCategorey'));
     }
 
     public function about()
@@ -56,28 +58,32 @@ class homeController extends Controller
     public function allGames()
     {
         $games = games::all();
-        return view('home.store.allGames', compact('games'));
+        $categories = gamesCategorey::all();
+        return view('home.store.allGames', compact('games', 'categories'));
     }
 
     public function addToCart(cartRequest $request, games $game)
     {
-        $validatedData = $request->validated();
+        if (Auth::check()) {
+            $validatedData = $request->validated();
 
-        $cart = cart::where('user_id', Auth::id())->first();
-        if (!$cart) {
-            $cart = cart::create([
-                'user_id' => Auth::id(),
+            $cart = cart::where('user_id', Auth::id())->first();
+            if (!$cart) {
+                $cart = cart::create([
+                    'user_id' => Auth::id(),
+                ]);
+            }
+            if (cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->exists()) {
+                return redirect()->back()->with('error', 'Game already added to cart!');
+            }
+            cartItems::create([
+                'cart_id' => $cart->id,
+                'games_id' => $game->id,
+                'quantity' => $validatedData['quantity'],
             ]);
+            return redirect()->back()->with('success', 'Game added to cart successfully!');
         }
-        if (cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->exists()) {
-            return redirect()->back()->with('error', 'Game already added to cart!');
-        }
-        cartItems::create([
-            'cart_id' => $cart->id,
-            'games_id' => $game->id,
-            'quantity' => $validatedData['quantity'],
-        ]);
-        return redirect()->back()->with('success', 'Game added to cart successfully!');
+        return redirect()->route('login')->with('error', 'Please login to add game to cart!');
     }
 
     public function deleteFromCart()
@@ -96,24 +102,7 @@ class homeController extends Controller
             $quantity += $item->quantity;
             $price += $item->games->price * $item->quantity;
         }
-        $order = orders::create([
-            'user_id' => Auth::id(),
-            'quantity' => $quantity,
-            'price' => $price
-        ]);
-
-        foreach ($cartItems as $item) {
-            orderdetails::create([
-                'orders_id' => $order->id,
-                'games_id' => $item->games_id,
-                'quantity' => $item->quantity,
-                'price' => $item->games->price
-            ]);
-        }
-        foreach ($cartItems as $item) {
-            $item->delete();
-        }
-        return redirect()->route('home')->with('success', 'Order placed successfully!');
+        return redirect()->route('pay.form.store', $cart)->with('success', 'Order placed successfully!');
     }
     public function cart()
     {
@@ -153,5 +142,11 @@ class homeController extends Controller
         ]);
 
         return back()->with('success', 'تم تغيير كلمة المرور بنجاح.');
+    }
+
+    public function showCategorey(gamesCategorey $categorey)
+    {
+        $categorey->load('games');
+        return view('home.store.categorey', compact('categorey'));
     }
 }

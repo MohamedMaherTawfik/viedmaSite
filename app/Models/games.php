@@ -24,4 +24,9 @@ class games extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function categorey()
+    {
+        return $this->belongsTo(gamesCategorey::class, 'games_categorey_id');
+    }
+
 }

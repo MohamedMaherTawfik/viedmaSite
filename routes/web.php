@@ -8,6 +8,7 @@ use App\Http\Controllers\adminstrator\gamesController;
 use App\Http\Controllers\adminstrator\settingsController;
 use App\Http\Controllers\home\ClickPayController;
 use App\Http\Controllers\home\ClickPayStoreController;
+use App\Http\Controllers\home\gamePaymentController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Controllers\home\schoolController;
 use App\Http\Middleware\parentMiddleware;
@@ -41,20 +42,21 @@ Route::group([], function () {
 Route::group([], function () {
     Route::get('/', [homeController::class, 'separate'])->name('choose');
     Route::get('/home/store', [homeController::class, 'index'])->name('home');
-    Route::get('/about-us', [homeController::class, 'about'])->name('about');
-    Route::get('/contact', [homeController::class, 'contact'])->name('contact');
-    Route::get('/profile', [homeController::class, 'profile'])->name('profile');
-    Route::post('/profile', [homeController::class, 'UpdateProfile'])->name('profile.update');
-    Route::post('/profile/password', [homeController::class, 'UpdatePassword'])->name('password.update');
-    Route::get('/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
-    Route::get('/games', [homeController::class, 'allGames'])->name('games.all');
-    Route::get('/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
-    Route::delete('/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
-    Route::post('/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
-    Route::post('/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart')->middleware('auth');
-    Route::get('/schools', [schoolController::class, 'schools'])->name('schools');
-    Route::get('/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
-    Route::get('/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
+    Route::get('/home/store/categorey/{categorey}', [homeController::class, 'showCategorey'])->name('categorey.show');
+    Route::get('/home/about-us', [homeController::class, 'about'])->name('about');
+    Route::get('/home/contact', [homeController::class, 'contact'])->name('contact');
+    Route::get('/home/profile', [homeController::class, 'profile'])->name('profile');
+    Route::post('/home/profile', [homeController::class, 'UpdateProfile'])->name('profile.update');
+    Route::post('/home/profile/password', [homeController::class, 'UpdatePassword'])->name('password.update');
+    Route::get('/home/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
+    Route::get('/home/games', [homeController::class, 'allGames'])->name('games.all');
+    Route::get('/home/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
+    Route::delete('/home/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
+    Route::post('/home/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
+    Route::post('/home/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart');
+    Route::get('/home/schools', [schoolController::class, 'schools'])->name('schools');
+    Route::get('/home/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
+    Route::get('/home/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
 
 });
 
@@ -214,15 +216,19 @@ Route::group([
 });
 
 
-Route::get('/pay/{course}/form', [ClickPayController::class, 'showPaymentForm'])->name('pay.form')->middleware('auth');
-Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment'])->name('pay.initiate')->middleware('auth');
-Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback')->middleware('auth');
-Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController::class, 'success'])
-    ->name('pay.success')
+
+Route::get('/pay/{cart}/form/store', [gamePaymentController::class, 'showPaymentForm'])->name('pay.form.store')->middleware('auth');
+Route::post('/pay/{cart}/init/store', [gamePaymentController::class, 'initiatePayment'])->name('pay.initiate.store')->middleware('auth');
+Route::get('/pay/callback/{cart}/store', [gamePaymentController::class, 'callback'])->name('pay.callback.store')->middleware('auth');
+Route::match(['get', 'post'], '/pay/success/done/{cart}/store', [gamePaymentController::class, 'success'])
+    ->name('pay.success.store')
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {
     return view('payment.failed');
-})->name('pay.fail')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+})->name('pay.fail.store')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
+
+
+
 
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminstratorController::class, 'login'])->name('admin.login');
@@ -260,17 +266,12 @@ Route::prefix('admin')->group(function () {
 })->middleware(superAdminMiddleware::class);
 
 
-Route::get('/pay/{game}/form', [ClickPayStoreController::class, 'showPaymentForm'])->name('pay.form.store')->middleware('auth');
-Route::post('/pay/{game}/init', [ClickPayStoreController::class, 'initiatePayment'])->name('pay.initiate.store')->middleware('auth');
-Route::get('/pay/callback/{game}', [ClickPayStoreController::class, 'callback'])->name('pay.callback.store')->middleware('auth');
-Route::match(['get', 'post'], '/pay/success/done/{game}', [ClickPayStoreController::class, 'success'])
-    ->name('pay.success.store')
+Route::get('/pay/{course}/form', [ClickPayStoreController::class, 'showPaymentForm'])->name('pay.form')->middleware('auth');
+Route::post('/pay/{course}/init', [ClickPayStoreController::class, 'initiatePayment'])->name('pay.initiate')->middleware('auth');
+Route::get('/pay/callback/{course}', [ClickPayStoreController::class, 'callback'])->name('pay.callback')->middleware('auth');
+Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayStoreController::class, 'success'])
+    ->name('pay.success')
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {
     return view('payment.failed');
 })->name('pay.fail')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
-
-Route::prefix('admin')->group(function () {
-    Route::get('/login', [AdminstratorController::class, 'login'])->name('admin.login');
-    Route::post('/login', [AdminstratorController::class, 'storeLogin'])->name('admin.login.store');
-});
