@@ -145,7 +145,7 @@ class gamePaymentController extends Controller
                 $price += $item->games->price * $item->quantity;
             }
             $order = orders::create([
-                'user_id' => auth()->id(),
+                'user_id' => $cart->user_id,
                 'price' => $price,
                 'transaction_type' => 'visa',
                 'quantity' => $quantity
