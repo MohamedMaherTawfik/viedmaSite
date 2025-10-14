@@ -249,7 +249,6 @@ class trainerController extends Controller
         return view('trainerDashboard.lesson.create', compact('course'));
     }
 
-
     public function storeLesson(lessonRequest $request, Courses $course)
     {
         $validated = $request->validated();
@@ -262,27 +261,25 @@ class trainerController extends Controller
             $validated['image'] = $request->file('image')->store('Lessons', 'public');
         }
 
-        // حفظ الفيديو مؤقتًا في storage/app/videos
-        $videoPath = $request->file('video')->store('videos');
+        // حفظ الفيديو في مجلد public/videos
+        $videoPath = $request->file('video')->store('videos', 'public');
 
-        // إنشاء الدرس مبدئيًا بدون video_url
+        // إنشاء الدرس بدون video_url مؤقتًا
         $lesson = Lesson::create($validated);
 
-        // جلب التوكن من الجلسة
+        // جلب توكن Google من الجلسة
         $token = Session::get('youtube_token');
         if (!$token) {
             return redirect()->route('google.auth')->with('error', 'يجب تسجيل الدخول بحساب Google أولاً');
         }
 
-        // إرسال Job لرفع الفيديو في الخلفية
-        UploadLessonToYouTubeJob::dispatch($lesson, $videoPath, $token);
+        // إرسال Job لرفع الفيديو في الخلفية بعد حفظ الدرس
+        UploadLessonToYouTubeJob::dispatch($lesson, $videoPath, $token)->afterCommit();
 
         return redirect()
             ->route('trainer.courses.show', $course->slug)
-            ->with('success', 'تم إنشاء الدرس، وجاري رفع الفيديو إلى YouTube في الخلفية 🎥');
+            ->with('success', 'سيتم عرض الفيديو بمجرد الانتهاء من الرفع');
     }
-
-
 
     public function deleteSessionTime(SessionTime $sessionTime)
     {

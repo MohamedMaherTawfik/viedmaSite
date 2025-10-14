@@ -2,9 +2,7 @@
 
 namespace App\Repository;
 
-use App\Events\NewDataEvent;
 use App\Interfaces\LessonInterface;
-use App\Models\Courses;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,5 +62,4 @@ class lessonRepository implements LessonInterface
     {
         return Lesson::where('slug', $slug)->first();
     }
-
 }
