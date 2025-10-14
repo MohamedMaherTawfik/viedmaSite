@@ -13,10 +13,11 @@ return new class extends Migration {
         Schema::create('schools', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('type');
-            $table->string('License_number');
-            $table->string('address');
-            $table->string('city');
+            $table->string('type')->nullable();
+            $table->string('school_logo')->nullable();
+            $table->string('License_number')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });

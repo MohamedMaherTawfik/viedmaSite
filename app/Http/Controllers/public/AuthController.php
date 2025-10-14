@@ -38,6 +38,9 @@ class AuthController extends Controller
                     'user_id' => Auth::id(),
                 ]);
             }
+            if (Auth::user()->role == 'trainer') {
+                return redirect()->route('trainerDashboard');
+            }
             return redirect()->route('home');
         }
 

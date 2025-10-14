@@ -1,7 +1,7 @@
 <x-layout title="لوحه تحكم المعلم ">
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-trainer-sidebar />
 
     <!-- Wrapper for main content with flex column -->
     <div class="flex flex-col flex-1">

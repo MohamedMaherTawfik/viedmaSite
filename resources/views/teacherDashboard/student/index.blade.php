@@ -1,11 +1,11 @@
 <x-layout title="لوحه تحكم المعلم ">
 
     <!-- Sidebar -->
-    <x-school-sidebar />
+    <x-trainer-sidebar />
 
     <div class="flex flex-col flex-1">
         <main class="p-6 flex-1">
-            <x-school-header />
+            <x-teacher-header />
             {{-- Success Message --}}
             @if (session('success'))
                 <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">

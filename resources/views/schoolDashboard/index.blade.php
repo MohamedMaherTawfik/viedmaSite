@@ -35,15 +35,6 @@
                     </ul>
                 </div>
             @endif
-
-
-            {{-- <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
-                <span class="text-gray-800 text-lg">احصائيات سريعة</span>
-                <button class="bg-white border rounded text-black px-4 py-2 rounded hover:bg-gray-300 transition">
-                    اداره دوراتي
-                </button>
-            </div> --}}
-
             <!-- إحصائيات سريعة -->
             <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 w-full" style="margin-top: 5%">
                 <!-- عدد الطلاب -->

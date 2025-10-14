@@ -1,18 +1,17 @@
 @php
-    $slug = request('slug');
-@endphp
-
-@php
+    use App\Models\school;
+    $school = school::where('slug', request('slug'))->firstOrFail();
     $slug = request('slug');
 @endphp
 
 <aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between">
     <div>
         <div class="mb-6 text-center">
-            <img src="{{ asset('auth/rendered_page.png') }}" class="w-35 h-20 mx-auto mb-2">
+            <img src="{{ asset('storage/' . $school->school_logo) ?? asset('auth/rendered_page.png') }}"
+                class="w-35 h-20 mx-auto mb-2">
         </div>
 
-        <h2 class="text-sm font-semibold mb-4 text-center">مدرسة النور الخاصة</h2>
+        <h2 class="text-sm font-semibold mb-4 text-center">{{ $school->name }}</h2>
 
         <nav class="space-y-2">
             <a href="{{ route('school.dashboard', $slug) }}"

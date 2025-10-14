@@ -93,7 +93,7 @@
                                     max="99" class="w-20 text-center border rounded-lg py-2">
                             </div>
                             <button type="submit"
-                                class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
+                                class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
                                 أضف إلى السلة
                             </button>
                         </form>

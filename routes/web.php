@@ -1,23 +1,21 @@
 <?php
 
 use App\Http\Controllers\admin\parentController;
-use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\adminstrator\categoreyController;
 use App\Http\Controllers\adminstrator\gamesController;
 use App\Http\Controllers\adminstrator\settingsController;
 use App\Http\Controllers\home\ClickPayController;
-use App\Http\Controllers\home\ClickPayStoreController;
+use App\Http\Controllers\home\CoursesWebController;
 use App\Http\Controllers\home\gamePaymentController;
+use App\Http\Controllers\home\GoogleAuthController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Controllers\home\schoolController;
 use App\Http\Middleware\parentMiddleware;
 use App\Http\Middleware\superAdminMiddleware;
-use App\Http\Middleware\teacherMiddleware;
 use App\Http\Middleware\trainerMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\SuperAdminController;
-use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\public\AuthController as PublicAuthController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Controllers\adminstrator\adminController as AdminstratorController;
@@ -30,6 +28,15 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang.switch');
 
+
+Route::group([], function () {
+    Route::get('/courses/all', [CoursesWebController::class, 'courses'])->name('web.courses');
+    Route::get('/courses/{slug}/show', [CoursesWebController::class, 'show'])->name('web.courses.show');
+    Route::get('/courses/enrolled/myCourses', [CoursesWebController::class, 'enrolledCourses'])->name('web.courses.enrolled');
+    Route::get('/courses/enrolled/myCourses/{course}', [CoursesWebController::class, 'enrolledCourse'])->name('web.courses.enrolled.show');
+    Route::get('/privacy-policy', [CoursesWebController::class, 'privacy'])->name('web.privacy');
+    Route::get('/terms-and-conditions', [CoursesWebController::class, 'terms'])->name('web.terms');
+});
 
 Route::group([], function () {
     Route::get('/login', [PublicAuthController::class, 'login'])->name('login');
@@ -57,7 +64,6 @@ Route::group([], function () {
     Route::get('/home/schools', [schoolController::class, 'schools'])->name('schools');
     Route::get('/home/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
     Route::get('/home/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
-
 });
 
 Route::group([
@@ -108,45 +114,6 @@ Route::group([
     });
 });
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/teacher/register', 'signUp')->name('teacher.register');
-    Route::post('/teacher/register', 'register')->name('teacher.signup');
-    Route::get('/teacher', 'teacherRegister')->name('teacher');
-    Route::post('/teacher', 'teacher')->name('teacher.info');
-    Route::get('/teacher/login', 'login')->name('teacher.login');
-    Route::post('/teacher/login', 'signin')->name('teacher.signin');
-    Route::post('/logout', 'logout')->name('logout');
-    Route::get('/reset-password', 'resetPage')->name('reset.password')->middleware('auth');
-    Route::post('/reset-password', 'updatePassword')->name('password.reset')->middleware('auth');
-});
-
-
-Route::group([
-    'middleware' => ['auth', teacherMiddleware::class],
-], function () {
-    Route::controller(teacherController::class)->group(function () {
-        Route::get('/dashboard', 'dashboard')->name('dashboard');
-        Route::get('/dashboard/courses', 'allCourses')->name('teacher.courses');
-        Route::get('/dashboard/courses/enrolled', 'myCourses')->name('teacher.myCourses');
-        Route::get('/dashboard/courses/enrolled/{course}', 'myCourse')->name('teacher.myCourse');
-        Route::post('/dashboard/courses/enrolled/{course}/uploadProject', 'uploadProject')->name('teacher.project.upload');
-        Route::post('/dashboard/course/{slug}/enroll/free', 'freeCourse')->name('teacher.course.enroll.free');
-        Route::get('/dashboard/courses/lessons/{slug}', 'showLesson')->name('teacher.lessons.show');
-        Route::get('/dashboard/certificates', 'certificates')->name('teacher.certificates');
-        Route::get('/dashboard/courses/assisnments/me', 'allProjects')->name('teacher.projects');
-        Route::get('/dashboard/students/all', 'allStudents')->name('teacher.students');
-        Route::get('/dashboard/student/create/form', 'createStudent')->name('teacher.student.create');
-        Route::post('/dashboard/student/create/form', 'storeStudent')->name('teacher.student.store');
-        Route::get('/dashboard/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
-        Route::post('/dashboard/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
-        Route::get('/dashboard/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
-        Route::post('/dashboard/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
-        Route::get('/dashboard/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
-        Route::get('/dashboard/evaluations', 'evaluation')->name('teacher.evaluations');
-        Route::post('/dashboard/evaluations', 'storeEvaluation')->name('teacher.evaluation.store');
-    });
-});
-
 Route::group([
 ], function () {
     Route::controller(parentController::class)->group(function () {
@@ -193,6 +160,7 @@ Route::group([
         Route::get('/trainer/courses/create', 'createCourse')->name('trainer.courses.create');
         Route::post('/trainer/courses/create', 'storeCourse')->name('trainer.courses.store');
         Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
+        Route::delete('/trainer/courses/{slug}/delete', 'deleteCourse')->name('trainer.courses.destroy');
         Route::get('/trainer/courses/{slug}/report/{user}', 'createReport')->name('trainer.report.create');
         Route::post('/trainer/courses/{slug}/report/{user}', 'storeReport')->name('trainer.report.store');
         Route::get('/trainer/course/{course}/lesson/create', 'createLesson')->name('trainer.lesson.create');
@@ -212,8 +180,21 @@ Route::group([
         Route::delete('/trainer/schedules/{sessionTime}', 'deleteSessionTime')->name('trainer.schedules.destroy');
         Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
         Route::post('/trainer/certificates', 'storeCertificate')->name('trainer.certificate.store');
+        Route::get('/trainer/students/all', 'allStudents')->name('teacher.students');
+        Route::get('/trainer/student/create/form', 'createStudent')->name('teacher.student.create');
+        Route::post('/trainer/student/create/form', 'storeStudent')->name('teacher.student.store');
+        Route::get('/trainer/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
+        Route::post('/trainer/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
+        Route::get('/trainer/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
+        Route::post('/trainer/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
+        Route::get('/trainer/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
+        Route::get('/trainer/courses/assisnments/me', 'allProjects')->name('teacher.projects');
     });
 });
+
+Route::get('/google/auth', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.auth');
+Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
 
 
 
@@ -226,8 +207,6 @@ Route::match(['get', 'post'], '/pay/success/done/{cart}/store', [gamePaymentCont
 Route::match(['get', 'post'], '/pay/fail/done', function () {
     return view('payment.failed');
 })->name('pay.fail.store')->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
-
-
 
 
 Route::prefix('admin')->group(function () {
@@ -266,10 +245,10 @@ Route::prefix('admin')->group(function () {
 })->middleware(superAdminMiddleware::class);
 
 
-Route::get('/pay/{course}/form', [ClickPayStoreController::class, 'showPaymentForm'])->name('pay.form')->middleware('auth');
-Route::post('/pay/{course}/init', [ClickPayStoreController::class, 'initiatePayment'])->name('pay.initiate')->middleware('auth');
-Route::get('/pay/callback/{course}', [ClickPayStoreController::class, 'callback'])->name('pay.callback')->middleware('auth');
-Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayStoreController::class, 'success'])
+Route::get('/pay/{course}/form', [ClickPayController::class, 'showPaymentForm'])->name('pay.form')->middleware('auth');
+Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment'])->name('pay.initiate')->middleware('auth');
+Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback')->middleware('auth');
+Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController::class, 'success'])
     ->name('pay.success')
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {

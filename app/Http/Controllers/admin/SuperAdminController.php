@@ -48,13 +48,17 @@ class SuperAdminController extends Controller
         $validtedData = $request->validated();
         $validtedData['password'] = bcrypt($validtedData['password']);
         $validtedData['role'] = 'admin';
+        if ($request->hasFile('school_logo')) {
+            $validtedData['school_logo'] = $request->file('school_logo')->store('school_logos', 'public');
+        }
         $school = school::create([
             'name' => $validtedData['school_name'],
             'type' => $validtedData['type'],
-            'License_number' => $validtedData['License_number'],
+            'License_number' => $validtedData['license_number'],
             'address' => $validtedData['address'],
             'city' => $validtedData['city'],
             'slug' => Str::slug($validtedData['school_name']),
+            'school_logo' => $validtedData['school_logo'],
         ]);
         $user = User::create([
             'name' => $validtedData['name'] . '-' . time(),
@@ -114,7 +118,8 @@ class SuperAdminController extends Controller
         $teachersCount = User::where('role', 'trainer')->count();
         $assignmentsCount = assignment_submission::count();
         $certificates = certificate::count();
-        return view('schoolDashboard.index', compact('courses', 'studentsCount', 'teachersCount', 'assignmentsCount', 'certificates'));
+        $school = school::where('slug', request('slug'))->first();
+        return view('schoolDashboard.index', compact('school', 'courses', 'studentsCount', 'teachersCount', 'assignmentsCount', 'certificates'));
     }
     /**
      * Display the admin dashboard.

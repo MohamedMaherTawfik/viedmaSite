@@ -23,9 +23,11 @@
                         class="text-gray-100 hover:text-[#FEBE35] transition duration-300">تواصل معنا</a></li>
                 <li><a href="#" class="text-gray-100 hover:text-[#FEBE35] transition duration-300">حقوق الطبع
                         والنشر</a></li>
-                <li><a href="#" class="text-gray-100 hover:text-[#FEBE35] transition duration-300">الخصوصيه</a>
+                <li><a href="{{ route('web.privacy') }}"
+                        class="text-gray-100 hover:text-[#FEBE35] transition duration-300">الخصوصيه</a>
                 </li>
-                <li><a href="#" class="text-gray-100 hover:text-[#FEBE35] transition duration-300">المساعده</a>
+                <li><a href="{{ route('web.terms') }}"
+                        class="text-gray-100 hover:text-[#FEBE35] transition duration-300">الشروط و الاحكام</a>
                 </li>
             </ul>
         </div>

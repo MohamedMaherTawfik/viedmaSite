@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\adminRequest;
 use App\Http\Requests\certificateRequest;
 use App\Http\Requests\courseRequest;
 use App\Http\Requests\lessonRequest;
@@ -14,6 +15,7 @@ use App\Http\Requests\userRequest;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
 use App\Models\cart;
+use App\Models\categories;
 use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
@@ -21,11 +23,14 @@ use App\Models\graduationNotes;
 use App\Models\graduationProject;
 use App\Models\lesson;
 use App\Models\report;
+use App\Models\school;
 use App\Models\sessionTime;
+use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class trainerController extends Controller
 {
@@ -118,17 +123,19 @@ class trainerController extends Controller
     // create - عرض نموذج إنشاء دورة جديدة
     public function createCourse()
     {
-        return view('trainerDashboard.courses.create');
+        $categories = categories::get();
+        return view('trainerDashboard.courses.create', compact('categories'));
     }
 
     // store - حفظ الدورة الجديدة
     public function storeCourse(courseRequest $request)
     {
-        // dd(request()->all());
         $validatedData = $request->validated();
         $validatedData['user_id'] = Auth::user()->id;
         $validatedData['slug'] = Str::slug($validatedData['title']) . '-' . time();
-        $request->file('cover_photo')->store('public/coursesImages');
+        if ($request->hasFile('cover_photo')) {
+            $validatedData['cover_photo'] = $request->file('cover_photo')->store('Projects', 'public');
+        }
         Courses::create($validatedData);
         return redirect()->route('trainer.courses')->with('success', 'تم إضافة الدورة بنجاح');
     }
@@ -140,6 +147,14 @@ class trainerController extends Controller
         $ids = graduationProject::where('id', $course->id)->pluck('id');
         $uploads = assignment_submission::whereIn('graduation_project_id', $ids)->get();
         return view('trainerDashboard.courses.show', compact('course', 'uploads'));
+    }
+
+    public function deleteCourse($slug)
+    {
+        $course = Courses::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
+        // dd($course);
+        $course->delete();
+        return redirect()->route('trainer.courses')->with('success', 'تم حذف الدورة بنجاح');
     }
 
     public function trainerProjects()
@@ -289,5 +304,92 @@ class trainerController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Report submitted successfully.');
+    }
+
+    public function allStudents()
+    {
+        $students = student::get();
+        return view('teacherDashboard.student.index', compact('students'));
+    }
+
+    public function createStudent()
+    {
+        return view('teacherDashboard.student.create');
+    }
+
+    /**
+     * Store a newly created user in storage.
+     */
+    public function storeStudent(adminRequest $request)
+    {
+
+        $validatedData = $request->validated();
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $user = student::create($validatedData);
+        return redirect()->route('teacher.students')->with('success', 'Student created successfully.');
+    }
+
+    public function ExcelStudent()
+    {
+        return view('teacherDashboard.student.excel');
+    }
+    /**
+     * Upload Excel file and process it.
+     */
+
+    public function uploadExcel(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls',
+        ]);
+        $school = school::where('id', Auth::user()->school->id)->firstOrFail();
+
+        // احفظ الملف يدويًا
+        $file = $request->file('excel_file');
+        $savePath = storage_path('app/temp/students.xlsx');
+        $file->move(storage_path('app/temp'), 'students.xlsx');
+
+        $realPath = realpath($savePath); // Get absolute path
+
+        if (!file_exists($realPath)) {
+            return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
+        }
+
+        SimpleExcelReader::create($realPath)
+            ->getRows()
+            ->each(function (array $row) use ($school) {
+                Student::create([
+                    'name' => $row['name'],
+                    'school_id' => $school->id,
+                    'national_id' => $row['national_id'],
+                    'nationallity' => $row['nationallity'],
+                    'Academic_stage' => $row['Academic_stage'],
+                    'slug' => Str::slug($row['name']) . '-' . time(),
+                ]);
+            });
+
+        return redirect()->route('teacher.students')->with('success', 'Excel file uploaded and students created successfully.');
+    }
+
+    public function editStudent(student $student)
+    {
+        return view('teacherDashboard.student.edit', compact('student'));
+    }
+
+    public function updateStudent(student $student)
+    {
+        $student->update(request()->all());
+        return redirect()->route('teacher.students')->with('success', 'Student updated successfully.');
+    }
+    public function deleteStudent(student $student)
+    {
+        $student->delete();
+        return redirect()->back()->with('success', 'Student deleted successfully.');
+    }
+
+    public function allProjects()
+    {
+        $assignments = assignment_submission::where('user_id', auth()->id())->with('notes')->get();
+        return view('teacherDashboard.projects.index', compact('assignments'));
     }
 }

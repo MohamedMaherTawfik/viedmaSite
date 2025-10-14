@@ -22,14 +22,15 @@ class courseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'description' => 'required',
-            'duration' => 'required',
-            'start_Date' => 'required',
-            'level' => 'required',
+            'title' => 'nullable',
+            'description' => 'nullable',
+            'duration' => 'nullable',
+            'start_Date' => 'nullable',
+            'level' => 'nullable',
             'status' => 'nullable',
-            'cover_photo' => 'required|file',
-            'price' => 'required',
+            'cover_photo' => 'nullable|file',
+            'price' => 'nullable',
+            'categories_id' => 'nullable',
         ];
     }
 }

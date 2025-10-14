@@ -68,9 +68,17 @@
                                     <td class="px-4 py-3 text-center">{{ $item->start_Date }}</td>
                                     <td class="px-4 py-3 text-center text-center">
                                         <a href="{{ route('trainer.courses.show', $item->slug) }}"
-                                            class="text-blue-600 hover:underline">
+                                            class="text-blue-600 hover:underline text-xl">
                                             👁️
                                         </a>
+                                        {{-- form delete --}}
+                                        <form action="{{ route('trainer.courses.destroy', $item->slug) }}"
+                                            method="POST" class="inline-block mr-2">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:underline"><i
+                                                    class="fa-solid fa-trash text-xl"></i></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach

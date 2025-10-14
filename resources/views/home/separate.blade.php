@@ -225,7 +225,7 @@
                             استخدام أحدث أساليب التدريس والتكنولوجيا في العملية التعليمية.
                         </p>
 
-                        <a href="#"
+                        <a href="{{ route('web.courses') }}"
                             class="block text-center bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300">
                             اكتشف المزيد
                         </a>

@@ -46,7 +46,6 @@
             <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="illustration"
                 class="w-full max-w-sm object-contain">
         </div>
-
         <!-- Form Section -->
         <div class="p-6 md:p-8 flex flex-col justify-center">
             <div class="flex items-center gap-2 self-center">
@@ -54,7 +53,8 @@
             </div>
             <h2 class="text-2xl font-bold mb-1 self-center">تسجيل دخول</h2>
 
-            <form method="POST" action="{{ route('school.register.store') }}" class="space-y-4">
+            <form method="POST" action="{{ route('school.register.store') }}" enctype="multipart/form-data"
+                class="space-y-4">
                 @csrf
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -95,9 +95,9 @@
                     <!-- رقم الترخيص -->
                     <div>
                         <label class="block text-sm font-medium">رقم الترخيص</label>
-                        <input type="text" name="License_number" placeholder="رقم الترخيص"
+                        <input type="text" name="license_number" placeholder="رقم الترخيص"
                             class="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
-                        @error('License_number')
+                        @error('license_number')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </div>
@@ -158,6 +158,16 @@
                         <input type="password" name="password_confirmation" placeholder="********"
                             class="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 outline-none">
                     </div>
+
+                    <!-- شعار المدرسة -->
+                    <div class="sm:col-span-2">
+                        <label class="block text-sm font-medium">شعار المدرسة (اختياري)</label>
+                        <input type="file" name="school_logo" accept="image/*"
+                            class="w-full border px-3 py-2 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        @error('school_logo')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
 
                 <!-- الشروط -->
@@ -182,6 +192,7 @@
                 </p>
             </form>
         </div>
+
     </div>
 </body>
 

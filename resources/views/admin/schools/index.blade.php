@@ -54,6 +54,7 @@
                                 <th class="px-4 py-2 border text-center">المدينة</th>
                                 <th class="px-4 py-2 border text-center">رقم الترخيص</th>
                                 <th class="px-4 py-2 border text-center">النوع</th>
+                                <th class="px-4 py-2 border text-center">الشعار</th>
                                 <th class="px-4 py-2 border text-center">العمليات</th>
                             </tr>
                         </thead>
@@ -65,10 +66,23 @@
                                     </td>
                                     <td class="px-4 py-2 border text-center">{{ $school->admin?->name ?? 'No admin' }}
                                     </td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->address }}</td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->city }}</td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->License_number }}</td>
-                                    <td class="px-4 py-2 border text-center">{{ $school->type }}</td>
+                                    <td class="px-4 py-2 border text-center">{{ $school->address ?? 'No address' }}</td>
+                                    <td class="px-4 py-2 border text-center">{{ $school->city ?? 'No city' }}</td>
+                                    <td class="px-4 py-2 border text-center">
+                                        {{ $school->License_number ?? 'No license' }}</td>
+                                    <td class="px-4 py-2 border text-center">{{ $school->type ?? 'No type' }}</td>
+                                    <td class="px-4 py-2 border text-center">
+                                        @if ($school->school_logo)
+                                            <img src="{{ asset('storage/' . $school->school_logo) }}"
+                                                class="w-20 h-20 object-cover rounded-full mx-auto shadow-sm border border-gray-200"
+                                                alt="شعار المدرسة">
+                                        @else
+                                            <img src="{{ asset('auth/rendered_page.png') }}"
+                                                class="w-20 h-20 object-cover rounded-full mx-auto shadow-sm border border-gray-200"
+                                                alt="صورة افتراضية">
+                                        @endif
+                                    </td>
+
                                     <td class="px-4 py-2 text-center flex items-center justify-center gap-3">
 
                                         {{-- Show --}}

@@ -16,8 +16,8 @@ class courseSeeder extends Seeder
         $courses = [
             [
                 'title' => 'Laravel for Beginners',
+                'categories_id' => 1,
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
-                'cover_photo' => 'courses/laravel.jpg',
                 'price' => 29.99,
                 'duration' => '40',
                 'start_date' => '2023-11-01',
@@ -27,8 +27,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Advanced JavaScript',
+                'categories_id' => 2,
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
-                'cover_photo' => 'courses/javascript.jpg',
                 'price' => 39.99,
                 'duration' => '60',
                 'start_date' => '2023-12-01',
@@ -38,8 +38,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Python Data Science',
+                'categories_id' => 3,
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
-                'cover_photo' => 'courses/DataScience.png',
                 'price' => 49.99,
                 'duration' => '80',
                 'start_date' => '2024-01-15',
@@ -49,8 +49,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Web Development Bootcamp',
+                'categories_id' => 4,
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
-                'cover_photo' => 'courses/bootcamp.png',
                 'price' => 59.99,
                 'duration' => '100',
                 'start_date' => '2024-02-01',
@@ -60,8 +60,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Flutter for Mobile Apps',
+                'categories_id' => 5,
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
-                'cover_photo' => 'courses/flutter.png',
                 'price' => 34.99,
                 'duration' => '50',
                 'level' => 'Beginner',
@@ -69,11 +69,10 @@ class courseSeeder extends Seeder
                 'slug' => 'flutter-for-mobile-apps',
                 'user_id' => 1,
             ],
-
             [
                 'title' => 'Laravel for yBeginners',
+                'categories_id' => 1,
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
-                'cover_photo' => 'courses/laravel.jpg',
                 'price' => 29.99,
                 'level' => 'Mid',
                 'duration' => '40',
@@ -83,8 +82,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Advanced JavayScript',
+                'categories_id' => 2,
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
-                'cover_photo' => 'courses/javascript.jpg',
                 'price' => 39.99,
                 'duration' => '60',
                 'start_date' => '2023-12-01',
@@ -94,8 +93,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Python Data Scyience',
+                'categories_id' => 3,
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
-                'cover_photo' => 'courses/DataScience.png',
                 'price' => 49.99,
                 'level' => 'Advanced',
                 'duration' => '80',
@@ -105,8 +104,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Web Developmenty Bootcamp',
+                'categories_id' => 4,
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
-                'cover_photo' => 'courses/bootcamp.png',
                 'price' => 59.99,
                 'level' => 'Beginner',
                 'duration' => '100',
@@ -116,8 +115,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Flutter for Mobiyle Apps',
+                'categories_id' => 5,
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
-                'cover_photo' => 'courses/flutter.png',
                 'price' => 34.99,
                 'level' => 'Mid',
                 'duration' => '50',
@@ -125,11 +124,10 @@ class courseSeeder extends Seeder
                 'slug' => 'flutter-for-mdobile-apps',
                 'user_id' => 1,
             ],
-
             [
                 'title' => 'Laravel for Begininers',
+                'categories_id' => 1,
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
-                'cover_photo' => 'courses/laravel.jpg',
                 'price' => 29.99,
                 'duration' => '40',
                 'level' => 'Mid',
@@ -139,8 +137,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Advanced JavaScripit',
+                'categories_id' => 2,
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
-                'cover_photo' => 'courses/javascript.jpg',
                 'price' => 39.99,
                 'duration' => '60',
                 'level' => 'Advanced',
@@ -150,8 +148,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Python Data Sciencei',
+                'categories_id' => 3,
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
-                'cover_photo' => 'courses/DataScience.png',
                 'price' => 49.99,
                 'duration' => '80',
                 'level' => 'Mid',
@@ -161,8 +159,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Web Development Booticamp',
+                'categories_id' => 4,
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
-                'cover_photo' => 'courses/bootcamp.png',
                 'price' => 59.99,
                 'duration' => '100',
                 'level' => 'Beginner',
@@ -172,8 +170,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Flutter for Mobile Apips',
+                'categories_id' => 5,
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
-                'cover_photo' => 'courses/flutter.png',
                 'price' => 34.99,
                 'level' => 'Mid',
                 'duration' => '50',
@@ -181,11 +179,10 @@ class courseSeeder extends Seeder
                 'slug' => 'flutter-fgor-mobile-apps',
                 'user_id' => 1,
             ],
-
             [
                 'title' => 'Laravel for Bejginners',
+                'categories_id' => 1,
                 'description' => 'Learn the basics of Laravel, a powerful PHP framework.',
-                'cover_photo' => 'courses/laravel.jpg',
                 'price' => 29.99,
                 'level' => 'Beginner',
                 'duration' => '40',
@@ -195,8 +192,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Advanced JavaScjript',
+                'categories_id' => 2,
                 'description' => 'Deep dive into advanced JavaScript concepts and techniques.',
-                'cover_photo' => 'courses/javascript.jpg',
                 'price' => 39.99,
                 'duration' => '60',
                 'level' => 'Advanced',
@@ -206,8 +203,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Python Data Sciejnce',
+                'categories_id' => 3,
                 'description' => 'Explore data science using Python, including libraries like Pandas and NumPy.',
-                'cover_photo' => 'courses/DataScience.png',
                 'price' => 49.99,
                 'duration' => '80',
                 'start_date' => '2024-01-15',
@@ -217,8 +214,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Web Development Bjootcamp',
+                'categories_id' => 4,
                 'description' => 'A comprehensive bootcamp covering HTML, CSS, and JavaScript.',
-                'cover_photo' => 'courses/bootcamp.png',
                 'price' => 59.99,
                 'duration' => '100',
                 'level' => 'Advanced',
@@ -228,8 +225,8 @@ class courseSeeder extends Seeder
             ],
             [
                 'title' => 'Flutter for Mobilej Apps',
+                'categories_id' => 5,
                 'description' => 'Learn to build beautiful mobile applications using Flutter.',
-                'cover_photo' => 'courses/flutter.png',
                 'price' => 34.99,
                 'duration' => '50',
                 'start_date' => '2024-03-01',
@@ -237,8 +234,8 @@ class courseSeeder extends Seeder
                 'slug' => 'flutfter-for-mobile-apps',
                 'user_id' => 1,
             ],
-
         ];
+
 
         foreach ($courses as $course) {
             Courses::create($course);

@@ -89,13 +89,6 @@ class teacherController extends Controller
         return view('teacherDashboard.certificates.index', compact('certificates'));
     }
 
-    public function allProjects()
-    {
-        $assignments = assignment_submission::where('user_id', auth()->id())->with('notes')->get();
-        return view('teacherDashboard.projects.index', compact('assignments'));
-    }
-
-
     public function createLesson()
     {
         $course = $this->courseRepository->getCourseBySlug(request('slug'));
@@ -109,88 +102,6 @@ class teacherController extends Controller
         return view('teacherDashboard.lessons.showLesson', compact('lesson', 'course'));
     }
 
-    public function allStudents()
-    {
-        $students = student::get();
-        return view('teacherDashboard.student.index', compact('students'));
-    }
-
-    public function createStudent()
-    {
-        return view('teacherDashboard.student.create');
-    }
-
-    /**
-     * Store a newly created user in storage.
-     */
-    public function storeStudent(adminRequest $request)
-    {
-
-        $validatedData = $request->validated();
-        $validatedData['slug'] = Str::slug($validatedData['name']);
-        $user = student::create($validatedData);
-        return redirect()->route('teacher.students')->with('success', 'Student created successfully.');
-    }
-
-    public function ExcelStudent()
-    {
-        return view('teacherDashboard.student.excel');
-    }
-    /**
-     * Upload Excel file and process it.
-     */
-
-    public function uploadExcel(Request $request)
-    {
-        $request->validate([
-            'excel_file' => 'required|file|mimes:xlsx,xls',
-        ]);
-        $school = School::where('id', Auth::user()->school->id)->firstOrFail();
-
-        // احفظ الملف يدويًا
-        $file = $request->file('excel_file');
-        $savePath = storage_path('app/temp/students.xlsx');
-        $file->move(storage_path('app/temp'), 'students.xlsx');
-
-        $realPath = realpath($savePath); // Get absolute path
-
-        if (!file_exists($realPath)) {
-            return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
-        }
-
-        SimpleExcelReader::create($realPath)
-            ->getRows()
-            ->each(function (array $row) use ($school) {
-                Student::create([
-                    'name' => $row['name'],
-                    'school_id' => $school->id,
-                    'national_id' => $row['national_id'],
-                    'nationallity' => $row['nationallity'],
-                    'Academic_stage' => $row['Academic_stage'],
-                    'slug' => Str::slug($row['name']) . '-' . time(),
-                ]);
-            });
-
-        // unlink($realPath);
-
-        return redirect()->route('teacher.students')->with('success', 'Excel file uploaded and students created successfully.');
-    }
-
-    public function editStudent(student $student)
-    {
-        return view('teacherDashboard.student.edit', compact('student'));
-    }
-
-    public function updateStudent(student $student)
-    {
-        $student->update(request()->all());
-        return redirect()->route('teacher.students')->with('success', 'Student updated successfully.');
-    }
-    public function deleteStudent(student $student)
-    {
-        $student->delete();
-        return redirect()->back()->with('success', 'Student deleted successfully.');
-    }
 
     public function evaluation()
     {

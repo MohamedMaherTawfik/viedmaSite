@@ -44,4 +44,6 @@ class GoogleAuthController extends Controller
 
         return redirect()->route('dashboard')->with('error', 'فشل تسجيل الدخول بحساب Google ❌');
     }
+
+
 }

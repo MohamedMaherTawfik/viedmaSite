@@ -109,6 +109,24 @@
                         @enderror
                     </div>
 
+                    <!-- Category -->
+                    <div>
+                        <label for="categories_id" class="block font-medium text-gray-700 mb-1">التصنيف</label>
+                        <select name="categories_id" id="categories_id"
+                            class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
+                            <option value="">اختر التصنيف</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ old('categories_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('categories_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <!-- Cover Photo -->
                     <div class="md:col-span-2">
                         <label for="cover_photo" class="block font-medium text-gray-700 mb-1">صورة الغلاف</label>

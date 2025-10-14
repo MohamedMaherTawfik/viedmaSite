@@ -9,7 +9,6 @@ use App\Models\cartItems;
 use App\Models\Courses;
 use App\Models\games;
 use App\Models\gamesCategorey;
-use App\Models\orderdetails;
 use App\Models\orders;
 use App\Models\school;
 use App\Models\User;
@@ -52,7 +51,7 @@ class homeController extends Controller
 
     public function showGame(games $game)
     {
-        return view('home..store.singleGame', compact('game'));
+        return view('home.store.singleGame', compact('game'));
     }
 
     public function allGames()

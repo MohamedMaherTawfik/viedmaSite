@@ -94,35 +94,42 @@
                         <div x-show="Math.ceil(({{ $loop->index + 1 }}) / perPage) === page" x-data="{ open: false, visible: false }"
                             x-init="setTimeout(() => visible = true, $el.dataset.delay)" data-delay="{{ $loop->index * 200 }}"
                             class="transform transition-all duration-500 ease-out">
+
                             <div class="relative p-4 text-right bg-white border border-[#176b98] rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-transform duration-400"
                                 :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                                 style="will-change: transform, opacity;">
-                                <!-- floating wrapper (continuous float) -->
+
+                                <!-- floating wrapper -->
                                 <div class="float relative">
 
-                                    <!-- content -->
+                                    <!-- صورة المدرسة -->
+                                    <div class="w-full h-40 mb-3 overflow-hidden rounded-xl">
+                                        <img src="{{ $school->school_logo ? asset('storage/' . $school->school_logo) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
+                                            alt="{{ $school->name }}"
+                                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                                    </div>
+
+                                    <!-- المحتوى -->
                                     <div class="flex items-center justify-between gap-3">
 
-
-                                        <!-- center: name with typewriter effect (only visible text) -->
+                                        <!-- الاسم -->
                                         <div class="flex-1 min-w-0">
                                             <div class="text-right">
                                                 <div
                                                     class="overflow-hidden whitespace-nowrap text-lg font-bold text-[#176b98] leading-tight">
-                                                    <!-- typewriter: width animates from 0ch -> Nch; CSS variable --chars set from blade -->
                                                     <span class="inline-block typewriter truncate"
                                                         style="--chars: {{ mb_strlen($school->name) }};">
                                                         {{ $school->name }}
                                                     </span>
                                                 </div>
 
-
-                                                <p class="text-xs text-gray-500 mt-1 truncate max-w-full">النوع: <span
-                                                        class="font-medium">{{ $school->type }}</span></p>
+                                                <p class="text-xs text-gray-500 mt-1 truncate max-w-full">
+                                                    النوع: <span class="font-medium">{{ $school->type }}</span>
+                                                </p>
                                             </div>
                                         </div>
 
-                                        <!-- right: chevron / collapse trigger with hover animation -->
+                                        <!-- زر الفتح -->
                                         <div class="flex-shrink-0">
                                             <button @click="open = !open" @mouseenter="$el.classList.add('scale-105')"
                                                 @mouseleave="$el.classList.remove('scale-105')"
@@ -144,7 +151,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- collapse details -->
+                                    <!-- التفاصيل -->
                                     <div x-show="open" x-collapse class="mt-3 text-sm text-gray-700">
                                         <p class="mb-3">{{ $school->city ?? 'لا توجد تفاصيل إضافية' }}</p>
 
@@ -153,18 +160,14 @@
                                                 class="flex-1 text-center bg-[#FEBE35] text-black text-sm py-2 rounded-lg hover:bg-[#176b98] hover:text-white transition-colors">
                                                 الذهاب إلى المدرسة
                                             </a>
-                                            {{-- <a href="{{ route('schools.show', $school->id) }}"
-                                                class="flex-1 text-center border border-[#176b98] text-[#176b98] text-sm py-2 rounded-lg hover:bg-[#176b98] hover:text-white transition-colors">
-                                                عرض الملف
-                                            </a> --}}
                                         </div>
                                     </div>
-
-                                </div> <!-- end float -->
-                            </div> <!-- end card wrapper -->
+                                </div>
+                            </div>
                         </div>
                     @endforeach
                 </div>
+
 
                 <!-- Pagination Tabs -->
                 <div class="flex justify-center gap-2 mt-4">
