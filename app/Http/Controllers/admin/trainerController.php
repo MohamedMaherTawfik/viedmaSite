@@ -12,6 +12,7 @@ use App\Http\Requests\noteRequest;
 use App\Http\Requests\projectRequest;
 use App\Http\Requests\reportRequest;
 use App\Http\Requests\userRequest;
+use App\Jobs\UploadLessonToYouTubeJob;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
 use App\Models\cart;
@@ -29,6 +30,7 @@ use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
@@ -238,9 +240,7 @@ class trainerController extends Controller
             'date' => 'nullable',
             'time' => 'nullable'
         ]);
-
         $sessionTime->update($validated);
-
         return redirect()->route('trainer.schedules')->with('success', 'تم تعديل الموعد بنجاح');
     }
 
@@ -249,19 +249,40 @@ class trainerController extends Controller
         return view('trainerDashboard.lesson.create', compact('course'));
     }
 
+
     public function storeLesson(lessonRequest $request, Courses $course)
     {
         $validated = $request->validated();
+
         $validated['courses_id'] = $course->id;
-        $validated['user_id'] = Auth::user()->id;
+        $validated['user_id'] = Auth::id();
         $validated['slug'] = Str::slug($validated['title']) . '-' . time();
+
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('Lessons', 'public');
         }
 
-        lesson::create($validated);
-        return redirect()->route('trainer.courses.show', $course->slug)->with('success', 'تم اضافة المحاضرة بنجاح');
+        // حفظ الفيديو مؤقتًا في storage/app/videos
+        $videoPath = $request->file('video')->store('videos');
+
+        // إنشاء الدرس مبدئيًا بدون video_url
+        $lesson = Lesson::create($validated);
+
+        // جلب التوكن من الجلسة
+        $token = Session::get('youtube_token');
+        if (!$token) {
+            return redirect()->route('google.auth')->with('error', 'يجب تسجيل الدخول بحساب Google أولاً');
+        }
+
+        // إرسال Job لرفع الفيديو في الخلفية
+        UploadLessonToYouTubeJob::dispatch($lesson, $videoPath, $token);
+
+        return redirect()
+            ->route('trainer.courses.show', $course->slug)
+            ->with('success', 'تم إنشاء الدرس، وجاري رفع الفيديو إلى YouTube في الخلفية 🎥');
     }
+
+
 
     public function deleteSessionTime(SessionTime $sessionTime)
     {

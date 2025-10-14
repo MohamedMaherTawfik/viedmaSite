@@ -38,11 +38,11 @@ class GoogleAuthController extends Controller
 
             if (!isset($token['error'])) {
                 Session::put('youtube_token', $token);
-                return redirect()->route('dashboard')->with('success', 'تم تسجيل الدخول بحساب Google بنجاح ✅');
+                return redirect()->route('trainerDashboard')->with('success', 'تم تسجيل الدخول بحساب Google بنجاح ✅');
             }
         }
 
-        return redirect()->route('dashboard')->with('error', 'فشل تسجيل الدخول بحساب Google ❌');
+        return redirect()->route('trainerDashboard')->with('error', 'فشل تسجيل الدخول بحساب Google ❌');
     }
 
 
