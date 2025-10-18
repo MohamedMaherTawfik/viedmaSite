@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\home;
 
 use App\Http\Controllers\Controller;
+use App\Models\assignment_submission;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\graduationProject;
-use Illuminate\Support\Facades\Storage;
+use App\Models\lesson;
 
 class CoursesWebController extends Controller
 {
@@ -33,9 +34,6 @@ class CoursesWebController extends Controller
 
     public function enrolledCourse(Courses $course)
     {
-        // $zoommeeting = ZoomMeeting::where('courses_id', $course->id)
-        //     ->orderBy('id', 'desc')
-        //     ->first();
         $projects = graduationProject::where('courses_id', $course->id)->get();
         $relatedCourses = Courses::where('categorey_id', $course->categorey_id)->take(3)->get();
         return view('web.courses.enrolledCourse', compact('course', 'relatedCourses', 'projects'));
@@ -51,4 +49,22 @@ class CoursesWebController extends Controller
         return view('web.conditions.terms');
     }
 
+    public function showLesson(lesson $course)
+    {
+        return view('web.lesson.show', compact('course'));
+    }
+
+    public function uploadProject(\Illuminate\Http\Request $request, graduationProject $course)
+    {
+        $data = $request->except('_token');
+        if ($request->hasFile('project_file')) {
+            $data['project_file'] = $request->file('project_file')->store('Projects', 'public');
+        }
+        assignment_submission::create([
+            'user_id' => auth()->id(),
+            'file' => $data['project_file'],
+            'graduation_project_id' => $course->id,
+        ]);
+        return redirect()->back()->with('success', 'Project uploaded successfully.');
+    }
 }

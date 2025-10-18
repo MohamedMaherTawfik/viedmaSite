@@ -174,7 +174,7 @@
 
                          @if (!empty($item->file) && Storage::disk('public')->exists($item->file))
                              <a href="{{ asset('storage/' . $item->file) }}" target="_blank"
-                                 class="flex items-center space-x-2 text-[#176b98] hover:text-[#5a0e16] transition">
+                                 class="flex items-center space-x-2 text-[#176b98] hover:text-[#084261FF] transition">
                                  <!-- File Icon SVG -->
                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor"
                                      viewBox="0 0 20 20">
@@ -182,7 +182,7 @@
                                      <path d="M14 2v6h6" />
                                  </svg>
                                  <button type="button"
-                                     class="inline-flex items-center px-4 py-2 bg-[#176b98] text-[#e4ce96] rounded hover:bg-[#5a0e16] transition text-sm font-medium">
+                                     class="inline-flex items-center px-4 py-2 bg-[#176b98] text-[#e4ce96] rounded hover:bg-[#084261FF] transition text-sm font-medium">
                                      Show Project
                                  </button>
                              </a>
@@ -190,27 +190,29 @@
                              <p class="text-sm text-red-500">No project file uploaded yet.</p>
                          @endif
                      </div>
+                     <!-- Student Upload Form -->
+                     <form action="{{ route('uploadProject', $item) }}" method="POST" enctype="multipart/form-data"
+                         class="bg-white p-6 rounded-lg shadow border border-gray-200 space-y-4">
+                         @csrf
+
+                         <div>
+                             <label for="project_file" class="block text-sm font-medium text-gray-700 mb-1">
+                                 Submit Your Work
+                             </label>
+                             <input type="file" id="project_file" name="project_file" accept=".pdf,.docx,.zip"
+                                 required
+                                 class="w-full border-gray-300 rounded-md shadow-sm focus:ring-[#176b98] focus:border-[#176b98]">
+                         </div>
+
+                         <button type="submit"
+                             class="bg-[#176b98] text-[#e4ce96] hover:bg-[#084261FF] px-4 py-2 rounded font-semibold text-sm transition-colors duration-300">
+                             Submit Project
+                         </button>
+                     </form>
                  @endforeach
              @endif
 
-             <!-- Student Upload Form -->
-             <form action="" method="POST" enctype="multipart/form-data"
-                 class="bg-white p-6 rounded-lg shadow border border-gray-200 space-y-4">
-                 @csrf
 
-                 <div>
-                     <label for="project_file" class="block text-sm font-medium text-gray-700 mb-1">
-                         Submit Your Work
-                     </label>
-                     <input type="file" id="project_file" name="project_file" accept=".pdf,.docx,.zip" required
-                         class="w-full border-gray-300 rounded-md shadow-sm focus:ring-[#176b98] focus:border-[#176b98]">
-                 </div>
-
-                 <button type="submit"
-                     class="bg-[#176b98] text-[#e4ce96] hover:bg-[#5a0e16] px-4 py-2 rounded font-semibold text-sm transition-colors duration-300">
-                     Submit Project
-                 </button>
-             </form>
          </div>
 
 
@@ -356,8 +358,8 @@
                                              'opacity-0 translate-y-2': expandedCard !== {{ $lesson->id }} && !
                                                  isHovered
                                          }">
-                                         <a href="{{ route('lesson.show', $lesson->slug) }}"
-                                             class="inline-block bg-[#176b98DA] text-[#e4ce96] px-4 py-2 rounded hover:bg-[#5a0e16] font-medium text-sm transition-colors duration-300 flex items-center">
+                                         <a href="{{ route('web.courses.enrolled.lesson', $lesson) }}"
+                                             class="inline-block bg-[#176b98DA] text-[#e4ce96] px-4 py-2 rounded hover:bg-[#074E74DA] font-medium text-sm transition-colors duration-300 flex items-center">
                                              Go to Lesson
                                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1"
                                                  viewBox="0 0 20 20" fill="currentColor">

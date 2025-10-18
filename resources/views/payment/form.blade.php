@@ -35,7 +35,7 @@
 
         h2 {
             text-align: center;
-            color: #79131d;
+            color: #176b98;
             margin-bottom: 25px;
             font-size: 26px;
         }
@@ -57,7 +57,7 @@
         }
 
         .info-label {
-            color: #79131d;
+            color: #176b98;
             font-weight: 600;
         }
 
@@ -68,7 +68,7 @@
         .amount {
             font-size: 20px;
             font-weight: bold;
-            color: #79131d;
+            color: #176b98;
             text-align: center;
             margin: 15px 0;
         }
@@ -85,7 +85,7 @@
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
-            color: #79131d;
+            color: #176b98;
         }
 
         input[type="text"] {
@@ -100,13 +100,13 @@
         }
 
         input[type="text"]:focus {
-            border-color: #79131d;
+            border-color: #176b98;
             outline: none;
             box-shadow: 0 0 5px rgba(121, 19, 29, 0.3);
         }
 
         button {
-            background-color: #79131d;
+            background-color: #176b98;
             color: #e4ce96;
             border: none;
             padding: 14px 20px;
@@ -119,7 +119,7 @@
         }
 
         button:hover {
-            background-color: #5e0f17;
+            background-color: #0A4869FF;
             transform: translateY(-2px);
         }
 

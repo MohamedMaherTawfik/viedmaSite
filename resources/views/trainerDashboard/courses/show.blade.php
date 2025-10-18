@@ -85,9 +85,25 @@
                              <tr>
                                  <td>{{ $loop->iteration }}</td>
                                  <td>{{ $item->title }}</td>
-                                 <td><a href="{{ $item->video_url }}" target="_blank" rel="noopener noreferrer"
-                                         class="text-green-600 hover:underline">مشاهدة</a>
+                                 <td class="flex items-center gap-3">
+                                     <!-- زر المشاهدة -->
+                                     <a href="{{ route('trainer.lesson.show', $item) }}"
+                                         class="inline-flex items-center gap-1 bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg shadow transition duration-200">
+                                         👁️ <span>مشاهدة</span>
+                                     </a>
+
+                                     <!-- فورم الحذف -->
+                                     <form action="{{ route('trainer.lesson.destroy', $item) }}" method="POST"
+                                         onsubmit="return confirm('هل أنت متأكد من حذف هذا الدرس؟');">
+                                         @csrf
+                                         @method('DELETE')
+                                         <button type="submit"
+                                             class="inline-flex items-center gap-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-3 py-1.5 rounded-lg shadow transition duration-200">
+                                             🗑️ <span>حذف</span>
+                                         </button>
+                                     </form>
                                  </td>
+
                              </tr>
                          @endforeach
                      </tbody>
@@ -127,20 +143,93 @@
                  <table class="w-full text-center table-auto border">
                      <thead class="bg-gray-100">
                          <tr>
-                             <th>اسم الملف</th>
-                             <th>النوع</th>
+                             <th>اسم الطالب</th>
+                             <th>الملف</th>
+                             <th>ملاحظات التقييم</th>
+                             <th>التقييم</th>
                              <th>التاريخ</th>
-                             <th>مرفوع بواسطة</th>
                              <th>الإجراء</th>
                          </tr>
                      </thead>
                      <tbody>
                          @foreach ($uploads as $item)
                              <tr>
-                                 <td>{{ $item->feedback }}</td>
-                                 <td>{{ $item->file }}</td>
-                                 <td>{{ $item->created_at }}</td>
+
                                  <td>{{ $item->user->name }}</td>
+                                 <td>
+                                     <a href="{{ asset('storage/' . $item->file) }}"
+                                         class="inline-block px-4 py-2 bg-yellow-500 text-white font-medium rounded-lg hover:bg-yellow-600 transition">
+                                         Project File
+                                     </a>
+                                 </td>
+                                 <td>{{ $item->feedback }}</td>
+                                 <td>{{ $item->grade }}</td>
+                                 <td>{{ $item->created_at }}</td>
+                                 <td>
+                                     <!-- الزر -->
+                                     <button onclick="openModal('{{ $item->id }}')"
+                                         class="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                                         <i class="fas fa-comment-dots mr-1"></i> Feedback
+                                     </button>
+
+                                     <!-- المودال -->
+                                     <div id="feedbackModal-{{ $item->id }}"
+                                         class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                                         <div class="bg-white rounded-2xl shadow-lg w-full max-w-md p-6 relative">
+                                             <!-- إغلاق -->
+                                             <button onclick="closeModal('{{ $item->id }}')"
+                                                 class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+
+                                             <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">Add
+                                                 Feedback</h2>
+
+                                             <form action="{{ route('trainer.feedback', $item) }}" method="POST"
+                                                 class="space-y-4">
+                                                 @csrf
+
+                                                 <!-- الحقل الأول -->
+                                                 <div>
+                                                     <label for="grade-{{ $item->id }}"
+                                                         class="block text-sm font-medium text-gray-700 mb-1">Grade</label>
+                                                     <input type="number" name="grade"
+                                                         id="grade-{{ $item->id }}" required
+                                                         class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                                                 </div>
+
+                                                 <!-- الحقل الثاني -->
+                                                 <div>
+                                                     <label for="feedback-{{ $item->id }}"
+                                                         class="block text-sm font-medium text-gray-700 mb-1">Feedback</label>
+                                                     <textarea name="feedback" id="feedback-{{ $item->id }}" rows="3" required
+                                                         class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                                                 </div>
+
+                                                 <!-- أزرار التحكم -->
+                                                 <div class="flex justify-end space-x-2">
+                                                     <button type="button" onclick="closeModal('{{ $item->id }}')"
+                                                         class="px-3 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">
+                                                         Cancel
+                                                     </button>
+                                                     <button type="submit"
+                                                         class="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                                                         Submit
+                                                     </button>
+                                                 </div>
+                                             </form>
+                                         </div>
+                                     </div>
+
+                                     <!-- سكربت فتح وغلق المودال -->
+                                     <script>
+                                         function openModal(id) {
+                                             document.getElementById('feedbackModal-' + id).classList.remove('hidden');
+                                         }
+
+                                         function closeModal(id) {
+                                             document.getElementById('feedbackModal-' + id).classList.add('hidden');
+                                         }
+                                     </script>
+                                 </td>
                              </tr>
                          @endforeach
                      </tbody>
@@ -163,15 +252,21 @@
                              </a>
                          </div>
 
+
                          <!-- زر الحذف -->
-                         <form action="{{ route('trainer.project.delete', $item) }}" method="POST"
-                             onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا المشروع؟');">
-                             @csrf
-                             @method('DELETE')
-                             <button type="submit" class="text-red-600 hover:text-red-800 ml-4">
-                                 <i class="fas fa-trash-alt text-lg"></i>
-                             </button>
-                         </form>
+
+                         <div class="flex items-center space-x-3">
+                             <form action="{{ route('trainer.project.delete', $item) }}" method="POST"
+                                 onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا المشروع؟');">
+                                 @csrf
+                                 @method('DELETE')
+                                 <button type="submit"
+                                     class="px-3 py-2 mr-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">
+                                     <i class="fas fa-trash-alt"></i>
+                                 </button>
+                             </form>
+                         </div>
+
                      </div>
                  @endforeach
 

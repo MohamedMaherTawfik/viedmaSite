@@ -146,11 +146,17 @@ class trainerController extends Controller
     public function showCourse($slug)
     {
         $course = Courses::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
-        $ids = graduationProject::where('id', $course->id)->pluck('id');
+        $ids = graduationProject::where('teacher_id', Auth::user()->id)->pluck('id');
         $uploads = assignment_submission::whereIn('graduation_project_id', $ids)->get();
         return view('trainerDashboard.courses.show', compact('course', 'uploads'));
     }
 
+    public function feedback(Request $request, assignment_submission $project)
+    {
+        $data = $request->except('_token');
+        $project->update($data);
+        return redirect()->back()->with('success', 'تم حفظ التقييم بنجاح');
+    }
     public function deleteCourse($slug)
     {
         $course = Courses::where('slug', $slug)->where('user_id', Auth::id())->firstOrFail();
@@ -265,7 +271,7 @@ class trainerController extends Controller
         $videoPath = $request->file('video')->store('videos', 'public');
 
         // إنشاء الدرس بدون video_url مؤقتًا
-        $lesson = Lesson::create($validated);
+        $lesson = lesson::create($validated);
 
         // جلب توكن Google من الجلسة
         $token = Session::get('youtube_token');
@@ -280,6 +286,7 @@ class trainerController extends Controller
             ->route('trainer.courses.show', $course->slug)
             ->with('success', 'سيتم عرض الفيديو بمجرد الانتهاء من الرفع');
     }
+
 
     public function deleteSessionTime(SessionTime $sessionTime)
     {
@@ -409,5 +416,16 @@ class trainerController extends Controller
     {
         $assignments = assignment_submission::where('user_id', auth()->id())->with('notes')->get();
         return view('teacherDashboard.projects.index', compact('assignments'));
+    }
+
+    public function showLesson(lesson $course)
+    {
+        return view('trainerDashboard.lesson.show', compact('course'));
+    }
+
+    public function destroyLesson(lesson $course)
+    {
+        $course->delete();
+        return redirect()->back()->with('success', 'تم حذف الدرس بنجاح');
     }
 }

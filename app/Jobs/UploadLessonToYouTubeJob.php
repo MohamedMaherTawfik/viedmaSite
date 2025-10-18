@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\Lesson;
+use App\Models\lesson;
 use Google_Client;
 use Google_Service_YouTube;
 use Google_Service_YouTube_Video;
@@ -24,7 +24,7 @@ class UploadLessonToYouTubeJob implements ShouldQueue
     protected $videoPath;
     protected $token;
 
-    public function __construct(Lesson $lesson, $videoPath, $token)
+    public function __construct(lesson $lesson, $videoPath, $token)
     {
         $this->lesson = $lesson;
         $this->videoPath = $videoPath;

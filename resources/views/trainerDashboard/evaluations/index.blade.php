@@ -52,16 +52,18 @@
                         <tbody class="divide-y">
                             @foreach ($reports as $item)
                                 <tr>
-                                    <td class="px-4 py-3 text-center">{{ $item->project->title }} </td>
+                                    <td class="px-4 py-3 text-center">
+                                        {{ $item->project->title ?? 'لم يتم التقييم بعد' }}
+                                    </td>
                                     <td class="px-4 py-3 text-center">
                                         <span
                                             class="bg-orange-100 text-orange-600 px-3 py-1 text-center rounded-full text-xs">{{ $item->status }}</span>
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        {{ $item->teacherUpload->name }}
+                                        {{ $item->project->feedback ?? 'لم يتم التقييم بعد' }}
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        {{ $item->created_at->format('d-m-Y') }}
+                                        {{ $item->created_at->format('d-m-Y') ?? 'لم يتم التقييم بعد' }}
                                     </td>
 
                                     {{-- <td class="px-4 py-3 text-center text-center">

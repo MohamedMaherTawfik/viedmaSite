@@ -34,6 +34,8 @@ Route::group([], function () {
     Route::get('/courses/{slug}/show', [CoursesWebController::class, 'show'])->name('web.courses.show');
     Route::get('/courses/enrolled/myCourses', [CoursesWebController::class, 'enrolledCourses'])->name('web.courses.enrolled');
     Route::get('/courses/enrolled/myCourses/{course}', [CoursesWebController::class, 'enrolledCourse'])->name('web.courses.enrolled.show');
+    Route::post('/courses/enrolled/myCourses/{course}/upload', [CoursesWebController::class, 'uploadProject'])->name('uploadProject');
+    Route::get('/courses/enrolled/myCourses/{course}/lesson', [CoursesWebController::class, 'showLesson'])->name('web.courses.enrolled.lesson');
     Route::get('/privacy-policy', [CoursesWebController::class, 'privacy'])->name('web.privacy');
     Route::get('/terms-and-conditions', [CoursesWebController::class, 'terms'])->name('web.terms');
 });
@@ -160,10 +162,13 @@ Route::group([
         Route::get('/trainer/courses/create', 'createCourse')->name('trainer.courses.create');
         Route::post('/trainer/courses/create', 'storeCourse')->name('trainer.courses.store');
         Route::get('/trainer/courses/{slug}', 'showCourse')->name('trainer.courses.show');
+        Route::post('/trainer/courses/{project}/feedback', 'feedback')->name('trainer.feedback');
         Route::delete('/trainer/courses/{slug}/delete', 'deleteCourse')->name('trainer.courses.destroy');
         Route::get('/trainer/courses/{slug}/report/{user}', 'createReport')->name('trainer.report.create');
         Route::post('/trainer/courses/{slug}/report/{user}', 'storeReport')->name('trainer.report.store');
         Route::get('/trainer/course/{course}/lesson/create', 'createLesson')->name('trainer.lesson.create');
+        Route::get('/trainer/course/{course}/lesson/show/lesson', 'showLesson')->name('trainer.lesson.show');
+        Route::delete('/trainer/course/{course}/lesson/show/delete', 'destroyLesson')->name('trainer.lesson.destroy');
         Route::post('/trainer/course/{course}/lesson/store', 'storeLesson')->name('trainer.lesson.store');
         Route::delete('/trainer/course/{course}/lesson/delete', 'deleteLesson')->name('trainer.lesson.delete');
         Route::get('/trainer/course/{course}/project/create', 'createProject')->name('trainer.project.create');
