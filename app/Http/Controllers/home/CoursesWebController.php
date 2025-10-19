@@ -35,7 +35,7 @@ class CoursesWebController extends Controller
     public function enrolledCourse(Courses $course)
     {
         $projects = graduationProject::where('courses_id', $course->id)->get();
-        $relatedCourses = Courses::where('categorey_id', $course->categorey_id)->take(3)->get();
+        $relatedCourses = Courses::where('categories_id', $course->categories_id)->take(3)->get();
         return view('web.courses.enrolledCourse', compact('course', 'relatedCourses', 'projects'));
     }
 
