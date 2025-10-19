@@ -1,8 +1,10 @@
 @php
     use App\Models\cart;
     use App\Models\cartItems;
-    $cart = cart::where('user_id', auth()->id());
-    $cartitems = cartItems::where('cart_id', $cart->first()->id)->count();
+    if (auth()->check()) {
+        $cart = cart::where('user_id', auth()->id());
+        $cartitems = cartItems::where('cart_id', $cart->first()->id)->count();
+    }
 @endphp
 <nav class="bg-white shadow-sm z-50 fixed top-0 left-0 w-full" dir="ltr">
     <div class="container mx-auto px-8 py-3 flex items-center justify-between">
