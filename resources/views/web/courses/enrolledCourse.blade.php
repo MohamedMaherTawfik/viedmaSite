@@ -567,7 +567,7 @@
                                  </div>
                                  <div class="mt-4 transition-all duration-300"
                                      :class="{ 'opacity-100 translate-y-0': isHovered, 'opacity-0 translate-y-2': !isHovered }">
-                                     <a href="{{ route('course.show', $related->slug) }}"
+                                     <a href="{{ route('web.courses.show', $related->slug) }}"
                                          class="inline-block bg-[#176b98] p-2 mt-2 text-[#e4ce96] hover:bg-[#5a0e16] text-sm font-medium rounded transition duration-300 flex items-center">
                                          View Course
                                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1"
