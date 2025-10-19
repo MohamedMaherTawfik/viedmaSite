@@ -253,7 +253,7 @@ Route::prefix('admin')->group(function () {
 Route::get('/pay/{course}/form', [ClickPayController::class, 'showPaymentForm'])->name('pay.form')->middleware('auth');
 Route::post('/pay/{course}/init', [ClickPayController::class, 'initiatePayment'])->name('pay.initiate')->middleware('auth');
 Route::get('/pay/callback/{course}', [ClickPayController::class, 'callback'])->name('pay.callback')->middleware('auth');
-Route::match(['get', 'post'], '/pay/success/done/{course}', [ClickPayController::class, 'success'])
+Route::match(['get', 'post'], '/pay/success/done/{course}/{user_id}', [ClickPayController::class, 'success'])
     ->name('pay.success')
     ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
 Route::match(['get', 'post'], '/pay/fail/done', function () {

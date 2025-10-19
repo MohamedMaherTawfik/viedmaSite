@@ -5,6 +5,7 @@ namespace App\Http\Controllers\home;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -67,7 +68,7 @@ class ClickPayController
             "cart_currency" => $this->currency,
             "cart_amount" => $amount,
             "callback" => route('pay.callback', ['course' => $course]),
-            "return" => route('pay.success', ['course' => $course]),
+            "return" => route('pay.success', ['course' => $course, 'user_id' => Auth::id()]),
             "billing_details" => $billingData,
         ];
 
@@ -121,10 +122,10 @@ class ClickPayController
         }
     }
 
-    public function success(Courses $course)
+    public function success(Courses $course, $user_id)
     {
         Enrollments::create([
-            'user_id' => auth()->user()->id,
+            'user_id' => $user_id,
             'courses_id' => $course->id,
             'price' => $course->price,
             'enrolled' => 'yes',
