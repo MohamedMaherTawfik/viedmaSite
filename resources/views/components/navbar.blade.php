@@ -1,3 +1,9 @@
+@php
+    use App\Models\cart;
+    use App\Models\cartItems;
+    $cart = cart::where('user_id', auth()->id());
+    $cartitems = cartItems::where('cart_id', $cart->first()->id)->count();
+@endphp
 <nav class="bg-white shadow-sm z-50 fixed top-0 left-0 w-full" dir="ltr">
     <div class="container mx-auto px-8 py-3 flex items-center justify-between">
 
@@ -59,18 +65,27 @@
             </div>
         </div>
 
-
         <!-- Right: Courses & Sign Up -->
         <div class="flex items-center gap-4">
 
             @if (Auth::check())
-                <!-- زر السلة -->
                 <a href="{{ route('cart') }}"
-                    class="flex items-center gap-2 px-4 py-2 bg-[#176b98] text-white rounded-lg hover:bg-[#125a7d] transition">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>My Cart</span>
+                    class="relative text-[#176b98] hover:text-[#125a7d] transition duration-300">
+                    <!-- أيقونة السلة -->
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                        stroke="currentColor" class="w-7 h-7">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 2.25h1.5l1.5 13.5h12l1.5-9h-13.5M7.5 20.25a.75.75 0 100-1.5.75.75 0 000 1.5zm9 0a.75.75 0 100-1.5.75.75 0 000 1.5z" />
+                    </svg>
+
+
+                    <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full px-1.5">
+                        {{ $cartitems }}
+                    </span>
+
                 </a>
             @endif
+
 
 
             <div x-data="{ open: false }" class="relative">
