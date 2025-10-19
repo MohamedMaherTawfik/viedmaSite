@@ -6,27 +6,31 @@
             <img src="{{ asset('auth/rendered_page.png') }}" alt="Logo" class="h-24 w-40 mb-5">
         </div>
 
-        <!-- Center: Navigation Links -->
-        <!-- Center: Navigation Links -->
         <div class="hidden md:flex items-center gap-8 text-lg font-semibold" x-data="{ openMore: false }">
-            <a href="{{ route('home') }}"
+            <a href="/"
                 class="text-2xl {{ request()->is('/') ? 'text-[#176b98]' : 'text-gray-700 hover:text-[#176b98]' }} transition">
                 Home
             </a>
 
-            <a href="{{ route('home') }}" class="text-2xl text-gray-700 hover:text-[#176b98] transition">
+            <a href="{{ route('home') }}"
+                class="text-2xl {{ request()->is('home/store') ? 'text-[#176b98]' : 'text-gray-700 hover:text-[#176b98]' }} transition">
                 Store
             </a>
 
-            <a href="{{ route('web.courses') }}" class="text-2xl text-gray-700 hover:text-[#176b98] transition">
+            <a href="{{ route('web.courses') }}"
+                class="text-2xl {{ request()->is('courses/all') ? 'text-[#176b98]' : 'text-gray-700 hover:text-[#176b98]' }} transition">
                 Courses
             </a>
 
-            <a href="{{ route('web.courses.enrolled') }}" class="text-2xl text-[#176b98] transition">
-                My Courses
+            <a href="{{ route('schools') }}"
+                class="text-2xl {{ request()->is('home/schools') ? 'text-[#176b98]' : 'text-gray-700 hover:text-[#176b98]' }} transition">
+                Schools
             </a>
 
-
+            <a href="{{ route('web.courses.enrolled') }}"
+                class="text-2xl {{ request()->is('courses/enrolled/myCourses') ? 'text-[#176b98]' : 'text-gray-700 hover:text-[#176b98]' }} transition">
+                My Courses
+            </a>
 
 
             <!-- More Dropdown -->

@@ -1,4 +1,4 @@
-<x-school-layout>
+<x-home-layout>
 
     <style>
         @keyframes bounce {
@@ -61,10 +61,10 @@
                 نؤمن بأن التعليم هو المفتاح لمستقبل مشرق. نوفر بيئة تعليمية حديثة تساعد طلابنا على الإبداع، التفكير،
                 وتحقيق النجاح.
             </p>
-            <button
+            <a href="{{ route('about') }}"
                 class="bg-[#1E40AF] hover:bg-[#1D4ED8] text-white font-bold py-3 px-6 rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105">
                 تعرف علينا
-            </button>
+            </a>
         </div>
 
     </section>
@@ -95,71 +95,73 @@
                             x-init="setTimeout(() => visible = true, $el.dataset.delay)" data-delay="{{ $loop->index * 200 }}"
                             class="transform transition-all duration-500 ease-out">
 
-                            <div class="relative p-4 text-right bg-white border border-[#176b98] rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-transform duration-400"
+                            <div class="relative p-4 text-right bg-white border border-[#176b98] rounded-2xl overflow-hidden shadow-md hover:shadow-xl hover:-translate-y-1 transition-transform duration-400 aspect-square"
                                 :class="visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'"
                                 style="will-change: transform, opacity;">
 
                                 <!-- floating wrapper -->
-                                <div class="float relative">
+                                <div class="float relative h-full flex flex-col">
 
                                     <!-- صورة المدرسة -->
-                                    <div class="w-full h-40 mb-3 overflow-hidden rounded-xl">
+                                    <div class="w-full h-1/2 mb-3 overflow-hidden rounded-xl">
                                         <img src="{{ $school->school_logo ? asset('storage/' . $school->school_logo) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
                                             alt="{{ $school->name }}"
                                             class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                                     </div>
 
                                     <!-- المحتوى -->
-                                    <div class="flex items-center justify-between gap-3">
+                                    <div class="flex-1 flex flex-col justify-between">
+                                        <div class="flex items-center justify-between gap-3">
+                                            <!-- الاسم -->
+                                            <div class="flex-1 min-w-0">
+                                                <div class="text-right">
+                                                    <div
+                                                        class="overflow-hidden whitespace-nowrap text-lg font-bold text-[#176b98] leading-tight">
+                                                        <span class="inline-block typewriter truncate"
+                                                            style="--chars: {{ mb_strlen($school->name) }};">
+                                                            {{ $school->name }}
+                                                        </span>
+                                                    </div>
 
-                                        <!-- الاسم -->
-                                        <div class="flex-1 min-w-0">
-                                            <div class="text-right">
-                                                <div
-                                                    class="overflow-hidden whitespace-nowrap text-lg font-bold text-[#176b98] leading-tight">
-                                                    <span class="inline-block typewriter truncate"
-                                                        style="--chars: {{ mb_strlen($school->name) }};">
-                                                        {{ $school->name }}
-                                                    </span>
+                                                    <p class="text-xs text-gray-500 mt-1 truncate max-w-full">
+                                                        النوع: <span class="font-medium">{{ $school->type }}</span>
+                                                    </p>
                                                 </div>
+                                            </div>
 
-                                                <p class="text-xs text-gray-500 mt-1 truncate max-w-full">
-                                                    النوع: <span class="font-medium">{{ $school->type }}</span>
-                                                </p>
+                                            <!-- زر الفتح -->
+                                            <div class="flex-shrink-0">
+                                                <button @click="open = !open"
+                                                    @mouseenter="$el.classList.add('scale-105')"
+                                                    @mouseleave="$el.classList.remove('scale-105')"
+                                                    class="p-2 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition-transform"
+                                                    :aria-expanded="open">
+                                                    <svg x-show="!open" xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-5 h-5 text-[#176b98]" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                    <svg x-show="open" xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-5 h-5 text-[#176b98]" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M5 15l7-7 7 7" />
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
 
-                                        <!-- زر الفتح -->
-                                        <div class="flex-shrink-0">
-                                            <button @click="open = !open" @mouseenter="$el.classList.add('scale-105')"
-                                                @mouseleave="$el.classList.remove('scale-105')"
-                                                class="p-2 rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition-transform"
-                                                :aria-expanded="open">
-                                                <svg x-show="!open" xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-[#176b98]" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor" stroke-width="1.5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19 9l-7 7-7-7" />
-                                                </svg>
-                                                <svg x-show="open" xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-5 h-5 text-[#176b98]" fill="none" viewBox="0 0 24 24"
-                                                    stroke="currentColor" stroke-width="1.5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M5 15l7-7 7 7" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
+                                        <!-- التفاصيل -->
+                                        <div x-show="open" x-collapse class="mt-3 text-sm text-gray-700">
+                                            <p class="mb-3">{{ $school->city ?? 'لا توجد تفاصيل إضافية' }}</p>
 
-                                    <!-- التفاصيل -->
-                                    <div x-show="open" x-collapse class="mt-3 text-sm text-gray-700">
-                                        <p class="mb-3">{{ $school->city ?? 'لا توجد تفاصيل إضافية' }}</p>
-
-                                        <div class="flex gap-2">
-                                            <a href="{{ route('parent.login') }}"
-                                                class="flex-1 text-center bg-[#FEBE35] text-black text-sm py-2 rounded-lg hover:bg-[#176b98] hover:text-white transition-colors">
-                                                الذهاب إلى المدرسة
-                                            </a>
+                                            <div class="flex gap-2">
+                                                <a href="{{ route('parent.login') }}"
+                                                    class="flex-1 text-center bg-[#FEBE35] text-black text-sm py-2 rounded-lg hover:bg-[#176b98] hover:text-white transition-colors">
+                                                    الذهاب إلى المدرسة
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +169,6 @@
                         </div>
                     @endforeach
                 </div>
-
 
                 <!-- Pagination Tabs -->
                 <div class="flex justify-center gap-2 mt-4">
@@ -183,7 +184,6 @@
         </div>
     </section>
 
-    <!-- ====== إضافات CSS صغيرة للانيميشن ====== -->
     <style>
         /* floating animation (continuous up/down) */
         @keyframes float {
@@ -260,4 +260,4 @@
 
 
 
-</x-school-layout>
+</x-home-layout>
