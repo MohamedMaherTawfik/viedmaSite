@@ -28,7 +28,7 @@
             right: 0;
             width: 0;
             height: 2px;
-            background: #3B82F6;
+            background: #176b98;
             transition: width 0.3s ease;
         }
 
@@ -42,7 +42,8 @@
 
         .card-hover:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         .floating {
@@ -65,9 +66,10 @@
 
         .typewriter {
             overflow: hidden;
-            border-right: .15em solid #3B82F6;
+            border-right: .15em solid #176b98;
             white-space: nowrap;
-            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+            animation: typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
         }
 
         @keyframes typing {
@@ -88,7 +90,7 @@
             }
 
             50% {
-                border-color: #3B82F6;
+                border-color: #176b98;
             }
         }
 
@@ -104,9 +106,9 @@
         }
 
         .hero-pattern {
-            background-color: #3b82f6;
-            background-image: radial-gradient(at 47% 33%, hsl(197.95, 100%, 67%) 0, transparent 59%),
-                radial-gradient(at 82% 65%, hsl(204.07, 100%, 60%) 0, transparent 55%);
+            background-color: #176b98;
+            background-image: radial-gradient(at 47% 33%, #FEBE35 0, transparent 59%),
+                radial-gradient(at 82% 65%, #F04A22 0, transparent 55%);
         }
     </style>
 </head>
@@ -114,7 +116,6 @@
 <body class="min-h-screen flex flex-col" x-data="{
     activeSection: 'home',
     init() {
-        // Intersection Observer for fade-in animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -122,17 +123,14 @@
                 }
             });
         }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach((element) => {
-            observer.observe(element);
-        });
+        document.querySelectorAll('.fade-in').forEach((element) => observer.observe(element));
     }
 }">
 
     <x-navbar />
 
     <!-- Hero Section -->
-    <section x-show="activeSection === 'home'" class="hero-pattern text-white py-20">
+    <section x-show="activeSection === 'home'" class="text-white py-20" style="background-color: #176b98;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0 fade-in">
@@ -141,11 +139,11 @@
                         واحد</p>
                     <div class="flex flex-wrap gap-4">
                         <a href="{{ route('schools') }}"
-                            class="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition duration-300">
+                            class="bg-white text-[#176b98] px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition duration-300">
                             ابدأ الرحلة التعليمية
                         </a>
                         <a href="{{ route('home') }}"
-                            class="border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-blue-600 transition duration-300">
+                            class="border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-white hover:text-[#176b98] transition duration-300">
                             تصفح المتجر
                         </a>
                     </div>
@@ -161,72 +159,70 @@
         </div>
     </section>
 
+
     <!-- Services Section -->
     <section x-show="activeSection === 'home'" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">خدماتنا</h2>
+            <h2 class="text-3xl font-bold text-center mb-12 text-[#374151]">خدماتنا</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Education Card -->
-                <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
-                    class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl overflow-hidden shadow-lg card-hover fade-in">
+                <div class="bg-gradient-to-br from-[#176b9820] to-[#176b9830] rounded-2xl shadow-lg card-hover fade-in">
                     <div class="p-6">
                         <div class="flex justify-center mb-6">
-                            <div class="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white text-3xl"
-                                :class="{ 'transform scale-110 transition duration-300': hover }">
+                            <div
+                                class="w-20 h-20 rounded-full bg-[#176b98] flex items-center justify-center text-white text-3xl">
                                 <i class="fas fa-graduation-cap"></i>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">الذهاب إلى المدارس</h3>
-                        <p class="text-gray-600 text-center mb-6">
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#374151]">الذهاب إلى المدارس</h3>
+                        <p class="text-[#374151b3] text-center mb-6">
                             تعرّف على المدارس المتاحة بالقرب منك، واستكشف تفاصيلها لتحديد الأنسب لرحلتك التعليمية.
                         </p>
 
                         <a href="{{ route('schools') }}"
-                            class="block text-center bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition duration-300">
+                            class="block text-center bg-[#176b98] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#145a7e] transition duration-300">
                             ابدأ التعلم الآن
                         </a>
                     </div>
                 </div>
 
                 <!-- E-commerce Card -->
-                <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
-                    class="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl overflow-hidden shadow-lg card-hover fade-in">
+                <div class="bg-gradient-to-br from-[#FEBE3530] to-[#F04A2220] rounded-2xl shadow-lg card-hover fade-in">
                     <div class="p-6">
                         <div class="flex justify-center mb-6">
-                            <div class="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center text-white text-3xl"
-                                :class="{ 'transform scale-110 transition duration-300': hover }">
+                            <div
+                                class="w-20 h-20 rounded-full bg-[#F04A22] flex items-center justify-center text-white text-3xl">
                                 <i class="fas fa-shopping-cart"></i>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">متجر إلكتروني</h3>
-                        <p class="text-gray-600 text-center mb-6">تسوق أحدث المنتجات والمواد التعليمية بأسعار تنافسية
-                            وتوصيل سريع</p>
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#374151]">متجر إلكتروني</h3>
+                        <p class="text-[#374151b3] text-center mb-6">
+                            تسوق أحدث المنتجات والمواد التعليمية بأسعار تنافسية وتوصيل سريع
+                        </p>
                         <a href="{{ route('home') }}"
-                            class="block text-center bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 transition duration-300">
+                            class="block text-center bg-[#F04A22] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#d23d1a] transition duration-300">
                             تصفح المتجر
                         </a>
                     </div>
                 </div>
 
                 <!-- Schools Card -->
-                <div x-data="{ hover: false }" @mouseenter="hover = true" @mouseleave="hover = false"
-                    class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl overflow-hidden shadow-lg card-hover fade-in">
+                <div class="bg-gradient-to-br from-[#FEBE3530] to-[#176b9820] rounded-2xl shadow-lg card-hover fade-in">
                     <div class="p-6">
                         <div class="flex justify-center mb-6">
-                            <div class="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center text-white text-3xl"
-                                :class="{ 'transform scale-110 transition duration-300': hover }">
+                            <div
+                                class="w-20 h-20 rounded-full bg-[#FEBE35] flex items-center justify-center text-white text-3xl">
                                 <i class="fas fa-school"></i>
                             </div>
                         </div>
-                        <h3 class="text-xl font-bold text-center mb-4 text-gray-800">تعليم و تطوير مدرسين</h3>
-                        <p class="text-gray-600 text-center mb-6">
-                            نوفر برامج تدريبية متخصصة،
-                            استخدام أحدث أساليب التدريس والتكنولوجيا في العملية التعليمية.
+                        <h3 class="text-xl font-bold text-center mb-4 text-[#374151]">تعليم و تطوير مدرسين</h3>
+                        <p class="text-[#374151b3] text-center mb-6">
+                            نوفر برامج تدريبية متخصصة باستخدام أحدث أساليب التدريس والتكنولوجيا في العملية التعليمية.
                         </p>
 
                         <a href="{{ route('web.courses') }}"
-                            class="block text-center bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-300">
+                            class="block text-center bg-[#FEBE35] text-white py-2 px-4 rounded-lg font-semibold hover:bg-[#e1a82f] transition duration-300">
                             اكتشف المزيد
                         </a>
                     </div>
@@ -235,282 +231,68 @@
         </div>
     </section>
 
-    <!-- Education Section -->
-    <section x-show="activeSection === 'education'" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform translate-y-8"
-        x-transition:enter-end="opacity-100 transform translate-y-0"
-        class="py-16 bg-gradient-to-r from-blue-400 to-blue-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">منصة التعليم الإلكتروني</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h3 class="text-2xl font-bold mb-6">تعلم بأسلوب مبتكر وممتع</h3>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-green-300"></i>
-                            <span>آلاف الدورات في مختلف المجالات</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-green-300"></i>
-                            <span>معلمون خبراء من حول العالم</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-green-300"></i>
-                            <span>شهادات معتمدة بعد إتمام الدورات</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-green-300"></i>
-                            <span>مجتمعات تعلم تفاعلية</span>
-                        </li>
-                    </ul>
-                    <a href="{{ route('schools') }}"
-                        class="inline-block bg-white text-blue-600 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition duration-300">
-                        استكشف الدورات
-                    </a>
-                </div>
-
-                <div class="flex justify-center">
-                    <img src="{{ asset('images/elearn.png') }}" alt="E-Learning" class="w-80 floating">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- E-commerce Section -->
-    <section x-show="activeSection === 'ecommerce'" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform translate-y-8"
-        x-transition:enter-end="opacity-100 transform translate-y-0"
-        class="py-16 bg-gradient-to-r from-red-400 to-red-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">متجر VIEDMA الإلكتروني</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="flex justify-center order-2 md:order-1">
-                    <img src="{{ asset('images/store.png') }}" alt="E-Commerce" class="w-80 floating">
-                </div>
-
-                <div class="order-1 md:order-2">
-                    <h3 class="text-2xl font-bold mb-6">تجربة تسوق فريدة</h3>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-yellow-300"></i>
-                            <span>منتجات تعليمية مبتكرة</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-yellow-300"></i>
-                            <span>أسعار تنافسية وعروض خاصة</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-yellow-300"></i>
-                            <span>توصيل سريع لكافة أنحاء الوطن</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-yellow-300"></i>
-                            <span>ضمان الجودة والاسترجاع السهل</span>
-                        </li>
-                    </ul>
-                    <a href="{{ route('home') }}"
-                        class="inline-block bg-white text-red-600 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition duration-300">
-                        ابدأ التسوق
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Schools Section -->
-    <section x-show="activeSection === 'schools'" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform translate-y-8"
-        x-transition:enter-end="opacity-100 transform translate-y-0"
-        class="py-16 bg-gradient-to-r from-green-400 to-green-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12">نظام إدارة المدارس</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h3 class="text-2xl font-bold mb-6">حول مدرستك إلى منصة تعليمية متكاملة</h3>
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-blue-300"></i>
-                            <span>إدارة شاملة للطلاب والمعلمين</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-blue-300"></i>
-                            <span>تقارير أداء تفصيلية</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-blue-300"></i>
-                            <span>قنوات اتصال مع أولياء الأمور</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="fas fa-check-circle mt-1 mr-3 text-blue-300"></i>
-                            <span>جدولة الحصص والامتحانات</span>
-                        </li>
-                    </ul>
-                    <a href="#"
-                        class="inline-block bg-white text-green-600 px-6 py-3 rounded-lg font-bold shadow-lg hover:bg-gray-100 transition duration-300">
-                        تعرف على النظام
-                    </a>
-                </div>
-
-                <div class="flex justify-center">
-                    <img src="{{ asset('images/school.png') }}" alt="School System" class="w-80 floating">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section x-show="activeSection === 'about'" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform translate-y-8"
-        x-transition:enter-end="opacity-100 transform translate-y-0" class="py-16 bg-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">عن VIEDMA</h2>
-
-            <div class="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <h3 class="text-2xl font-bold mb-6 text-blue-600">رؤيتنا ورسالتنا</h3>
-                        <p class="text-gray-700 mb-6">
-                            تأسست VIEDMA بهدف تقديم حلول تعليمية وتقنية متكاملة تجمع بين منصة تعليمية متطورة، متجر
-                            إلكتروني متميز، ونظام متكامل لإدارة المدارس. نؤمن بأن التعليم هو أساس تقدم المجتمعات ونسعى
-                            لتوفير أدوات مبتكرة تسهم في تطوير العملية التعليمية.
-                        </p>
-                        <p class="text-gray-700">
-                            نعمل على بناء جسر بين التقنية والتعليم لتقديم تجربة مستخدم فريدة تلبي احتياجات الطلاب،
-                            المعلمين، المدارس، والعملاء في مكان واحد.
-                        </p>
-                    </div>
-
-                    <div class="flex justify-center">
-                        <img src="{{ asset('images/about.png') }}" alt="About Us" class="w-64">
-                    </div>
-                </div>
-                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div class="p-6 bg-blue-50 rounded-xl">
-                        <div class="text-4xl font-bold text-blue-600 mb-2" x-data="{ count: 0 }"
-                            x-init="() => {
-                                let start = 0;
-                                const end = {{ $users }};
-                                const duration = 2000;
-                                const step = (end - start) / (duration / 16);
-                                const timer = setInterval(() => {
-                                    start += step;
-                                    if (start >= end) {
-                                        clearInterval(timer);
-                                        start = end;
-                                    }
-                                    count = Math.floor(start);
-                                }, 16);
-                            }" x-text="count.toLocaleString()">{{ $users }}</div>
-                        <p class="text-gray-700">طالب مسجل</p>
-                    </div>
-
-                    <div class="p-6 bg-red-50 rounded-xl">
-                        <div class="text-4xl font-bold text-red-600 mb-2" x-data="{ count: 0 }"
-                            x-init="() => {
-                                let start = 0;
-                                const end = {{ $courses }};
-                                const duration = 2000;
-                                const step = (end - start) / (duration / 16);
-                                const timer = setInterval(() => {
-                                    start += step;
-                                    if (start >= end) {
-                                        clearInterval(timer);
-                                        start = end;
-                                    }
-                                    count = Math.floor(start);
-                                }, 16);
-                            }" x-text="count.toLocaleString()">{{ $courses }}</div>
-                        <p class="text-gray-700">دورة تعليمية</p>
-                    </div>
-
-                    <div class="p-6 bg-green-50 rounded-xl">
-                        <div class="text-4xl font-bold text-green-600 mb-2" x-data="{ count: 0 }"
-                            x-init="() => {
-                                let start = 0;
-                                const end = {{ $schools }};
-                                const duration = 2000;
-                                const step = (end - start) / (duration / 16);
-                                const timer = setInterval(() => {
-                                    start += step;
-                                    if (start >= end) {
-                                        clearInterval(timer);
-                                        start = end;
-                                    }
-                                    count = Math.floor(start);
-                                }, 16);
-                            }" x-text="count.toLocaleString()">0</div>
-                        <p class="text-gray-700">مدرسة شريكة</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12 mt-auto">
+    <footer class="bg-[#374151] text-white py-12 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <img src="{{ asset('auth/rendered_page.png') }}" alt="VIEDMA Logo" class="h-24 w-36 mb-4">
-                    <p class="text-gray-400">منصة متكاملة للتعليم الإلكتروني، التسوق، وإدارة المدارس</p>
+                    <p class="text-gray-300">منصة متكاملة للتعليم الإلكتروني، التسوق، وإدارة المدارس</p>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">روابط سريعة</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-[#FEBE35]">روابط سريعة</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الرئيسية</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">عنّا</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الدورات</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">المتجر</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">عنّا</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">الدورات</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">المتجر</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">خدماتنا</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-[#FEBE35]">خدماتنا</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">منصة التعليم</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">المتجر الإلكتروني</a>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">منصة التعليم</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">المتجر الإلكتروني</a>
                         </li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">نظام المدارس</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white transition">الاشتراكات</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">نظام المدارس</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition">الاشتراكات</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">اتصل بنا</h3>
+                    <h3 class="text-lg font-semibold mb-4 text-[#FEBE35]">اتصل بنا</h3>
                     <ul class="space-y-2">
                         <li class="flex items-center">
-                            <i class="fas fa-map-marker-alt ml-2 text-blue-400"></i>
-                            <span class="text-gray-400">الرياض، المملكة العربية السعودية</span>
+                            <i class="fas fa-map-marker-alt ml-2 text-[#FEBE35]"></i>
+                            <span class="text-gray-300">الرياض، المملكة العربية السعودية</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-phone ml-2 text-blue-400"></i>
-                            <span class="text-gray-400">+966 12 345 6789</span>
+                            <i class="fas fa-phone ml-2 text-[#FEBE35]"></i>
+                            <span class="text-gray-300">+966 12 345 6789</span>
                         </li>
                         <li class="flex items-center">
-                            <i class="fas fa-envelope ml-2 text-blue-400"></i>
-                            <span class="text-gray-400">info@viedma.com</span>
+                            <i class="fas fa-envelope ml-2 text-[#FEBE35]"></i>
+                            <span class="text-gray-300">info@viedma.com</span>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400">© 2023 VIEDMA. جميع الحقوق محفوظة</p>
+            <div class="border-t border-gray-600 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-300">© 2025 VIEDMA. جميع الحقوق محفوظة</p>
                 <div class="flex space-x-4 space-x-reverse mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white transition">
+                    <a href="#" class="text-gray-300 hover:text-[#FEBE35] transition">
                         <i class="fab fa-facebook-f text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
+                    <a href="#" class="text-gray-300 hover:text-[#FEBE35] transition">
                         <i class="fab fa-twitter text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
+                    <a href="#" class="text-gray-300 hover:text-[#FEBE35] transition">
                         <i class="fab fa-instagram text-lg"></i>
                     </a>
-                    <a href="#" class="text-gray-400 hover:text-white transition">
+                    <a href="#" class="text-gray-300 hover:text-[#FEBE35] transition">
                         <i class="fab fa-linkedin-in text-lg"></i>
                     </a>
                 </div>
