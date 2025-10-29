@@ -20,14 +20,12 @@ use App\Http\Controllers\public\AuthController as PublicAuthController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Controllers\adminstrator\adminController as AdminstratorController;
 
-
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar'])) {
         session(['locale' => $locale]);
     }
     return redirect()->back();
 })->name('lang.switch');
-
 
 Route::group([], function () {
     Route::get('/courses/all', [CoursesWebController::class, 'courses'])->name('web.courses');

@@ -26,6 +26,7 @@
                     : null,
             ];
         })
+        ->reverse()
         ->values()
         ->toArray();
 @endphp

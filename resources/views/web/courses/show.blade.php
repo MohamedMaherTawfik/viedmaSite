@@ -180,8 +180,20 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-8">{{ __('messages.instructor') }}</h2>
                 <div class="bg-white p-6 rounded-xl shadow-sm flex items-start">
                     <div class="w-16 h-16 rounded-full bg-gray-200 mr-4 overflow-hidden">
-                        <img src="{{ asset('storage' . $course->user->photo) }}" alt="{{ $course->user->name }}">
+                        @php
+                            $photoPath = $course->user->photo ?? null;
+                            $photoExists = $photoPath && file_exists(public_path('storage' . $photoPath));
+                        @endphp
+
+                        @if ($photoExists)
+                            <img src="{{ asset('storage' . $photoPath) }}" alt="{{ $course->user->name }}"
+                                class="w-full h-full object-cover">
+                        @else
+                            <img src="https://media.istockphoto.com/id/2151669184/vector/vector-flat-illustration-in-grayscale-avatar-user-profile-person-icon-gender-neutral.jpg?s=612x612&w=0&k=20&c=UEa7oHoOL30ynvmJzSCIPrwwopJdfqzBs0q69ezQoM8="
+                                alt="{{ $course->user->name }}" class="w-full h-full object-cover">
+                        @endif
                     </div>
+
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900">{{ $course->user->name }}</h3>
                         <p class="text-gray-600 mt-1">{{ __('messages.instructor_bio_placeholder') }}</p>

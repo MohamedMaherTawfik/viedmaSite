@@ -4,21 +4,27 @@
     $newest = games::orderBy('created_at', 'desc')->take(4)->get();
 @endphp
 
-<section class="py-16 bg-gray-50">
+<section class="py-16 bg-gray-50" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
     <div class="container mx-auto px-4">
         <!-- Header -->
         <div class="text-center mb-12">
-            <p class="text-sm font-medium text-[#F04A22] text-bold uppercase tracking-wider">Popular This Year</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-6">Don't Miss Out</h2>
+            <p class="text-sm font-medium text-[#F04A22] text-bold uppercase tracking-wider">
+                {{ __('messages.popular_this_year') }}
+            </p>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2 mb-6">
+                {{ __('messages.dont_miss_out') }}
+            </h2>
             <a href="{{ route('games.all') }}"
                 class="px-6 py-2 bg-[#176b98] border border-gray-300 rounded-full text-[#FEBE35] text-sm font-medium hover:bg-[#0E5379FF] transition duration-200">
-                View All
+                {{ __('messages.view_all') }}
             </a>
         </div>
 
         <!-- Subtitle -->
         <div class="text-center mb-10">
-            <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">most selling games</p>
+            <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">
+                {{ __('messages.most_selling') }}
+            </p>
         </div>
 
         <!-- Course Cards -->
@@ -35,7 +41,7 @@
                         <div class="flex justify-center space-x-3">
                             <a href="{{ route('game.show', $item) }}"
                                 class="px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-200">
-                                View Details
+                                {{ __('messages.view_details') }}
                             </a>
                         </div>
                     </div>
@@ -45,11 +51,13 @@
     </div>
 </section>
 
-<section class="py-16 bg-gray-50">
+<section class="py-16 bg-gray-50" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
     <div class="container mx-auto px-4">
         <!-- Subtitle -->
         <div class="text-center mb-10">
-            <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">our Newest Games</p>
+            <p class="text-sm font-medium text-gray-600 uppercase tracking-wider">
+                {{ __('messages.newest_games') }}
+            </p>
         </div>
 
         <!-- Course Cards -->
@@ -66,7 +74,7 @@
                         <div class="flex justify-center space-x-3">
                             <a href="{{ route('game.show', $item) }}"
                                 class="px-4 py-2 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition duration-200">
-                                View Details
+                                {{ __('messages.view_details') }}
                             </a>
                         </div>
                     </div>

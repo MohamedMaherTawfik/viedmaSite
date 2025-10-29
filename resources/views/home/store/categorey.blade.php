@@ -1,105 +1,80 @@
 <x-home-layout>
-
-    {{-- رسالة النجاح --}}
-    @if (session('success'))
-        <div class="mb-4 p-3 rounded bg-green-100 text-green-800 border border-green-300">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- رسالة الفشل --}}
-    @if (session('error'))
-        <div class="mb-4 p-3 rounded bg-red-100 text-red-800 border border-red-300">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    {{-- عرض الأخطاء من الفاليديشن --}}
-    @if ($errors->any())
-        <div class="mb-4 p-3 rounded bg-yellow-100 text-yellow-800 border border-yellow-300">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    {{-- قسم الكاتيجوري --}}
     <div class="container mx-auto px-4 py-8">
-        {{-- عنوان الكاتيجوري --}}
-        <div class="mb-8 text-center">
-            <h1 class="text-4xl font-bold text-gray-800 mb-2">{{ $categorey->name }}</h1>
-            @if ($categorey->description)
-                <p class="text-lg text-gray-600 max-w-2xl mx-auto">{{ $categorey->description }}</p>
-            @endif
-        </div>
+        <h1 class="text-3xl font-bold mb-6">{{ Auth::user()->name }} {{ __('messages.cart') }}</h1>
 
-        {{-- قائمة الألعاب --}}
-        @if ($categorey->games->count() > 0)
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">الألعاب المتاحة</h2>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    @foreach ($categorey->games as $game)
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                            {{-- صورة اللعبة --}}
-                            <div class="h-48 bg-gray-200 overflow-hidden">
-                                @if ($game->cover_image)
-                                    <img src="{{ asset('storage/' . $game->cover_image) }}" alt="{{ $game->name }}"
-                                        class="w-full h-full object-cover">
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                                        <span class="text-gray-400">لا توجد صورة</span>
-                                    </div>
-                                @endif
+        @if ($cartItems && count($cartItems) > 0)
+            <div class="grid gap-6 md:grid-cols-3">
+                <!-- Cart Items -->
+                <div class="md:col-span-2 space-y-4">
+                    @foreach ($cartItems as $item)
+                        <div class="flex flex-col sm:flex-row border rounded-lg p-4 shadow-sm">
+                            <!-- games Image -->
+                            <div class="sm:w-1/5 sm:h-1/5 mb-4 sm:mb-0">
+                                <img src="{{ $item->games->cover_image ? asset('storage/' . $item->games->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
+                                    alt="{{ $item->games->name }}" class="w-full h-auto object-cover rounded">
                             </div>
 
-                            {{-- محتوى اللعبة --}}
-                            <div class="p-4">
-                                <h3 class="text-lg font-semibold text-gray-800 mb-2 truncate">
-                                    {{ $game->title }}
-                                </h3>
+                            <!-- games Info -->
+                            <div class="sm:w-3/4 sm:pl-6">
+                                <h2 class="text-xl font-semibold">{{ $item->games->title }}</h2>
+                                <p class="text-gray-600 mt-2">{{ $item->games->description }}</p>
 
-                                @if ($game->description)
-                                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">
-                                        {{ Str::limit($game->description, 80) }}
-                                    </p>
-                                @endif
-                                <div class="flex justify-between items-center">
-                                    <span class="text-lg font-bold text-blue-600">
-                                        @if ($game->price > 0)
-                                            ${{ number_format($game->price, 2) }}
-                                        @else
-                                            <span class="text-green-600">مجاني</span>
-                                        @endif
-                                    </span>
+                                <div class="mt-4 flex items-center justify-between">
+                                    <span class="text-lg font-bold">${{ $item->games->price * $item->quantity }}</span>
 
-                                    <a href="{{ route('game.show', $game) }}"
-                                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors duration-200">
-                                        عرض التفاصيل
-                                    </a>
+                                    <div class="flex items-center gap-4">
+                                        <span>{{ __('messages.quantity') }}: {{ $item->quantity }}</span>
+
+                                        <!-- زرار حذف -->
+                                        <form action="{{ route('game.removeFromCart', $item->games->id) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+                                                {{ __('messages.delete') }}
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
+
+                <!-- Checkout Summary -->
+                <div class="border rounded-lg p-6 h-fit shadow-sm">
+                    <h2 class="text-xl font-bold mb-4">{{ __('messages.order_summary') }}</h2>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                            <span>{{ __('messages.total') }}:</span>
+                            <span>${{ $total }}</span>
+                        </div>
+
+                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                            <span>{{ __('messages.number_of_games') }}:</span>
+                            <span>{{ $cartCount }} {{ __('messages.games') }}</span>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('checkout') }}" method="POST" class="w-full">
+                        @csrf
+                        <button type="submit"
+                            class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 px-4 rounded-lg font-medium transition duration-200">
+                            {{ __('messages.buy_now') }}
+                        </button>
+                    </form>
+                </div>
             </div>
         @else
-            {{-- حالة عدم وجود ألعاب --}}
             <div class="text-center py-12">
-                <div class="bg-white rounded-lg shadow-md p-8 max-w-md mx-auto">
-                    <div class="text-6xl mb-4">🎮</div>
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">لا توجد ألعاب في هذا القسم</h3>
-                    <p class="text-gray-600 mb-4">لم يتم إضافة أي ألعاب إلى هذه الفئة حتى الآن.</p>
-                    <button
-                        class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-6 py-2 rounded-lg transition-colors duration-200">
-                        تصفح جميع الألعاب
-                    </button>
-                </div>
+                <h2 class="text-2xl font-semibold text-gray-600">{{ __('messages.cart_empty') }}</h2>
+                <a href="{{ route('home') }}" class="mt-4 inline-block text-blue-600 hover:text-blue-800">
+                    {{ __('messages.continue_shopping') }}
+                </a>
             </div>
         @endif
     </div>
-
 </x-home-layout>

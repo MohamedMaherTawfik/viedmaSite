@@ -22,12 +22,12 @@
     <x-navbar />
 
     <header class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-800 text-center mt-6">My Courses</h1>
+        <h1 class="text-4xl font-bold text-gray-800 text-center mt-6">{{ __('messages.enrolled_courses') }}</h1>
     </header>
 
     <!-- Loading Spinner -->
     <div x-show="isLoading" class="flex justify-center items-center min-h-[300px]">
-        <svg class="animate-spin h-12 w-12 text-[#79131d]" xmlns="http://www.w3.org/2000/svg" fill="none"
+        <svg class="animate-spin h-12 w-12 text-[#176b98]" xmlns="http://www.w3.org/2000/svg" fill="none"
             viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
             </circle>
@@ -78,7 +78,7 @@
                 startLoading() {
                     setTimeout(() => {
                         this.isLoading = false;
-                    }, 1000); // 1 second loading
+                    }, 1000);
                 }
             };
         }
