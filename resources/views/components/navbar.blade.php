@@ -10,7 +10,7 @@
 @endphp
 
 <nav class="bg-white shadow-sm z-50 fixed top-0 left-0 w-full" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
-    <div class="container mx-auto px-6 py-1 flex items-center justify-between">
+    <div class="container mx-auto px-7 flex items-center justify-between">
 
         <!-- 🔙 Back + Logo + Language -->
         <div class="flex items-center gap-4">
@@ -27,7 +27,28 @@
                 </a>
             @endif
 
-            <img src="{{ asset('auth/rendered_page.png') }}" alt="Logo" class="h-16 w-32 mb-2">
+            @if (request()->is('courses/*'))
+                <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="Logo" class="h-18 w-14 mb-2">
+            @endif
+
+            @if (request()->is('home/contact') || request()->is('home/about-us'))
+                <img src="{{ asset('images/chair-removebg-preview.png') }}" alt="Logo" class="h-18 w-14 mb-2">
+            @endif
+
+            @if (request()->is('home/store') || request()->is('home/games') || request()->is('home/game/*'))
+                <img src="{{ asset('images/pointing-removebg-preview.png') }}" alt="Logo" class="h-18 w-14 mb-2">
+            @endif
+
+
+            @if (request()->is('/'))
+                <img src="{{ asset('images/winking-removebg-preview.png') }}" alt="Logo" class="h-18 w-14 mb-2">
+            @endif
+
+            @if (request()->is('home/schools'))
+                <img src="{{ asset('images/grass.jpg') }}" alt="Logo" class="h-18 w-14 mb-2">
+            @endif
+
+
 
             <!-- 🌐 Language Dropdown -->
             <div class="relative" x-data="{ langMenu: false }">

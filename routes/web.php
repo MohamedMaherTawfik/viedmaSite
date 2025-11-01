@@ -3,6 +3,7 @@
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\adminstrator\categoreyController;
+use App\Http\Controllers\adminstrator\CoursesController;
 use App\Http\Controllers\adminstrator\gamesController;
 use App\Http\Controllers\adminstrator\settingsController;
 use App\Http\Controllers\home\ClickPayController;
@@ -199,8 +200,6 @@ Route::get('/google/auth', [GoogleAuthController::class, 'redirectToGoogle'])->n
 Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 
-
-
 Route::get('/pay/{cart}/form/store', [gamePaymentController::class, 'showPaymentForm'])->name('pay.form.store')->middleware('auth');
 Route::post('/pay/{cart}/init/store', [gamePaymentController::class, 'initiatePayment'])->name('pay.initiate.store')->middleware('auth');
 Route::get('/pay/callback/{cart}/store', [gamePaymentController::class, 'callback'])->name('pay.callback.store')->middleware('auth');
@@ -217,8 +216,10 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminstratorController::class, 'storeLogin'])->name('admin.login.store');
 });
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminstratorController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard/courses', [CoursesController::class, 'courses'])->name('admin.courses');
+    Route::post('/dashboard/courses', [CoursesController::class, 'editCourse'])->name('admin.course.edit');
     Route::get('/categorey', [categoreyController::class, 'categorey'])->name('admin.categorey');
     Route::get('/categorey/create', [categoreyController::class, 'createCategorey'])->name('admin.create.Categorey');
     Route::post('/categorey/store', [categoreyController::class, 'storeCategorey'])->name('admin.store.Categorey');

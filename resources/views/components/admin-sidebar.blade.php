@@ -25,6 +25,12 @@
                 <span class="mr-2">المدارس</span>
             </a>
 
+            <a href="{{ route('admin.courses') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fa-solid fa-book-open text-2xl text-blue-600"></i>
+                <span class="mr-2">الدورات</span>
+            </a>
+
             <!-- الالعب -->
             <a href="{{ route('admin.categorey') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/categorey/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">

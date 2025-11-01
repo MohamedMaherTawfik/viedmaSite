@@ -14,8 +14,8 @@
                 <p class="text-gray-600">{{ __('messages.vision_text2') }}</p>
             </div>
             <div class="order-2 md:order-1 rounded-lg overflow-hidden shadow-lg">
-                <img src="{{ asset('auth/rendered_page.png') }}" alt="{{ __('messages.image_alt') }}"
-                    class="w-full h-auto">
+                <img src="{{ asset('images/winking-removebg-preview.png') }}" alt="{{ __('messages.image_alt') }}"
+                    class="w-full h-100">
             </div>
         </div>
 

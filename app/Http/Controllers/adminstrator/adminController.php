@@ -4,19 +4,11 @@ namespace App\Http\Controllers\adminstrator;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminLoginRequest;
-use App\Http\Requests\GameRequest;
-use App\Http\Requests\schoolRequest;
-use App\Http\Requests\schoolUpdateRequest;
-use App\Http\Requests\userUpdateRequest;
 use App\Models\cart;
-use App\Models\games;
 use App\Models\school;
 use App\Models\student;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class adminController extends Controller
 {
@@ -43,15 +35,18 @@ class adminController extends Controller
     }
     public function dashboard()
     {
+        if (Auth::check()) {
+            $schoolsCount = school::count();
+            $parentsCount = User::where('role', 'parent')->count();
+            $teachersCount = User::where('role', 'teacher')->count();
+            $trainersCount = User::where('role', 'trainer')->count();
+            $studentsCount = student::count();
+            return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount'));
+        }
+        return redirect()->route('admin.login');
 
-        $schoolsCount = school::count();
-        $parentsCount = User::where('role', 'parent')->count();
-        $teachersCount = User::where('role', 'teacher')->count();
-        $trainersCount = User::where('role', 'trainer')->count();
-        $studentsCount = student::count();
-
-        return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount'));
     }
+
 
 
 }

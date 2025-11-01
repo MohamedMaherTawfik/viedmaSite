@@ -183,4 +183,13 @@ return [
     'closed' => 'Closed',
     'messages_info' => 'Message Information',
     'follow_us' => 'Follow Us',
+    'support_links' => 'Support Links',
+    'quick_links' => 'Quick Links',
+    'privacy' => 'Privacy Policy',
+    'terms' => 'Terms & Conditions',
+    'copyright' => 'Copyright',
+    'services' => 'Services',
+    'specialists' => 'Specialists',
+    'our_apps' => 'Our Apps',
+    'all_rights' => 'All rights reserved © ' . date('Y'),
 ];
