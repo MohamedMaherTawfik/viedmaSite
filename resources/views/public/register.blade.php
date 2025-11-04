@@ -44,75 +44,86 @@
 
         <!-- Right Form (now first column in RTL) -->
         <div class="p-10 flex flex-col justify-center items-start text-right">
-            <div class="flex items-center gap-2 mb-4 self-start">
-                <img src="{{ asset('auth/rendered_page.png') }}" alt="robot" class="w-72 h-48">
+            <div class="flex items-center mb-4 self-center">
+                <x-logo-component></x-logo-component>
             </div>
             <h2 class="text-2xl font-bold mb-1 self-start">انشاء حساب</h2>
             <p class="text-sm text-gray-500 mb-6 self-start">
                 الرجاء تسجيل الدخول لمتابعة إلى حسابك.
             </p>
 
-            @php
-                use App\Models\school;
-                $schools = school::get();
-            @endphp
 
             <form method="POST" action="{{ route('register.store') }}" class="w-full text-right">
                 @csrf
 
-                <!-- البريد الإلكتروني -->
-                <label class="text-xs md-2 font-medium mb-1 w-full self-start"> اسم المستخدم</label>
-                <input type="text" placeholder="username" name="name"
+                <!-- الاسم الكامل -->
+                <label class="text-xs font-medium mb-1 w-full self-start">الاسم الكامل</label>
+                <input type="text" name="name" placeholder="الاسم الكامل"
                     class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 @error('name')
                     <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                 @enderror
 
+                <!-- الرقم القومي -->
+                <label class="text-xs font-medium mb-1 w-full self-start">الرقم القومي</label>
+                <input type="text" name="national_id" placeholder="الرقم القومي"
+                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                @error('national_id')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
+
+                <!-- الجنسية -->
+                <label class="text-xs font-medium mb-1 w-full self-start">الجنسية</label>
+                <input type="text" name="nationallity" placeholder="الجنسية"
+                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                @error('nationallity')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
+
+                <!-- المرحلة الدراسية -->
+                <label class="text-xs font-medium mb-1 w-full self-start">المرحلة الدراسية</label>
+                <input type="text" name="academic_stage" placeholder="المرحلة الدراسية"
+                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                @error('academic_stage')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
+
+                <!-- المدرسة -->
+                <label class="text-xs font-medium mb-1 w-full self-start">المدرسة</label>
+                <select name="school_id"
+                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    <option value="">اختر المدرسة</option>
+                    @foreach ($schools as $school)
+                        <option value="{{ $school->id }}">{{ $school->name }}</option>
+                    @endforeach
+                </select>
+                @error('school_id')
+                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                @enderror
+
                 <!-- البريد الإلكتروني -->
-                <label class="text-xs md-2 font-medium mb-1 w-full self-start">البريد الإلكتروني</label>
-                <input type="text" placeholder="example@email.com" name="email"
+                <label class="text-xs font-medium mb-1 w-full self-start">البريد الإلكتروني</label>
+                <input type="email" name="email" placeholder="example@email.com"
                     class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 @error('email')
                     <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                 @enderror
 
                 <!-- كلمة المرور -->
-                <label class="text-xs md-2 font-medium mb-1 w-full self-start">كلمة المرور</label>
-                <div class="relative mb-2 w-full">
-                    <input type="password" placeholder="********" name="password"
-                        class="border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm ">
-                    <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                    </span>
-                </div>
+                <label class="text-xs font-medium mb-1 w-full self-start">كلمة المرور</label>
+                <input type="password" name="password" placeholder="********"
+                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                 @error('password')
                     <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                 @enderror
 
-                <!-- تكرار كلمة المرور -->
-                <label class="text-xs font-medium mb-1 w-full self-start">تكرار كلمة المرور</label>
-                <div class="relative mb-2 w-full">
-                    <input type="password" placeholder="********" name="password_confirmation"
-                        class="border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm ">
-                    <span class="absolute inset-y-0 left-3 flex items-center text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                    </span>
-                </div>
+                <!-- تأكيد كلمة المرور -->
+                <label class="text-xs font-medium mb-1 w-full self-start">تأكيد كلمة المرور</label>
+                <input type="password" name="password_confirmation" placeholder="********"
+                    class="mb-6 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
 
                 <button type="submit"
-                    class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 w-full mb-4">
+                    class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 w-full">
                     ارسال بيانات التسجيل
                 </button>
             </form>
@@ -139,8 +150,7 @@
 
         <!-- Left Illustration (now second column in RTL) -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
-            <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="login illustration"
-                class="w-full max-w-md">
+            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration" class="w-full max-w-md">
         </div>
     </div>
 </body>

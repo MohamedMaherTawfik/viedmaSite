@@ -1,6 +1,16 @@
 <?php
 
+use App\Http\Controllers\admin\certificateController;
+use App\Http\Controllers\admin\courseCategoreyController;
+use App\Http\Controllers\admin\evaluationController;
+use App\Http\Controllers\admin\feedbackController;
+use App\Http\Controllers\admin\lessonController;
+use App\Http\Controllers\admin\MyCoursesController;
 use App\Http\Controllers\admin\parentController;
+use App\Http\Controllers\admin\projectController;
+use App\Http\Controllers\admin\reportController;
+use App\Http\Controllers\admin\sessionTimeController;
+use App\Http\Controllers\admin\studentController;
 use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\adminstrator\categoreyController;
 use App\Http\Controllers\adminstrator\CoursesController;
@@ -219,7 +229,13 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminstratorController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/dashboard/courses', [CoursesController::class, 'courses'])->name('admin.courses');
-    Route::post('/dashboard/courses', [CoursesController::class, 'editCourse'])->name('admin.course.edit');
+    Route::post('/dashboard/courses/{course}/edit', [CoursesController::class, 'editCourse'])->name('admin.course.edit');
+    Route::get('/dashboard/courses/me/all', [MyCoursesController::class, 'index'])->name('admin.courses.me');
+    Route::get('/dashboard/courses/me/{course}/show', [MyCoursesController::class, 'show'])->name('admin.courses.me.show');
+    Route::get('/dashboard/courses/me/create', [MyCoursesController::class, 'create'])->name('admin.courses.me.create');
+    Route::post('/dashboard/courses/me/store', [MyCoursesController::class, 'store'])->name('admin.courses.me.store');
+    Route::post('/dashboard/courses/me/edit', [MyCoursesController::class, 'edit'])->name('admin.courses.me.update');
+    Route::delete('/dashboard/courses/me/delete', [MyCoursesController::class, 'delete'])->name('admin.courses.me.delete');
     Route::get('/categorey', [categoreyController::class, 'categorey'])->name('admin.categorey');
     Route::get('/categorey/create', [categoreyController::class, 'createCategorey'])->name('admin.create.Categorey');
     Route::post('/categorey/store', [categoreyController::class, 'storeCategorey'])->name('admin.store.Categorey');
@@ -246,6 +262,44 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/settings', [settingsController::class, 'settings'])->name('admin.settings.index');
     Route::post('/settings/user', [settingsController::class, 'updateUser'])->name('admin.settings.user.update');
     Route::post('/settings/password', [settingsController::class, 'updatePassword'])->name('admin.settings.password.update');
+    Route::get('/courses/category', [courseCategoreyController::class, 'index'])->name('admin.courses.category');
+    Route::post('/courses/category', [courseCategoreyController::class, 'store'])->name('admin.courses.category.store');
+    Route::post('/courses/category/{category}', [courseCategoreyController::class, 'update'])->name('admin.courses.category.update');
+    Route::delete('/courses/category/{category}', [courseCategoreyController::class, 'delete'])->name('admin.courses.category.delete');
+    Route::post('/admin/courses/{project}/feedback', [feedbackController::class, 'feedback'])->name('admin.feedback');
+    Route::get('/admin/courses/{slug}/report/{user}', [reportController::class, 'createReport'])->name('admin.report.create');
+    Route::post('/admin/courses/{slug}/report/{user}', [reportController::class, 'storeReport'])->name('admin.report.store');
+    Route::get('/admin/course/{course}/lesson/create', [lessonController::class, 'createLesson'])->name('admin.lesson.create');
+    Route::get('/admin/course/{course}/lesson/show/lesson', [lessonController::class, 'showLesson'])->name('admin.lesson.show');
+    Route::delete('/admin/course/{course}/lesson/show/delete', [lessonController::class, 'destroyLesson'])->name('admin.lesson.destroy');
+    Route::post('/admin/course/{course}/lesson/store', [lessonController::class, 'storeLesson'])->name('admin.lesson.store');
+    Route::delete('/admin/course/{course}/lesson/delete', [lessonController::class, 'deleteLesson'])->name('admin.lesson.delete');
+    Route::get('/admin/course/{course}/project/create', [projectController::class, 'createProject'])->name('admin.project.create');
+    Route::post('/admin/course/{course}/project/create', [projectController::class, 'storeProject'])->name('admin.project.store');
+    Route::delete('/admin/course/project/delete/{graduationProject}', [projectController::class, 'deleteProject'])->name('admin.project.delete');
+    Route::get('/admin/projects', [projectController::class, 'trainerProjects'])->name('admin.projects');
+    Route::get('/admin/evaluations', [evaluationController::class, 'trainerEvaluations'])->name('admin.evaluations');
+    Route::post('/admin/evaluations', [evaluationController::class, 'storeEvaluation'])->name('admin.evaluation.store');
+    Route::get('/admin/schedules', [sessionTimeController::class, 'trainerSchedules'])->name('admin.schedules');
+    Route::get('/admin/schedules/create', [sessionTimeController::class, 'createSessionTime'])->name('admin.schedules.create');
+    Route::post('/admin/schedules/create', [sessionTimeController::class, 'storeSessionTime'])->name('admin.schedules.store');
+    Route::get('/admin/schedules/{sessionTime}/edit', [sessionTimeController::class, 'editSessionTime'])->name('admin.schedules.edit');
+    Route::post('/admin/schedules/{sessionTime}/edit', [sessionTimeController::class, 'updateSessionTime'])->name('admin.schedules.update');
+    Route::delete('/admin/schedules/{sessionTime}', [sessionTimeController::class, 'deleteSessionTime'])->name('admin.schedules.destroy');
+    Route::get('/admin/certificates', [certificateController::class, 'trainerCertificates'])->name('admin.certificates');
+    Route::post('/admin/certificates', [certificateController::class, 'storeCertificate'])->name('admin.certificate.store');
+    Route::get('/admin/students/all', [studentController::class, 'allStudents'])->name('admin.students');
+    Route::get('/admin/courses/assisnments/me', [projectController::class, 'allProjects'])->name('admin.projects');
+    Route::get('/admin/student/create/form', [studentController::class, 'createStudent'])->name('admin.student.create');
+    Route::post('/admin/student/create/form', [studentController::class, 'storeStudent'])->name('admin.student.store');
+    Route::get('/admin/student/create/excel', [studentController::class, 'ExcelStudent'])->name('admin.student.excel');
+    Route::post('/admin/student/create/excel', [studentController::class, 'uploadExcel'])->name('admin.excel.upload');
+    Route::get('admin/dashboard/student/{name}/linkParent', [studentController::class, 'linkParent'])->name('admin.student.linkParent');
+    Route::post('admin/dashboard/student/{name}/linkParent/{parent}', [studentController::class, 'linkParentStore'])->name('admin.student.linkParent.store');
+    Route::get('/admin/student/{student}/edit', [studentController::class, 'editStudent'])->name('admin.student.edit');
+    Route::post('/admin/student/{student}/edit', [studentController::class, 'updateStudent'])->name('admin.student.update');
+    Route::get('/admin/student/{student}/delete', [studentController::class, 'deleteStudent'])->name('admin.student.delete');
+
 })->middleware(superAdminMiddleware::class);
 
 

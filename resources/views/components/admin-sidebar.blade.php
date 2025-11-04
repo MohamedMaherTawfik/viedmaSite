@@ -17,6 +17,15 @@
                 <span class="mr-2">الرئيسية</span>
             </a>
 
+
+            {{-- جميع الطلاب --}}
+            <a href="{{ route('admin.students') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" alt="الطلاب"
+                    class="w-6 h-6">
+                <span class="ml-2">جميع الطلاب</span>
+            </a>
+
             <!-- المدارس -->
             <a href="{{ route('admin.schools.index') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
@@ -25,12 +34,39 @@
                 <span class="mr-2">المدارس</span>
             </a>
 
+            <a href="{{ route('admin.courses.category') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fa-solid fa-list text-2xl text-blue-600"></i>
+                <span class="mr-2">فئات الدورات</span>
+            </a>
+
+
+            <a href="{{ route('admin.courses.me') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <i class="fa-solid fa-book-open text-2xl text-blue-600"></i>
+                <span class="mr-2">دوراتي</span>
+            </a>
+
             <a href="{{ route('admin.courses') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fa-solid fa-book-open text-2xl text-blue-600"></i>
                 <span class="mr-2">الدورات</span>
             </a>
 
+
+            <!-- الشهادات -->
+            <a href="{{ route('admin.certificates') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png" alt="الشهادات">
+                <span class="ml-2">الشهادات</span>
+            </a>
+
+            <!-- المشاريع -->
+            <a href="{{ route('admin.projects') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png" alt="المشاريع">
+                <span class="ml-2">المشاريع</span>
+            </a>
             <!-- الالعب -->
             <a href="{{ route('admin.categorey') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/categorey/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
@@ -45,6 +81,7 @@
                 <i class="fas fa-gamepad text-2xl text-blue-600"></i>
                 <span class="mr-2">الالعاب</span>
             </a>
+
 
             <!-- الإعدادات -->
             <a href="{{ route('admin.settings.index') }}"

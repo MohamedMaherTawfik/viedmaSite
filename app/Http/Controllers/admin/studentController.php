@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\adminRequest;
+use App\Models\school;
+use App\Models\student;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Spatie\SimpleExcel\SimpleExcelReader;
+
+class studentController extends Controller
+{
+    public function allStudents()
+    {
+        $students = student::get();
+        return view('admin.student.index', compact('students'));
+    }
+
+    public function createStudent()
+    {
+        return view('admin.student.create');
+    }
+
+    /**
+     * Store a newly created user in storage.
+     */
+    public function storeStudent(adminRequest $request)
+    {
+        $validatedData = $request->validated();
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role' => 'user',
+            'password' => bcrypt($validatedData['password']),
+        ]);
+        student::create([
+            'me_id' => $user->id,
+            'name' => $validatedData['name'],
+            'national_id' => $validatedData['national_id'],
+            'nationallity' => $validatedData['nationallity'],
+            'Academic_stage' => $validatedData['Academic_stage'],
+            'school_id' => $validatedData['school_id'],
+            'slug' => $validatedData['slug'],
+        ]);
+        return redirect()->route('admin.students')->with('success', 'Student created successfully.');
+    }
+
+    public function ExcelStudent()
+    {
+        return view('admin.student.excel');
+    }
+    /**
+     * Upload Excel file and process it.
+     */
+
+    public function uploadExcel(Request $request)
+    {
+        $request->validate([
+            'excel_file' => 'required|file|mimes:xlsx,xls',
+        ]);
+
+        // احفظ الملف يدويًا
+        $file = $request->file('excel_file');
+        $savePath = storage_path('app/temp/students.xlsx');
+        $file->move(storage_path('app/temp'), 'students.xlsx');
+
+        $realPath = realpath($savePath); // Get absolute path
+
+        if (!file_exists($realPath)) {
+            return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
+        }
+
+        SimpleExcelReader::create($realPath)
+            ->getRows()
+            ->each(function (array $row) use ($request) {
+                Student::create([
+                    'name' => $row['name'],
+                    'national_id' => $row['national_id'],
+                    'nationallity' => $row['nationallity'],
+                    'Academic_stage' => $row['Academic_stage'],
+                    'slug' => Str::slug($row['name']) . '-' . time(),
+                ]);
+            });
+
+        return redirect()->route('admin.students')->with('success', 'Excel file uploaded and students created successfully.');
+    }
+
+    public function editStudent(student $student)
+    {
+        return view('admin.student.edit', compact('student'));
+    }
+
+    public function updateStudent(student $student)
+    {
+        $data = request()->except('_token');
+        $user = User::where('id', $student->me_id)->first();
+        $user->update([
+            'name' => $data['name'],
+            'email' => $data['email'],
+        ]);
+        $student->update([
+            'school_id' => $data['school_id'],
+            'name' => $data['name'],
+            'national_id' => $data['national_id'],
+            'nationallity' => $data['nationallity'],
+            'Academic_stage' => $data['Academic_stage'],
+            'slug' => Str::slug($data['name']) . '-' . time(),
+        ]);
+        return redirect()->route('admin.students')->with('success', 'Student updated successfully.');
+    }
+    public function deleteStudent(student $student)
+    {
+        $student->delete();
+        return redirect()->back()->with('success', 'Student deleted successfully.');
+    }
+
+    public function linkParent(student $name)
+    {
+        $parents = User::where('role', 'parent')->get();
+        return view('admin.student.linkParent', compact('name', 'parents'));
+    }
+
+    public function linkParentStore()
+    {
+        $user = User::where('name', request('parent'))->first();
+        $student = student::where('name', request('name'))->first();
+        if (!$user || !$student) {
+            return redirect()->back()->with('error', 'User or Student not found.');
+        }
+        $student->user_id = $user->id;
+        $student->save();
+        return redirect()->route('admin.students')->with('success', 'Parent linked to student successfully.');
+    }
+}

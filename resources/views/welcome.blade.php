@@ -68,16 +68,15 @@
                                     <div
                                         class="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl flex items-center transform transition-transform duration-500 hover:scale-[1.02]">
                                         <div class="absolute inset-0">
-                                            <div class="w-full h-full bg-cover bg-center transition-transform duration-700 swiper-zoom-container"
-                                                style="background-image: url('{{ $game->cover_image ? asset($game->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg' }}')">
-                                            </div>
+                                            <img src="{{ $game->cover_image ? asset('storage/' . $game->cover_image) : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }}"
+                                                alt="{{ $game->title }}" class="w-full h-full object-cover">
                                         </div>
 
                                         <div class="relative z-10 flex items-center w-full px-8 space-x-8">
                                             <div class="w-1/3 flex justify-center">
                                                 <div
                                                     class="relative w-48 h-64 rounded-xl overflow-hidden shadow-2xl transform transition-transform duration-500 hover:scale-105">
-                                                    <img src="{{ $game->cover_image ? asset($game->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg' }}"
+                                                    <img src="{{ $game->cover_image ? asset($game->cover_image) : 'https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png' }}"
                                                         alt="{{ $game->title }}" class="w-full h-full object-cover">
                                                     <div
                                                         class="absolute -top-2 -right-2 bg-red-500 text-white font-bold px-3 py-1 rounded-full shadow-lg transform rotate-12">

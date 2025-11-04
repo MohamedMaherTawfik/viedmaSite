@@ -18,7 +18,6 @@ use App\Models\student;
 use Illuminate\Http\Request;
 use App\Http\Requests\adminRequest;
 use App\Models\User;
-use App\Http\Requests\updateRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;

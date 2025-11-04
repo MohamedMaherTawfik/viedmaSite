@@ -44,14 +44,13 @@
 
         <!-- Left Illustration -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
-            <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="login illustration"
-                class="w-full max-w-md">
+            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration" class="w-full max-w-md">
         </div>
 
         <!-- Right Form -->
         <div class="p-10 flex flex-col justify-center">
-            <div class="flex items-center gap-2 mb-4 self-center">
-                <img src="{{ asset('auth/rendered_page.png') }}" alt="robot" class="w-72 h-48">
+            <div class="flex items-center mb-4 self-center">
+                <x-logo-component></x-logo-component>
             </div>
             <h2 class="text-2xl font-bold mb-1 self-center">تسجيل دخول</h2>
             <p class="text-sm text-gray-500 mb-6 self-center">

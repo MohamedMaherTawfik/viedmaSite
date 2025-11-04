@@ -172,6 +172,8 @@ return [
     'subject' => 'الموضوع',
     'select_subject' => 'اختر موضوع الرسالة',
     'subject_support' => 'الدعم الفني',
+
+    'graduation_project' => 'مشروع التخرج',
     'subject_courses' => 'استفسار عن الدورات',
     'subject_products' => 'استفسار عن المنتجات',
     'subject_suggestions' => 'اقتراحات',
@@ -181,6 +183,7 @@ return [
     'contact_info' => 'معلومات التواصل',
     'phone' => 'الهاتف',
     'email_label' => 'البريد الإلكتروني',
+    'no_project_file' => 'لم يتم تحميل ملف المشروع بعد.',
     'address' => 'العنوان',
     'address_text' => 'المملكة العربية السعودية، الرياض، شارع الملك فهد',
     'working_hours' => 'ساعات العمل',
@@ -191,6 +194,12 @@ return [
     'hours_sat' => '10 صباحاً - 3 مساءً',
     'closed' => 'مغلق',
     'messages_info' => 'معلومات الرسالة',
+    'no_project' => 'لا يوجد مشروع تخرج متاح حالياً',
+    'project_uploaded' => 'لقد قمت برفع المشروع مسبقاً',
+    'project_title' => 'عنوان مشروع التخرج هنا',
+    'project_description' => 'يجب أن يوضح هذا الوصف ما هو متوقع من الطلاب في مشروع التخرج.',
+    'show_project' => 'عرض المشروع',
+    'cannot' => 'لا يمكن عرض الفيديو'
 ];
 
 ?>

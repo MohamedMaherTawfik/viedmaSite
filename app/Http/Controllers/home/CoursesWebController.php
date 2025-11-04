@@ -8,6 +8,8 @@ use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\graduationProject;
 use App\Models\lesson;
+use App\Models\Result;
+use Illuminate\Support\Facades\Auth;
 
 class CoursesWebController extends Controller
 {
@@ -35,9 +37,17 @@ class CoursesWebController extends Controller
     public function enrolledCourse(Courses $course)
     {
         $projects = graduationProject::where('courses_id', $course->id)->get();
-        $relatedCourses = Courses::where('categories_id', $course->categories_id)->take(3)->get();
-        return view('web.courses.enrolledCourse', compact('course', 'relatedCourses', 'projects'));
+
+        $relatedCourses = Courses::where('categories_id', $course->categories_id)
+            ->where('id', '!=', $course->id) // 👈 استبعاد الكورس الحالي
+            ->take(3)
+            ->get();
+
+        $result = Result::where('user_id', Auth::user()->id)->get();
+        $assignemtns = assignment_submission::where('user_id', Auth::user()->id)->get();
+        return view('web.courses.enrolledCourse', compact('course', 'relatedCourses', 'projects', 'result', 'assignemtns'));
     }
+
 
     public function privacy()
     {

@@ -287,7 +287,6 @@ class trainerController extends Controller
             ->with('success', 'سيتم عرض الفيديو بمجرد الانتهاء من الرفع');
     }
 
-
     public function deleteSessionTime(SessionTime $sessionTime)
     {
         $sessionTime->delete();

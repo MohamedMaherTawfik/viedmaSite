@@ -38,6 +38,14 @@
          <main class="p-6 flex-1">
              <x-admin-header />
 
+             <h3 class="text-left">
+                 <a href="{{ route('admin.courses.me.create') }}"
+                     class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-800 transition">
+                     + Create Course
+                 </a>
+             </h3>
+
+
              <section class="bg-gray-50 py-12 px-4 sm:px-6 mt-10 lg:px-8" id="courses">
                  <div class="max-w-7xl mx-auto">
 
@@ -47,10 +55,10 @@
                              <div class="course-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
                                  data-page="{{ $page }}" style="{{ $page !== 1 ? 'display:none' : '' }}">
                                  @foreach ($courses->forPage($page, $perPage) as $course)
-                                     <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1"
-                                         style="animation: fadeIn 0.5s ease-in-out;">
+                                     <div
+                                         class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
+                                         <!-- صورة الكورس -->
                                          <div class="h-48 overflow-hidden relative">
-
                                              <img src="{{ $course->cover_photo
                                                  ? asset('storage/' . $course->cover_photo)
                                                  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png' }}"
@@ -69,6 +77,7 @@
                                              </div>
                                          </div>
 
+                                         <!-- تفاصيل الكورس -->
                                          <div class="p-6 flex-1 flex flex-col justify-between">
                                              <div>
                                                  <div class="flex items-center mb-2">
@@ -78,11 +87,11 @@
                                                      </span>
                                                  </div>
                                                  <h3 class="text-xl font-semibold text-gray-900 mb-1">
-                                                     {{ $course->title }}</h3>
+                                                     {{ $course->title }}
+                                                 </h3>
                                                  <p class="text-gray-600 text-sm mb-3">
                                                      {{ Str::limit($course->description, 50) }}
                                                  </p>
-
                                                  <div class="flex items-center text-sm text-gray-500 mb-2">
                                                      <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                          <path fill-rule="evenodd"
@@ -93,94 +102,122 @@
                                                  </div>
                                              </div>
 
-                                             <div class="mt-auto pt-4 border-t border-gray-100">
-                                                 <!-- 💰 الأسعار -->
-                                                 <div class="flex items-center justify-between mb-4">
-                                                     <span class="text-base font-bold text-[#176b98]">
-                                                         سعر المعلم: {{ $course->price ?? 0 }}
-                                                     </span>
-                                                     <span class="text-base font-bold text-[#176b98]">
-                                                         سعر الادمن: {{ $course->admin_price ?? 0 }}
-                                                     </span>
+                                             <!-- الأسعار -->
+                                             <div
+                                                 class="mt-4 flex justify-between items-center border-t border-gray-200 pt-3">
+                                                 <div>
+                                                     <p class="text-sm text-gray-600">سعر المعلم</p>
+                                                     <p class="text-lg font-bold text-[#176b98]">
+                                                         {{ $course->price ?? 0 }}
+                                                     </p>
                                                  </div>
-
-                                                 <!-- 🔘 الأزرار -->
-                                                 <div class="flex items-center justify-between gap-3">
-                                                     <!-- Edit Button -->
-                                                     <button onclick="openModal({{ $course->id }})"
-                                                         class="flex-1 px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition-colors duration-300">
-                                                         Edit Price
-                                                     </button>
-
-                                                     @if ($course->user_id == auth()->id())
-                                                         <a href="{{ route('admin.courses.me.show', $course->id) }}"
-                                                             class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                                                             View Course
-                                                         </a>
-                                                     @endif
-
-                                                     <!-- Delete Form -->
-                                                     <form action="{{ route('admin.courses.me.delete', $course->id) }}"
-                                                         method="POST"
-                                                         onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الكورس؟');"
-                                                         class="flex-1">
-                                                         @csrf
-                                                         @method('DELETE')
-                                                         <button type="submit"
-                                                             class="w-full px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition-colors duration-300">
-                                                             Delete
-                                                         </button>
-                                                     </form>
-                                                 </div>
-
-                                                 <!-- 🪟 المودال -->
-                                                 <div id="editPriceModal-{{ $course->id }}"
-                                                     class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-                                                     <div
-                                                         class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
-                                                         <h2 class="text-lg font-semibold text-gray-800 mb-4">Edit
-                                                             Course Price</h2>
-
-                                                         <form action="{{ route('admin.course.edit', $course->id) }}"
-                                                             method="POST">
-                                                             @csrf
-                                                             <div class="mb-4">
-                                                                 <label for="admin_price"
-                                                                     class="block text-sm font-medium text-gray-700 mb-1">Admin
-                                                                     Price</label>
-                                                                 <input type="number" step="0.01" name="admin_price"
-                                                                     id="admin_price"
-                                                                     value="{{ $course->admin_price }}"
-                                                                     class="w-full border-gray-300 rounded-md focus:ring-[#176b98] focus:border-[#176b98]">
-                                                             </div>
-
-                                                             <div class="flex justify-end gap-3">
-                                                                 <button type="button"
-                                                                     onclick="closeModal({{ $course->id }})"
-                                                                     class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
-                                                                     Cancel
-                                                                 </button>
-                                                                 <button type="submit"
-                                                                     class="px-4 py-2 bg-[#176b98] text-[#FEBE35] rounded-md hover:bg-[#176b98D2] transition">
-                                                                     Save
-                                                                 </button>
-                                                             </div>
-                                                         </form>
-
-                                                         <button onclick="closeModal({{ $course->id }})"
-                                                             class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
-                                                     </div>
+                                                 <div>
+                                                     <p class="text-sm text-gray-600">سعر الأدمن</p>
+                                                     <p class="text-lg font-bold text-[#176b98]">
+                                                         {{ $course->admin_price ?? 0 }}
+                                                     </p>
                                                  </div>
                                              </div>
+
+                                             <!-- الأزرار -->
+                                             <div
+                                                 class="mt-5 flex justify-between items-center gap-2 border-t border-gray-100 pt-4">
+                                                 <button onclick="openModal({{ $course->id }})"
+                                                     class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
+                                                     Edit Price
+                                                 </button>
+
+                                                 @if (Auth::user()->id == $course->user_id)
+                                                     <a href="{{ route('admin.courses.me.show', $course->id) }}"
+                                                         class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
+                                                         Show Course
+                                                     </a>
+                                                 @endif
+
+                                                 <form action="{{ route('admin.courses.me.delete', $course->id) }}"
+                                                     method="POST"
+                                                     onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الكورس؟');">
+                                                     @csrf
+                                                     @method('DELETE')
+                                                     <button type="submit"
+                                                         class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition">
+                                                         Delete
+                                                     </button>
+                                                 </form>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                     <!-- مودال تعديل السعر -->
+                                     <div id="editPriceModal-{{ $course->id }}"
+                                         class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+                                         <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+                                             <h2 class="text-lg font-semibold text-gray-800 mb-4">Edit Course Price</h2>
+
+                                             <form action="{{ route('admin.course.edit', $course->id) }}"
+                                                 method="POST">
+                                                 @csrf
+                                                 <div class="mb-4">
+                                                     <label for="admin_price"
+                                                         class="block text-sm font-medium text-gray-700 mb-1">Admin
+                                                         Price</label>
+                                                     <input type="number" step="0.01" name="admin_price"
+                                                         id="admin_price" value="{{ $course->admin_price }}"
+                                                         class="w-full border-gray-300 rounded-md focus:ring-[#176b98] focus:border-[#176b98]">
+                                                 </div>
+                                                 <div class="flex justify-end space-x-3">
+                                                     <button type="button" onclick="closeModal({{ $course->id }})"
+                                                         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                                                         Cancel
+                                                     </button>
+                                                     <button type="submit"
+                                                         class="px-4 py-2 bg-[#176b98] text-[#FEBE35] rounded-md hover:bg-[#176b98D2] transition">
+                                                         Save
+                                                     </button>
+                                                 </div>
+                                             </form>
+
+                                             <button onclick="closeModal({{ $course->id }})"
+                                                 class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
                                          </div>
                                      </div>
                                  @endforeach
                              </div>
                          @endfor
                      </div>
+
+                     <!-- Pagination Controls -->
+                     <div class="mt-12 flex justify-center items-center space-x-2">
+                         <button id="prev-btn"
+                             class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                             disabled>
+                             Previous
+                         </button>
+
+                         <div id="tabs" class="flex space-x-1">
+                             @php
+                                 $currentPage = 1;
+                                 $visibleTabs = 4;
+                                 $start = 1;
+                                 $end = min($totalPages, $visibleTabs);
+                             @endphp
+
+                             @for ($i = $start; $i <= $end; $i++)
+                                 <button data-page="{{ $i }}"
+                                     class="w-10 h-10 flex items-center justify-center rounded-md text-sm font-semibold transition border border-[#176b98]
+                        {{ $i === 1 ? 'bg-[#176b98] text-white' : 'bg-transparent text-gray-700 hover:bg-[#176b98] hover:text-white' }}">
+                                     {{ $i }}
+                                 </button>
+                             @endfor
+                         </div>
+
+                         <button id="next-btn"
+                             class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                             Next
+                         </button>
+                     </div>
                  </div>
              </section>
-
 
              <style>
                  @keyframes fadeIn {
@@ -204,6 +241,16 @@
                          0 10px 10px -5px rgba(0, 0, 0, 0.04);
                  }
              </style>
+
+             <script>
+                 function openModal(id) {
+                     document.getElementById('editPriceModal-' + id).classList.remove('hidden');
+                 }
+
+                 function closeModal(id) {
+                     document.getElementById('editPriceModal-' + id).classList.add('hidden');
+                 }
+             </script>
 
              <script>
                  document.addEventListener("DOMContentLoaded", function() {

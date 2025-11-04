@@ -4,10 +4,13 @@ namespace App\Http\Controllers\public;
 
 use App\Http\Controllers\Controller;
 use App\Models\cart;
+use App\Models\school;
+use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -18,7 +21,8 @@ class AuthController extends Controller
 
     public function register()
     {
-        return view('public.register');
+        $schools = school::all();
+        return view('public.register', compact('schools'));
     }
 
     public function storelogin(Request $request)
@@ -49,16 +53,29 @@ class AuthController extends Controller
 
     public function storeRegister(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'school_id' => 'nullable',
+            'nationallity' => 'nullable',
+            'academic_stage' => 'nullable',
+            'national_id' => 'nullable',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+        ]);
+        student::create([
+            'me_id' => $user->id,
+            'name' => $request->name,
+            'national_id' => $request->national_id,
+            'nationallity' => $request->nationallity,
+            'Academic_stage' => $request->academic_stage,
+            'school_id' => $request->school_id,
+            'slug' => Str::slug($request->name) . '-' . time(),
         ]);
 
         Auth::login($user);

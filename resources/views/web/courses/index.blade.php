@@ -2,8 +2,10 @@
     use Illuminate\Support\Str;
     use Carbon\Carbon;
 
+    $authUserId = auth()->id();
+
     $coursesForJs = ($courses ?? collect())
-        ->map(function ($course) {
+        ->map(function ($course) use ($authUserId) {
             return [
                 'id' => $course->id,
                 'title' => $course->title,
@@ -21,6 +23,8 @@
                 'rating' => $course->rating ?? 0,
                 'reviews_count' => $course->reviews_count ?? 0,
                 'url' => isset($course->slug) ? route('web.courses.show', $course->slug) : null,
+                'user_id' => $course->user_id,
+                'enrolled_url' => route('web.courses.enrolled.show', $course), // 👈 للرابط التاني
                 'start_date_formatted' => $course->start_date
                     ? Carbon::parse($course->start_date)->format('d M Y')
                     : null,
@@ -30,6 +34,7 @@
         ->values()
         ->toArray();
 @endphp
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -196,11 +201,24 @@
                                         <div class="pt-4 flex items-center justify-between">
                                             <span class="text-lg font-bold text-[#176b98]"
                                                 x-text="course.price + ' SAR'"></span>
-                                            <a :href="course.url"
-                                                class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
-                                                Subscribe Now
-                                            </a>
+
+                                            <!-- ✅ الشرط هنا -->
+                                            <template x-if="course.user_id === auth_user_id">
+                                                <a :href="course.enrolled_url"
+                                                    class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition">
+                                                    Go to Course
+                                                </a>
+                                            </template>
+
+                                            <template x-if="course.user_id !== auth_user_id">
+                                                <a :href="course.url"
+                                                    class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
+                                                    Subscribe Now
+                                                </a>
+                                            </template>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </template>
@@ -231,6 +249,7 @@
 
                 // Data
                 courses: {!! json_encode($coursesForJs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!},
+                auth_user_id: {{ auth()->id() ?? 'null' }},
 
                 globalMaxPrice: 500,
                 isLoading: false,
