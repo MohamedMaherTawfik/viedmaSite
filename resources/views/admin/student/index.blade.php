@@ -33,7 +33,7 @@
             @endif
 
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold">المعلمين</h2>
+                <h2 class="text-lg font-semibold">جميع الطلاب</h2>
                 <div class="flex gap-2">
                     <a href="{{ route('admin.student.excel') }}"
                         class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">

@@ -22,8 +22,14 @@
             <a href="{{ route('admin.students') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" alt="الطلاب"
-                    class="w-6 h-6">
+                    class="w-6 h-6 ml-2">
                 <span class="ml-2">جميع الطلاب</span>
+            </a>
+
+            <a href="{{ route('admin.teachers') }}"
+                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.teachers') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/teacher.png" alt="المعلمين" class="w-6 h-6 ml-2">
+                <span class="ml-2">جميع المعلمين</span>
             </a>
 
             <!-- المدارس -->
@@ -58,14 +64,14 @@
             <a href="{{ route('admin.certificates') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png" alt="الشهادات">
-                <span class="ml-2">الشهادات</span>
+                <span class="ml-4">الشهادات</span>
             </a>
 
             <!-- المشاريع -->
             <a href="{{ route('admin.projects') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/project.png" alt="المشاريع">
-                <span class="ml-2">المشاريع</span>
+                <span class="ml-4">المشاريع</span>
             </a>
             <!-- الالعب -->
             <a href="{{ route('admin.categorey') }}"

@@ -20,6 +20,13 @@ class studentController extends Controller
         return view('admin.student.index', compact('students'));
     }
 
+    public function allTeachers()
+    {
+        $students = User::where('role', 'trainer')->get();
+        return view('admin.student.teachers', compact('students'));
+    }
+
+
     public function createStudent()
     {
         return view('admin.student.create');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\AdminTeacherController;
 use App\Http\Controllers\admin\certificateController;
 use App\Http\Controllers\admin\courseCategoreyController;
 use App\Http\Controllers\admin\evaluationController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\admin\projectController;
 use App\Http\Controllers\admin\reportController;
 use App\Http\Controllers\admin\sessionTimeController;
 use App\Http\Controllers\admin\studentController;
+use App\Http\Controllers\admin\teacherController;
 use App\Http\Controllers\admin\trainerController;
 use App\Http\Controllers\adminstrator\categoreyController;
 use App\Http\Controllers\adminstrator\CoursesController;
@@ -288,6 +290,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::delete('/admin/schedules/{sessionTime}', [sessionTimeController::class, 'deleteSessionTime'])->name('admin.schedules.destroy');
     Route::get('/admin/certificates', [certificateController::class, 'trainerCertificates'])->name('admin.certificates');
     Route::post('/admin/certificates', [certificateController::class, 'storeCertificate'])->name('admin.certificate.store');
+
+    Route::get('/admin/teachers/all', [AdminTeacherController::class, 'index'])->name('admin.teachers');
+    Route::get('/admin/teacher/create/form', [AdminTeacherController::class, 'create'])->name('admin.teacher.create');
+    Route::post('/admin/teacher/create/form', [AdminTeacherController::class, 'store'])->name('admin.teacher.store');
+    Route::get('/admin/teacher/{teacher}/edit', [AdminTeacherController::class, 'edit'])->name('admin.teacher.edit');
+    Route::post('/admin/teacher/{teacher}/edit', [AdminTeacherController::class, 'update'])->name('admin.teacher.update');
+    Route::get('/admin/teacher/{teacher}/delete', [AdminTeacherController::class, 'destroy'])->name('admin.teacher.delete');
+
     Route::get('/admin/students/all', [studentController::class, 'allStudents'])->name('admin.students');
     Route::get('/admin/courses/assisnments/me', [projectController::class, 'allProjects'])->name('admin.projects');
     Route::get('/admin/student/create/form', [studentController::class, 'createStudent'])->name('admin.student.create');
