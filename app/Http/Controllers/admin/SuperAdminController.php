@@ -48,7 +48,7 @@ class SuperAdminController extends Controller
         $validtedData['password'] = bcrypt($validtedData['password']);
         $validtedData['role'] = 'admin';
         if ($request->hasFile('school_logo')) {
-            $validtedData['school_logo'] = $request->file('school_logo')->store('school_logos', 'public');
+            $validtedData['school_logo'] = $request->file('school_logo')->R('school_logos', 'public');
         }
         $school = school::create([
             'name' => $validtedData['school_name'],
@@ -113,7 +113,7 @@ class SuperAdminController extends Controller
     public function schoolDashboard()
     {
         $courses = $this->courses->allCourses();
-        $studentsCount = student::count();
+        $studentsCount = student::where('school_id', Auth::user()->school_id)->count();
         $teachersCount = User::where('role', 'trainer')->count();
         $assignmentsCount = assignment_submission::count();
         $certificates = certificate::count();
@@ -215,7 +215,6 @@ class SuperAdminController extends Controller
         if (!$school) {
             return redirect()->back()->with('error', 'School not found.');
         }
-        // Fetch students associated with the school
         $students = student::where('school_id', $school->id)->get();
         return view('schoolDashboard.students.index', compact('students'));
     }
@@ -519,17 +518,18 @@ class SuperAdminController extends Controller
     {
         $school = school::where('slug', request('slug'))->firstOrFail();
         $parents = User::where('school_id', $school->id)->where('role', 'parent')->get();
+        $student = student::where('name', request('name'))->first();
         return view('schoolDashboard.students.linkParent', compact('parents'));
     }
 
     public function linkParentStore()
     {
-        $user = User::where('name', request('parent'))->first();
-        $student = student::where('name', request('name'))->first();
-        if (!$user || !$student) {
+        $student = student::where('slug', request('name'))->first();
+        $parent = User::where('name', request('parent'))->first();
+        if (!$student || !$parent) {
             return redirect()->back()->with('error', 'User or Student not found.');
         }
-        $student->user_id = $user->id;
+        $student->user_id = $parent->id;
         $student->save();
         return redirect()->back()->with('success', 'Parent linked to student successfully.');
     }
@@ -543,7 +543,8 @@ class SuperAdminController extends Controller
     public function schoolReports()
     {
         $reports = report::with('student')->get();
-        return view('schoolDashboard.reports.index', compact('reports'));
+        $students = student::where('school_id', Auth::user()->school_id)->get();
+        return view('schoolDashboard.reports.index', compact('reports', 'students'));
     }
 
     public function showReport($slug, report $report)
@@ -554,5 +555,23 @@ class SuperAdminController extends Controller
     public function notifyTeacher(User $teacher)
     {
         return view('schoolDashboard.teachers.notify', compact('teacher'));
+    }
+
+    public function storeReport(Request $request)
+    {
+        $data = $request->except('_token');
+        $data['user_id'] = Auth::user()->id;
+        if ($request->hasFile('file')) {
+            $data['file'] = $request->file('file')->store('reports', 'public');
+        }
+        report::create($data);
+        return redirect()->back()->with('success', 'Report sent successfully');
+
+    }
+
+    public function deleteReport(report $report)
+    {
+        $report->delete();
+        return redirect()->back()->with('success', 'Report deleted successfully');
     }
 }

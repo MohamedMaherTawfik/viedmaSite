@@ -118,7 +118,8 @@ Route::group([
         Route::get('school/{slug}/dashboard/reports', 'schoolReports')->name('school.reports');
         Route::get('school/{slug}/dashboard/reports/{report}', 'showReport')->name('school.reports.show');
         Route::get('school/{slug}/dashboard/reports/create', 'createReport')->name('school.reports.create');
-        Route::post('school/{slug}/dashboard/reports/create', 'storeReport')->name('school.reports.store');
+        Route::post('school/dashboard/reports/create/store/report', 'storeReport')->name('school.reports.store');
+        Route::delete('school/dashboard/reports/create/store/report/{report}', 'deleteReport')->name('school.reports.destroy');
         Route::get('school/{slug}/dashboard/settings', 'schoolSettings')->name('school.settings');
         Route::get('school/{slug}/dashboard/pendings', 'schoolPendings')->name('school.pendings');
         Route::get('school/{slug}/dashboard/pendings/{name}/accept', 'accept')->name('school.pendings.accept');

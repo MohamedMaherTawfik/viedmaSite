@@ -65,7 +65,7 @@
                                     data-edit-url="{{ route('school.student.edit', ['slug' => request('slug'), 'name' => $student->name]) }}"
                                     data-delete-url="{{ route('school.student.delete', ['slug' => request('slug'), 'name' => $student->name]) }}"
                                     data-show-url="{{ route('school.student.show', ['slug' => request('slug'), 'name' => $student->name]) }}"
-                                    data-link-parent-url="{{ route('school.student.linkParent', ['slug' => request('slug'), 'name' => $student->name]) }}">
+                                    data-link-parent-url="{{ route('school.student.linkParent', ['slug' => request('slug'), 'name' => $student->slug]) }}">
                                     <td class="px-4 py-2 flex items-center gap-2 text-center">
                                         <img src="https://th.bing.com/th/id/R.4b6a7d8dc6ff6bd305a872c783d2f450?rik=IcLvZ3InG%2bn33g&pid=ImgRaw&r=0"
                                             class="w-8 h-8 rounded-full" alt="">

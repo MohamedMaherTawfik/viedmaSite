@@ -132,15 +132,14 @@ class studentController extends Controller
         return view('admin.student.linkParent', compact('name', 'parents'));
     }
 
-    public function linkParentStore()
+    public function linkParentStore(student $name)
     {
-        $user = User::where('name', request('parent'))->first();
-        $student = student::where('name', request('name'))->first();
-        if (!$user || !$student) {
+        $parent = User::where('name', request('parent'))->first();
+        if (!$name || !$parent) {
             return redirect()->back()->with('error', 'User or Student not found.');
         }
-        $student->user_id = $user->id;
-        $student->save();
+        $name->user_id = $parent->id;
+        $name->save();
         return redirect()->route('admin.students')->with('success', 'Parent linked to student successfully.');
     }
 }
