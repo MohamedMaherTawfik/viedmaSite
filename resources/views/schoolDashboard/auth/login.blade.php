@@ -44,8 +44,7 @@
 
         <!-- Left Illustration -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
-            <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="login illustration"
-                class="w-full max-w-md">
+            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration" class="w-full max-w-md">
         </div>
 
         <!-- Right Form -->

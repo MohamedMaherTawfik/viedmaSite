@@ -43,7 +43,7 @@
 
         <!-- Illustration (مخفية على الجوال، تظهر من lg فما فوق) -->
         <div class="hidden md:flex bg-[#f8f6f4] items-center justify-center p-8">
-            <img src="{{ asset('auth/WhatsApp Image 2025-07-05 at 17.28.44_7ec5a7e4.jpg') }}" alt="illustration"
+            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="illustration"
                 class="w-full max-w-sm object-contain">
         </div>
         <!-- Form Section -->

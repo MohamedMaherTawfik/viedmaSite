@@ -110,7 +110,9 @@
             @endauth
 
             <!-- 👤 Login/Profile -->
+            <!-- 👤 Login/Profile -->
             @auth
+                <!-- ✅ لو المستخدم مسجل دخول -->
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
                         class="px-3 py-1.5 bg-[#176b98] text-white rounded-md hover:bg-[#115479] transition font-semibold flex items-center gap-2 text-[15px]">
@@ -120,24 +122,54 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
+
+                    <!-- القائمة المنسدلة -->
                     <div x-show="open" @click.away="open = false"
-                        class="absolute right-0 mt-2 w-40 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden z-50">
+                        class="absolute right-0 mt-2 w-44 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden z-50"
+                        x-transition>
                         <a href="{{ route('profile') }}" class="block px-4 py-2 hover:bg-gray-100">
                             {{ __('messages.profile') }}
                         </a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit"
-                                class="w-full text-left px-4 py-2 hover:bg-gray-100">{{ __('messages.logout') }}</button>
+                            <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                {{ __('messages.logout') }}
+                            </button>
                         </form>
                     </div>
                 </div>
             @else
-                <a href="{{ route('login') }}"
-                    class="px-4 py-1.5 bg-[#176b98] text-white rounded-md hover:bg-[#115479] transition font-semibold text-[15px]">
-                    {{ __('messages.login') }}
-                </a>
+                <!-- ❌ لو المستخدم مش مسجل دخول -->
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open"
+                        class="px-4 py-1.5 bg-[#176b98] text-white rounded-md hover:bg-[#115479] transition font-semibold text-[15px] flex items-center gap-2">
+                        {{ __('messages.login') }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown تسجيل الدخول -->
+                    <div x-show="open" @click.away="open = false"
+                        class="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden z-50"
+                        x-transition>
+                        <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                            تسجيل دخول الطالب
+                        </a>
+                        <a href="{{ route('school.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                            تسجيل دخول المدير
+                        </a>
+                        <a href="{{ route('parent.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                            تسجيل دخول ولي الأمر
+                        </a>
+                        <a href="{{ route('trainer.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                            تسجيل دخول المعلم
+                        </a>
+                    </div>
+                </div>
             @endauth
+
 
             <!-- 🌐 Language -->
             <div class="relative" x-data="{ langMenu: false }">

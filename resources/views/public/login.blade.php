@@ -98,21 +98,10 @@
                 </button>
             </form>
 
-            {{--
-            <div class="flex items-center gap-2 text-sm mb-4">
-                <div class="flex-grow h-px bg-gray-300"></div>
-                أو
-                <div class="flex-grow h-px bg-gray-300"></div>
-            </div> --}}
-
-            {{-- <button
-                class="border border-gray-300 flex items-center justify-center gap-2 py-2 rounded w-full mb-3 hover:bg-gray-50">
-                <img src="https://img.icons8.com/color/48/google-logo.png" class="w-5 h-5" />
-                تسجيل الدخول باستخدام Google
-            </button> --}}
 
             <p class="text-center text-sm mt-6">
                 ليس لديك حساب؟ <a href="{{ route('register') }}" class="text-blue-600 hover:underline">حساب جديد</a>
+                <hr class="mt-2">
             </p>
         </div>
     </div>

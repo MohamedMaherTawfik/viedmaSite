@@ -10,7 +10,7 @@
 
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen -mt-16">
     <!-- Big image -->
-    <img src="{{ asset('auth/rendered_page.png') }}" alt="Big Image" class="w-64 h-48 mb-6">
+    <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="Big Image" class="w-36 h-48 mb-6">
 
     <!-- Centered form -->
     <form class="bg-white p-6 rounded-xl shadow-lg w-80" action="{{ route('admin.login.store') }}" method="POST">
