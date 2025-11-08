@@ -172,7 +172,7 @@ return [
     'contact_info' => 'Contact Information',
     'phone' => 'Phone',
     'email_label' => 'Email',
-
+    'showCourse' => 'Show Course',
     'graduation_project' => 'Graduation Project',
     'address' => 'Address',
     'address_text' => 'King Fahd Road, Riyadh, Saudi Arabia',

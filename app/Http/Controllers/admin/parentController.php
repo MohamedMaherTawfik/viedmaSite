@@ -9,6 +9,7 @@ use App\Http\Requests\userEditRequest;
 use App\Models\applyTeacher;
 use App\Models\cart;
 use App\Models\cartItems;
+use App\Models\Enrollments;
 use App\Models\games;
 use App\Models\gamesCategorey;
 use App\Models\orderdetails;
@@ -88,7 +89,9 @@ class parentController extends Controller
     public function children()
     {
         $students = student::where('user_id', Auth::id())->get();
-        return view('parentDashboard.student.index', compact('students'));
+        $studentsUser = student::where('user_id', Auth::id())->pluck('me_id');
+        $enrollments = Enrollments::whereIn('user_id', $studentsUser)->get();
+        return view('parentDashboard.student.index', compact('students', 'enrollments', 'studentsUser'));
     }
 
     public function games()
@@ -96,72 +99,6 @@ class parentController extends Controller
         $games = games::all();
         return view('parentDashboard.games.index', compact('games', ));
     }
-
-    // public function addToCart(cartRequest $request, games $game)
-    // {
-    //     $validatedData = $request->validated();
-
-    //     $cart = cart::where('user_id', Auth::id())->first();
-    //     if (!$cart) {
-    //         $cart = cart::create([
-    //             'user_id' => Auth::id(),
-    //         ]);
-    //     }
-    //     if (cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->exists()) {
-    //         return redirect()->back()->with('error', 'Game already added to cart!');
-    //     }
-    //     cartItems::create([
-    //         'cart_id' => $cart->id,
-    //         'games_id' => $game->id,
-    //         'quantity' => $validatedData['quantity'],
-    //     ]);
-    //     return redirect()->back()->with('success', 'Game added to cart successfully!');
-    // }
-
-    // public function deleteFromCart(games $game)
-    // {
-    //     $cart = cart::where('user_id', Auth::id())->first();
-    //     cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->delete();
-    //     return redirect()->back()->with('success', 'Game removed from cart successfully!');
-    // }
-
-
-    // public function parentCart()
-    // {
-    //     $cart = cart::where('user_id', Auth::id())->first();
-    //     $cartItems = cartItems::where('cart_id', $cart->id)->get();
-    //     return view('parentDashboard.games.cart', compact('cartItems'));
-    // }
-    // public function checkout()
-    // {
-    //     $cart = cart::where('user_id', Auth::id())->first();
-    //     $cartItems = cartItems::where('cart_id', $cart->id)->get();
-    //     $quantity = 0;
-    //     $price = 0;
-    //     foreach ($cartItems as $item) {
-    //         $quantity += $item->quantity;
-    //         $price += $item->games->price * $item->quantity;
-    //     }
-    //     $order = orders::create([
-    //         'user_id' => Auth::id(),
-    //         'quantity' => $quantity,
-    //         'price' => $price
-    //     ]);
-
-    //     foreach ($cartItems as $item) {
-    //         orderdetails::create([
-    //             'orders_id' => $order->id,
-    //             'games_id' => $item->games_id,
-    //             'quantity' => $item->quantity,
-    //             'price' => $item->games->price
-    //         ]);
-    //     }
-    //     foreach ($cartItems as $item) {
-    //         $item->delete();
-    //     }
-    //     $cart->delete();
-    //     return redirect()->route('parent.games')->with('success', 'Order placed successfully!');
-    // }
 
     public function reports()
     {

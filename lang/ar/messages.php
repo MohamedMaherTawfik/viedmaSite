@@ -172,7 +172,7 @@ return [
     'subject' => 'الموضوع',
     'select_subject' => 'اختر موضوع الرسالة',
     'subject_support' => 'الدعم الفني',
-
+    'showCourse' => 'الدخول الي الكورس',
     'graduation_project' => 'مشروع التخرج',
     'subject_courses' => 'استفسار عن الدورات',
     'subject_products' => 'استفسار عن المنتجات',

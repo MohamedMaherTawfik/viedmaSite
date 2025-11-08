@@ -44,6 +44,7 @@
                             <th class="px-4 py-3 text-center">هاتف ولي الأمر</th>
                             <th class="px-4 py-3 text-center">الجنسية</th>
                             <th class="px-4 py-3 text-center">الرقم القومي</th>
+                            <th class="px-4 py-3 text-center">الدورات المسجل بها</th>
                             <th class="px-4 py-3 text-center">اسم المدرسة</th>
                         </tr>
                     </thead>
@@ -55,6 +56,14 @@
                                 <td class="px-4 py-3 text-center">{{ $student->user->phone }}</td>
                                 <td class="px-4 py-3 text-center">{{ $student->nationallity }}</td>
                                 <td class="px-4 py-3 text-center">{{ $student->national_id }}</td>
+                                <td class="px-4 py-3 text-center">
+                                    @foreach ($enrollments as $item)
+                                        @if ($item->user_id == $student->me_id)
+                                            {{ $item->course->title }} -
+                                        @endif
+                                    @endforeach
+
+                                </td>
                                 <td class="px-4 py-3 text-center">{{ $student->school->name }}</td>
                             </tr>
                         @endforeach
