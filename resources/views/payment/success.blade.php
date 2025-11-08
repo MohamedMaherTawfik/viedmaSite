@@ -11,7 +11,8 @@
     <div class="bg-white p-8 rounded shadow-md text-center">
         <h1 class="text-3xl font-bold text-green-600">✅ تم الدفع بنجاح!</h1>
         <p class="mt-4">شكرًا لك، تمت عملية الدفع بنجاح.</p>
-        <a href="/" class="inline-block mt-6 text-blue-600 hover:underline">العودة للرئيسية</a>
+        <a href="{{ route('web.courses.enrolled.show', $course) }}"
+            class="inline-block mt-6 text-blue-600 hover:underline">الذهاب الي الكورس</a>
     </div>
 </body>
 

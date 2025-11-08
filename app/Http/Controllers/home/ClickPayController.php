@@ -130,6 +130,6 @@ class ClickPayController
             'price' => $course->price,
             'enrolled' => 'yes',
         ]);
-        return view('payment.success');
+        return view('payment.success', compact('course'));
     }
 }
