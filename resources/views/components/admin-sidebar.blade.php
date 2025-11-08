@@ -60,12 +60,12 @@
             </a>
 
 
-            <!-- الشهادات -->
+            {{-- <!-- الشهادات -->
             <a href="{{ route('admin.certificates') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png" alt="الشهادات">
                 <span class="ml-4">الشهادات</span>
-            </a>
+            </a> --}}
 
             <!-- المشاريع -->
             <a href="{{ route('admin.projects') }}"
