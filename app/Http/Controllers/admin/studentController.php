@@ -116,6 +116,7 @@ class studentController extends Controller
         $user->update([
             'name' => $data['name'] ?? '-',
             'email' => $data['email'] ?? '-',
+            'school_id' => $data['school_id'] ?? null,
         ]);
         $student->update([
             'school_id' => $data['school_id'],
