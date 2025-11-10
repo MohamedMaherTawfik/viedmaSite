@@ -72,6 +72,7 @@
                                             class="w-8 h-8 rounded-full" alt="">
                                         {{ $student->name ?? 'لا يوجد اسم' }}
                                     </td>
+
                                     <td>{{ $student->me->email ?? 'لا يوجد بريد الكتروني' }}</td>
                                     <td class="px-4 py-2 text-center">{{ $student->national_id ?? 'لا يوجد رقم قومي' }}
                                     </td>

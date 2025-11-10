@@ -16,7 +16,7 @@ class studentController extends Controller
 {
     public function allStudents()
     {
-        $students = student::get();
+        $students = student::with('me')->get();
         return view('admin.student.index', compact('students'));
     }
 
@@ -85,11 +85,18 @@ class studentController extends Controller
         SimpleExcelReader::create($realPath)
             ->getRows()
             ->each(function (array $row) use ($request) {
+
+                $user = User::create([
+                    'name' => $row['name'],
+                    'email' => $row['name'] . '@gmail.com',
+                    'password' => bcrypt('name'),
+                ]);
                 Student::create([
                     'name' => $row['name'],
                     'national_id' => $row['national_id'],
                     'nationallity' => $row['nationallity'],
                     'Academic_stage' => $row['Academic_stage'],
+                    'me_id' => $user->id,
                     'slug' => Str::slug($row['name']) . '-' . time(),
                 ]);
             });
@@ -107,8 +114,8 @@ class studentController extends Controller
         $data = request()->except('_token');
         $user = User::where('id', $student->me_id)->first();
         $user->update([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name' => $data['name'] ?? '-',
+            'email' => $data['email'] ?? '-',
         ]);
         $student->update([
             'school_id' => $data['school_id'],
