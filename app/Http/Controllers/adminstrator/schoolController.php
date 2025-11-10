@@ -50,7 +50,6 @@ class schoolController extends Controller
     {
         $school->load('user');
         $users = User::where('school_id', $school->id)->get();
-        dd($users);
         return view('admin.schools.show', compact('school'));
     }
 
