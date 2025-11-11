@@ -52,7 +52,7 @@
                  </div>
 
                  <div>
-                     <label class="block mb-1 text-gray-700">الاسم</label>
+                     <label class="block mb-1 text-gray-700">الهاتف</label>
                      <input type="text" name="phone"
                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                      @error('phone')
