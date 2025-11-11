@@ -163,7 +163,7 @@
                         <a href="{{ route('parent.login') }}" class="block px-4 py-2 hover:bg-gray-100">
                             تسجيل دخول ولي الأمر
                         </a>
-                        <a href="{{ route('trainer.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                        <a href="{{ route('trainer.login.form') }}" class="block px-4 py-2 hover:bg-gray-100">
                             تسجيل دخول المعلم
                         </a>
                     </div>
