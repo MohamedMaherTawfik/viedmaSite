@@ -114,7 +114,7 @@
                         <input type="checkbox" class="form-checkbox rounded border-gray-300 text-blue-600">
                         حفظ الحساب على هذا الجهاز
                     </label>
-                    <a href="#" class="text-red-500 hover:underline">نسيت كلمة المرور؟</a>
+                    <a href="{{ route('forgot.password') }}" class="text-red-500 hover:underline">نسيت كلمة المرور؟</a>
                 </div>
 
                 <!-- زر الدخول -->

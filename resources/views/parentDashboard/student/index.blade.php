@@ -59,7 +59,9 @@
                                 <td class="px-4 py-3 text-center">
                                     @foreach ($enrollments as $item)
                                         @if ($item->user_id == $student->me_id)
-                                            {{ $item->course->title }} -
+                                            <a href="{{ route('web.courses.enrolled.show', $item) }}"
+                                                class="hover:underline">
+                                                {{ $item->course->title }}</a> -
                                         @endif
                                     @endforeach
 

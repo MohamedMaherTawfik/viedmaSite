@@ -94,4 +94,45 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect()->back()->with('success', 'Logout successfully!');
     }
+
+    public function forgotPassword()
+    {
+        return view('public.forgotPassword');
+    }
+
+    public function checkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            return redirect()->route('forgot.password.reset.form', ['email' => $request->email]);
+        } else {
+            return redirect()->back()->withErrors(['email' => 'Email not found!']);
+        }
+    }
+
+    public function reset()
+    {
+        $data = request('email');
+        return view('public.resetPassword', compact('data'));
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|confirmed',
+        ]);
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return redirect('/')->with('success', 'Password reset successfully!');
+        } else {
+            return redirect()->back()->withErrors(['email' => 'Email not found!']);
+        }
+    }
 }
