@@ -34,128 +34,106 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl mx-auto mt-6">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">إنشاء لعبة جديدة</h2>
+            <form action="{{ route('admin.games.store') }}" method="POST" enctype="multipart/form-data"
+                class="space-y-6 bg-white p-6 rounded-2xl shadow-md">
+                @csrf
 
-                <form action="{{ route('admin.games.store') }}" method="POST" enctype="multipart/form-data"
-                    class="space-y-4">
-                    @csrf
+                <!-- Hidden user_id -->
+                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
 
-                    <!-- Hidden user_id -->
-                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                <h2 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">إضافة لعبة جديدة 🎮</h2>
 
-                    <!-- Row 1 -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">عنوان اللعبة</label>
-                            <input type="text" name="title" class="w-full border rounded-lg px-3 py-2">
-                            @error('title')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">الوصف</label>
-                            <input type="text" name="description" class="w-full border rounded-lg px-3 py-2">
-                            @error('description')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                <!-- Row 1 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">عنوان اللعبة</label>
+                        <input type="text" name="title"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('title')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Row 2 -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">السعر</label>
-                            <input type="number" name="price" step="0.01"
-                                class="w-full border rounded-lg px-3 py-2">
-                            @error('price')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">الوصف</label>
+                        <input type="text" name="description"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('description')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">الخصم</label>
-                            <input type="number" name="discount" step="0.01"
-                                class="w-full border rounded-lg px-3 py-2">
-                            @error('discount')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                <!-- Row 2 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">السعر</label>
+                        <input type="number" name="price" step="0.01"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('price')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Row 3 -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">تاريخ الإصدار</label>
-                            <input type="date" name="release_date" class="w-full border rounded-lg px-3 py-2">
-                            @error('release_date')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">تصنيف اللعبة</label>
+                        <select name="games_categorey_id" id="games_categorey_id"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2 bg-white">
+                            <option value="">-- اختر التصنيف --</option>
+                            @foreach ($gamesCategorey as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('games_categorey_id')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
 
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">اسم المطور</label>
-                            <input type="text" name="developer_name" class="w-full border rounded-lg px-3 py-2">
-                            @error('developer_name')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                <!-- Row 3 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">صورة الغلاف</label>
+                        <input type="file" name="cover_image" accept="image/*"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('cover_image')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
-                    <!-- Row 4 -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">صورة الغلاف</label>
-                            <input type="file" name="cover_image" accept="image/*"
-                                class="w-full border rounded-lg px-3 py-2">
-                            @error('cover_image')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">المنصة</label>
-                            <input type="text" name="platform" class="w-full border rounded-lg px-3 py-2">
-                            @error('platform')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">رابط العرض الدعائي</label>
+                        <input type="text" name="trailer_url"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('trailer_url')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+                </div>
 
-                    <!-- Row 5 -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">رابط العرض الدعائي</label>
-                            <input type="text" name="trailer_url" class="w-full border rounded-lg px-3 py-2">
-                            @error('trailer_url')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label class="block mb-1 font-medium text-gray-700">المخزون</label>
-                            <input type="number" name="stock" class="w-full border rounded-lg px-3 py-2">
-                            @error('stock')
-                                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
+                <!-- Row 4 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block mb-1 font-semibold text-gray-700">المخزون</label>
+                        <input type="number" name="stock"
+                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
+                        @error('stock')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
+                </div>
 
-                    <!-- Submit -->
-                    <div class="flex justify-end">
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
-                            إنشاء اللعبة
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </main>
+                <!-- Submit -->
+                <div class="flex justify-end pt-4 border-t">
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-2 rounded-lg shadow">
+                        💾 إنشاء اللعبة
+                    </button>
+                </div>
+            </form>
+
+    </div>
+    </main>
     </div>
 
 </x-layout>

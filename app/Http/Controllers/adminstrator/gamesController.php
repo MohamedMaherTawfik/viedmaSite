@@ -5,6 +5,7 @@ namespace App\Http\Controllers\adminstrator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GameRequest;
 use App\Models\games;
+use App\Models\gamesCategorey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,8 @@ class gamesController extends Controller
 
     public function createGame()
     {
-        return view('admin.games.create');
+        $gamesCategorey = gamesCategorey::all();
+        return view('admin.games.create', compact('gamesCategorey'));
     }
 
     public function storeGame(GameRequest $request)
