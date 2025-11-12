@@ -42,18 +42,6 @@
                             alt="{{ $game->title }}"
                             class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105">
 
-                        <!-- Badges -->
-                        <div class="absolute top-4 left-4 flex gap-2">
-                            <span
-                                class="bg-gradient-to-r from-blue-600 to-blue-400 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-                                {{ ucfirst($game->platform ?? 'غير متوفر') }}
-                            </span>
-                            @if ($game->is_new)
-                                <span class="bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
-                                    جديد
-                                </span>
-                            @endif
-                        </div>
 
                         <!-- Release Date -->
                         <div class="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-3 py-1 rounded-md">
@@ -100,19 +88,15 @@
 
                         <!-- Details -->
                         <div class="pt-6 border-t">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">📌 تفاصيل اللعبة</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3"> تفاصيل اللعبة</h3>
                             <ul class="space-y-2 text-gray-600">
-                                <li class="flex justify-between"><span class="font-medium">النوع:</span><span>أكشن،
-                                        مغامرات</span></li>
                                 <li class="flex justify-between"><span
                                         class="font-medium">الفئه:</span><span>{{ ucfirst($game->categorey->name ?? 'غير متوفر') }}</span>
                                 </li>
                                 <li class="flex justify-between"><span class="font-medium">تاريخ
                                         الإصدار:</span><span>{{ date('d M Y', strtotime($game->release_date)) }}</span>
                                 </li>
-                                <li class="flex justify-between"><span class="font-medium">اللغة:</span><span>العربية،
-                                        الإنجليزية</span></li>
-                            </ul>
+
                         </div>
                     </div>
                 </div>

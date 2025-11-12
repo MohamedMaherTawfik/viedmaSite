@@ -61,25 +61,15 @@
                                             <img src="{{ $course->cover_image ? asset('storage/' . $course->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
                                                 alt="{{ $course->name ?? 'Course Image' }}"
                                                 class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
-
-                                            <!-- تاريخ الإصدار -->
-                                            <div
-                                                class="absolute bottom-2 left-2 bg-white/90 text-gray-800 text-xs font-medium px-2 py-1 rounded">
-                                                {{ date('d M Y', strtotime($course->release_date)) }}
-                                            </div>
-
-                                            <div
-                                                class="absolute bottom-2 right-2 bg-gold text-white text-xs font-semibold px-2 py-1 rounded">
-                                                {{ ucfirst($course->platform ?? 'NONE') }}
-                                            </div>
                                         </div>
+
                                         <div class="p-6 flex-1 flex flex-col justify-between">
                                             <div>
                                                 <!-- الفئة -->
                                                 <div class="flex items-center mb-2">
                                                     <span
-                                                        class="inline-block px-3 py-1 text-xs font-semibold text-white bg-gold rounded-full">
-                                                        {{ $course->category->name ?? 'عام' }}
+                                                        class="inline-block px-3 py-1 text-xs font-semibold text-black border bg-dark rounded-full">
+                                                        {{ $course->categorey->name ?? 'عام' }}
                                                     </span>
                                                 </div>
                                                 <h3 class="text-xl font-semibold text-gray-900 mb-1">
@@ -87,31 +77,19 @@
                                                 <p class="text-gray-600 text-sm mb-3">
                                                     {{ Str::limit($course->description, 50) }}
                                                 </p>
-                                                <div class="flex items-center text-sm text-gray-500 mb-2">
-                                                    <a href="{{ $course->trailer_url ?? '#' }}"
-                                                        class="text-dark-blue hover:underline">
-                                                        مشاهدة الترويجي
-                                                    </a>
-                                                </div>
+
                                             </div>
                                             <div class="mt-auto">
                                                 <div
                                                     class="flex items-center justify-between text-sm text-gray-700 mb-2">
-                                                    <div>
 
-                                                        <span class="font-bold text-base"> المنشئ : </span>
-                                                        <span
-                                                            class="opacity-60">{{ $course->developer_name ?? 'غير محدد' }}</span>
-                                                    </div>
-                                                    <div class="flex items-center">
-                                                        <span class="text-gold">★</span>
-                                                    </div>
+
                                                 </div>
                                                 <div
                                                     class="pt-4 border-t border-gray-100 flex items-center justify-between">
                                                     <span
                                                         class="text-lg font-bold text-dark-blue">{{ $course->price ?? 0 }}
-                                                        SAR</span>
+                                                        ريال</span>
                                                     <a href="{{ route('admin.games.show', $course) }}"
                                                         class="bg-[#3b82f6] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
                                                         عرض المزيد

@@ -100,27 +100,6 @@
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
-                    <div>
-                        <label class="block mb-1 font-semibold text-gray-700">رابط العرض الدعائي</label>
-                        <input type="text" name="trailer_url"
-                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
-                        @error('trailer_url')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <!-- Row 4 -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block mb-1 font-semibold text-gray-700">المخزون</label>
-                        <input type="number" name="stock"
-                            class="w-full border border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200 rounded-lg px-3 py-2">
-                        @error('stock')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
                 </div>
 
                 <!-- Submit -->

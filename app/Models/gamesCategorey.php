@@ -10,6 +10,6 @@ class gamesCategorey extends Model
     protected $guarded = [];
     public function games()
     {
-        return $this->hasMany(games::class);
+        return $this->hasMany(games::class, 'games_categorey_id');
     }
 }
