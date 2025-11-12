@@ -1,80 +1,121 @@
 <x-home-layout>
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-6">{{ Auth::user()->name }} {{ __('messages.cart') }}</h1>
+    <div class="w-full px-6 lg:px-12 py-10">
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-3">🎮 {{ $categorey->name }}</h1>
+            <p class="text-lg text-gray-600">استكشف جميع الألعاب الموجودة في هذا التصنيف</p>
+        </div>
 
-        @if ($cartItems && count($cartItems) > 0)
-            <div class="grid gap-6 md:grid-cols-3">
-                <!-- Cart Items -->
-                <div class="md:col-span-2 space-y-4">
-                    @foreach ($cartItems as $item)
-                        <div class="flex flex-col sm:flex-row border rounded-lg p-4 shadow-sm">
-                            <!-- games Image -->
-                            <div class="sm:w-1/5 sm:h-1/5 mb-4 sm:mb-0">
-                                <img src="{{ $item->games->cover_image ? asset('storage/' . $item->games->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
-                                    alt="{{ $item->games->name }}" class="w-full h-auto object-cover rounded">
-                            </div>
+        <div class="flex flex-col md:flex-row gap-10">
+            <!-- Filters Sidebar -->
+            <div class="order-2 md:order-1 md:w-72 lg:w-80 h-fit md:sticky md:top-6 bg-white rounded-2xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-6">فلترة النتائج</h3>
 
-                            <!-- games Info -->
-                            <div class="sm:w-3/4 sm:pl-6">
-                                <h2 class="text-xl font-semibold">{{ $item->games->title }}</h2>
-                                <p class="text-gray-600 mt-2">{{ $item->games->description }}</p>
-
-                                <div class="mt-4 flex items-center justify-between">
-                                    <span class="text-lg font-bold">${{ $item->games->price * $item->quantity }}</span>
-
-                                    <div class="flex items-center gap-4">
-                                        <span>{{ __('messages.quantity') }}: {{ $item->quantity }}</span>
-
-                                        <!-- زرار حذف -->
-                                        <form action="{{ route('game.removeFromCart', $item->games->id) }}"
-                                            method="POST"
-                                            onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700">
-                                                {{ __('messages.delete') }}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                <!-- Search Box -->
+                <div class="mb-6">
+                    <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-2">ابحث بالاسم</label>
+                    <input id="searchInput" type="text" placeholder="اسم اللعبة..."
+                        class="filter-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <!-- Checkout Summary -->
-                <div class="border rounded-lg p-6 h-fit shadow-sm">
-                    <h2 class="text-xl font-bold mb-4">{{ __('messages.order_summary') }}</h2>
-
-                    <div class="space-y-3 mb-6">
-                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
-                            <span>{{ __('messages.total') }}:</span>
-                            <span>${{ $total }}</span>
-                        </div>
-
-                        <div class="flex justify-between font-bold text-lg pt-2 border-t">
-                            <span>{{ __('messages.number_of_games') }}:</span>
-                            <span>{{ $cartCount }} {{ __('messages.games') }}</span>
-                        </div>
+                <!-- Price Range Filter -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">نطاق السعر</label>
+                    <div class="flex items-center gap-2">
+                        <input type="number" id="minPrice" placeholder="الحد الأدنى"
+                            class="filter-input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <span class="text-gray-500">-</span>
+                        <input type="number" id="maxPrice" placeholder="الحد الأقصى"
+                            class="filter-input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
                     </div>
+                </div>
 
-                    <form action="{{ route('checkout') }}" method="POST" class="w-full">
-                        @csrf
-                        <button type="submit"
-                            class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 px-4 rounded-lg font-medium transition duration-200">
-                            {{ __('messages.buy_now') }}
-                        </button>
-                    </form>
+                <!-- Reset Button -->
+                <button id="resetFiltersBtn"
+                    class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-200">
+                    إعادة تعيين
+                </button>
+            </div>
+
+            <!-- Games Grid -->
+            <div class="order-1 md:order-2 flex-1">
+                <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+                    <!-- الألعاب هتتزرع بالـ JS -->
+                </div>
+
+                <!-- لا توجد نتائج -->
+                <div id="noResults" class="hidden col-span-full text-center py-16 bg-white rounded-xl shadow">
+                    <h3 class="text-xl font-medium text-gray-800">لا توجد ألعاب</h3>
+                    <p class="text-gray-500">حاول تعديل الفلاتر</p>
                 </div>
             </div>
-        @else
-            <div class="text-center py-12">
-                <h2 class="text-2xl font-semibold text-gray-600">{{ __('messages.cart_empty') }}</h2>
-                <a href="{{ route('home') }}" class="mt-4 inline-block text-blue-600 hover:text-blue-800">
-                    {{ __('messages.continue_shopping') }}
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        const games = @json($games);
+
+        const grid = document.getElementById('gamesGrid');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const minPrice = document.getElementById('minPrice');
+        const maxPrice = document.getElementById('maxPrice');
+        const resetBtn = document.getElementById('resetFiltersBtn');
+
+        // 🟩 دالة رسم الكارت
+        function renderCard(game) {
+            let categoryName = game.category?.name ?? '{{ $categorey->name }}';
+            let img = game.cover_image ?
+                "{{ asset('storage') }}/" + game.cover_image :
+                'https://t4.ftcdn.net/jpg/06/71/92/37/360_F_671923740_x0zOL3OIuUAnSF6sr7PuznCI5bQFKhI0.jpg';
+            let url = `/home/game/show/${game.id}/details`;
+
+            return `
+        <div class="bg-white rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden flex flex-col">
+            <img src="${img}" alt="${game.title}" class="w-full h-56 object-cover">
+            <div class="p-6 text-center flex-1 flex flex-col">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">${game.title}</h3>
+                <p class="text-2xl font-bold text-blue-600 mb-3">${parseFloat(game.price).toFixed(2)} ر.س</p>
+                <span class="text-sm text-gray-500 mb-4 block">${categoryName}</span>
+                <a href="${url}" class="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-3 px-6 rounded-lg transition duration-300">
+                    عرض
                 </a>
             </div>
-        @endif
-    </div>
+        </div>
+    `;
+        }
+
+
+        // 🟦 دالة الفلترة
+        function filterGames() {
+            let search = searchInput.value.toLowerCase();
+            let min = parseFloat(minPrice.value) || 0;
+            let max = parseFloat(maxPrice.value) || Infinity;
+
+            let filtered = games.filter(g => {
+                let matchesSearch = g.title.toLowerCase().includes(search);
+                let matchesPrice = g.price >= min && g.price <= max;
+                return matchesSearch && matchesPrice;
+            });
+
+            grid.innerHTML = filtered.map(renderCard).join('');
+            noResults.classList.toggle('hidden', filtered.length > 0);
+        }
+
+        // 🟧 Events
+        [searchInput, minPrice, maxPrice].forEach(input => {
+            input.addEventListener('input', filterGames);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            minPrice.value = '';
+            maxPrice.value = '';
+            filterGames();
+        });
+
+        // 🟩 أول تحميل
+        filterGames();
+    </script>
 </x-home-layout>

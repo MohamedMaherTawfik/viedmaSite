@@ -145,7 +145,17 @@ class homeController extends Controller
 
     public function showCategorey(gamesCategorey $categorey)
     {
-        $categorey->load('games');
-        return view('home.store.categorey', compact('categorey'));
+
+        $categorey->load([
+            'games' => function ($query) {
+                $query->with('categorey');
+            }
+        ]);
+
+        // تمرير الألعاب للتصنيف فقط
+        $games = $categorey->games;
+
+        return view('home.store.categorey', compact('categorey', 'games'));
     }
+
 }
