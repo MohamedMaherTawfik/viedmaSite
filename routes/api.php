@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\api\auth\AuthController;
+use App\Http\Controllers\api\parent\parentControllerApi;
 use App\Http\Controllers\api\school\achievementController;
 use App\Http\Controllers\api\school\ActivitesController;
 use App\Http\Controllers\api\school\certificatesController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\api\school\TeacherController;
 use App\Http\Controllers\api\store\cartController;
 use App\Http\Controllers\api\store\GamesController;
 use App\Http\Controllers\api\store\orderController;
+use App\Http\Controllers\api\student\enrollmentController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\teacherMiddelware;
 use Illuminate\Support\Facades\Route;
@@ -150,4 +152,30 @@ Route::group([
     Route::get('/singleCertificate/{id}', [certificatesController::class, 'singleCertificate'])->middleware('jwt.auth');
     Route::post('/createCertificate/{id}', [certificatesController::class, 'createCertificate'])->middleware('jwt.auth');
     Route::delete('/deleteCertificate/{id}', [certificatesController::class, 'deleteCertificate'])->middleware('jwt.auth');
+});
+
+
+
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'parent'
+], function () {
+    Route::get('/allParents', [parentControllerApi::class, 'allParents'])->middleware('jwt.auth');
+    Route::get('/parent/{id}', [parentControllerApi::class, 'children'])->middleware('jwt.auth');
+    Route::get('/student/{id}/parent/{user_id}', [parentControllerApi::class, 'linkChild'])->middleware('jwt.auth');
+    Route::get('/parent/{id}/reports', [parentControllerApi::class, 'reports'])->middleware('jwt.auth');
+});
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'enrollment',
+], function () {
+    Route::controller(enrollmentController::class)->group(
+        function () {
+            Route::get('/all/{courseId}', 'allEnrollments');
+            Route::post('/enroll/{courseId}', 'enrollCourse')->middleware('jwt.auth');
+        }
+    );
 });
