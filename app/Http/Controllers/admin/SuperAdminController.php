@@ -272,13 +272,11 @@ class SuperAdminController extends Controller
      * Upload Excel file and process it.
      */
 
-    public function uploadExcel(Request $request, $slug)
+    public function uploadExcel(Request $request)
     {
         $request->validate([
             'excel_file' => 'required|file|mimes:xlsx,xls',
         ]);
-
-        $school = School::where('slug', $slug)->firstOrFail();
 
         // احفظ الملف يدويًا
         $file = $request->file('excel_file');
@@ -291,24 +289,28 @@ class SuperAdminController extends Controller
             return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
         }
 
-        // اقرأ الملف من المسار الحقيقي
         SimpleExcelReader::create($realPath)
             ->getRows()
-            ->each(function (array $row) use ($school) {
+            ->each(function (array $row) use ($request) {
+
+                $user = User::create([
+                    'name' => $row['name'],
+                    'email' => $row['name'] . '@gmail.com',
+                    'password' => bcrypt($row['name']),
+                    'school_id' => auth()->user()->school_id,
+                ]);
                 Student::create([
                     'name' => $row['name'],
-                    // 'parent_phone' => $row['phone'],
-                    'school_id' => $school->id,
                     'national_id' => $row['national_id'],
                     'nationallity' => $row['nationallity'],
                     'Academic_stage' => $row['Academic_stage'],
+                    'me_id' => $user->id,
                     'slug' => Str::slug($row['name']) . '-' . time(),
+                    'school_id' => auth()->user()->school_id,
                 ]);
             });
 
-        // unlink($realPath);
-
-        return redirect()->route('school.students', ['slug' => $slug])->with('success', 'Excel file uploaded and students created successfully.');
+        return redirect()->route('school.students', request('slug'))->with('success', 'Excel file uploaded and students created successfully.');
     }
 
 

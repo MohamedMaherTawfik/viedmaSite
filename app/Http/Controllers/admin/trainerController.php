@@ -366,7 +366,6 @@ class trainerController extends Controller
         $request->validate([
             'excel_file' => 'required|file|mimes:xlsx,xls',
         ]);
-        $school = school::where('id', Auth::user()->school->id)->firstOrFail();
 
         // احفظ الملف يدويًا
         $file = $request->file('excel_file');
@@ -378,17 +377,24 @@ class trainerController extends Controller
         if (!file_exists($realPath)) {
             return back()->withErrors(['msg' => 'الملف لم يتم حفظه بشكل صحيح.']);
         }
-
         SimpleExcelReader::create($realPath)
             ->getRows()
-            ->each(function (array $row) use ($school) {
+            ->each(function (array $row) use ($request) {
+
+                $user = User::create([
+                    'name' => $row['name'],
+                    'email' => $row['name'] . '@gmail.com',
+                    'password' => bcrypt($row['name']),
+                    'school_id' => auth()->user()->school_id,
+                ]);
                 Student::create([
                     'name' => $row['name'],
-                    'school_id' => $school->id,
                     'national_id' => $row['national_id'],
                     'nationallity' => $row['nationallity'],
                     'Academic_stage' => $row['Academic_stage'],
+                    'me_id' => $user->id,
                     'slug' => Str::slug($row['name']) . '-' . time(),
+                    'school_id' => auth()->user()->school_id
                 ]);
             });
 

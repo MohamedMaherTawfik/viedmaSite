@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api\parent;
 use App\Http\Controllers\api\store\apiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\certificate;
+use App\Models\Courses;
+use App\Models\Enrollments;
 use App\Models\report;
 use App\Models\student;
 use App\Models\User;
@@ -22,22 +24,10 @@ class parentControllerApi extends Controller
     public function children()
     {
         $children = User::find(request('id'));
-        $children->load('studentMe', 'student');
-        dd($children);
+        $children->load('student');
         return $this->success($children, 'all children');
-    }
 
-    public function linkChild()
-    {
-        $student = student::find(request('id'));
-        if (!$student) {
-            return $this->notFound('student not found');
-        }
-        $student->user_id = request('user_id');
-        $student->save();
-        return $this->success($student, 'student linked to parent successfully');
     }
-
 
     public function reports()
     {
@@ -55,5 +45,13 @@ class parentControllerApi extends Controller
         return $this->success($certificates, 'all certificates for childrens');
     }
 
+    public function courses()
+    {
+        $user = User::find(request('id'));
+        $student = student::where('user_id', $user->id)->pluck('id')->toArray();
+        $enrollments = Enrollments::where('student_id', $student)->pluck('courses_id')->toArray();
+        $courses = Courses::whereIn('id', $enrollments)->get();
+        return $this->success($courses, 'all courses for childrens');
+    }
 
 }

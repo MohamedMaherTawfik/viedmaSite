@@ -38,7 +38,7 @@
              @endif
 
              <!-- Form to upload Excel file -->
-             <form action="{{ route('teacher.excel.upload') }}" method="POST" enctype="multipart/form-data"
+             <form action="{{ route('teacher.excel.upload',request('slug')) }}" method="POST" enctype="multipart/form-data"
                  class="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mt-6">
                  @csrf
                  <label class="block mb-2 text-sm font-medium text-gray-700">اختر ملف Excel:</label>

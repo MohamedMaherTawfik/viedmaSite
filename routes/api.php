@@ -156,15 +156,14 @@ Route::group([
 
 
 
-
 Route::group([
     'middleware' => ['api'],
     'prefix' => 'parent'
 ], function () {
     Route::get('/allParents', [parentControllerApi::class, 'allParents'])->middleware('jwt.auth');
     Route::get('/parent/{id}', [parentControllerApi::class, 'children'])->middleware('jwt.auth');
-    Route::get('/student/{id}/parent/{user_id}', [parentControllerApi::class, 'linkChild'])->middleware('jwt.auth');
     Route::get('/parent/{id}/reports', [parentControllerApi::class, 'reports'])->middleware('jwt.auth');
+    Route::get('/parent/{id}/courses', [parentControllerApi::class, 'courses'])->middleware('jwt.auth');
 });
 
 
