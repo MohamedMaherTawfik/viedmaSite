@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\evaluationController;
 use App\Http\Controllers\admin\feedbackController;
 use App\Http\Controllers\admin\lessonController;
 use App\Http\Controllers\admin\MyCoursesController;
+use App\Http\Controllers\admin\orderController;
 use App\Http\Controllers\admin\parentController;
 use App\Http\Controllers\admin\projectController;
 use App\Http\Controllers\admin\reportController;
@@ -278,6 +279,10 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::post('/admin/courses/{project}/feedback', [feedbackController::class, 'feedback'])->name('admin.feedback');
     Route::get('/admin/courses/{slug}/report/{user}', [reportController::class, 'createReport'])->name('admin.report.create');
     Route::post('/admin/courses/{slug}/report/{user}', [reportController::class, 'storeReport'])->name('admin.report.store');
+
+    Route::get('/orders/all', [orderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/orders/{order}/show', [orderController::class, 'show'])->name('admin.orders.show');
+    Route::post('/orders/{order}/update', [orderController::class, 'update'])->name('admin.orders.update');
 
     Route::get('/admin/course/{course}/lesson/create', [lessonController::class, 'createLesson'])->name('admin.lesson.create');
     Route::get('/admin/course/{course}/lesson/show/lesson', [lessonController::class, 'showLesson'])->name('admin.lesson.show');

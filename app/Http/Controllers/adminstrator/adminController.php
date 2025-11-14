@@ -5,6 +5,7 @@ namespace App\Http\Controllers\adminstrator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminLoginRequest;
 use App\Models\cart;
+use App\Models\orders;
 use App\Models\school;
 use App\Models\student;
 use App\Models\User;
@@ -41,7 +42,8 @@ class adminController extends Controller
             $teachersCount = User::where('role', 'teacher')->count();
             $trainersCount = User::where('role', 'trainer')->count();
             $studentsCount = student::count();
-            return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount'));
+            $orders = orders::count();
+            return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount', 'orders'));
         }
         return redirect()->route('admin.login');
 

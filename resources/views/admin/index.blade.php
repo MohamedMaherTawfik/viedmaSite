@@ -65,6 +65,12 @@
                     <p class="text-3xl font-extrabold">{{ $parentsCount ?? 0 }}</p>
                 </div>
 
+                <!-- أولياء الأمور -->
+                <div class="p-6 rounded-xl text-white shadow-lg" style="background-color: teal;">
+                    <h3 class="text-lg font-bold mb-2">عدد طلبات الالعاب </h3>
+                    <p class="text-3xl font-extrabold">{{ $orders ?? 0 }}</p>
+                </div>
+
             </div>
         </main>
 

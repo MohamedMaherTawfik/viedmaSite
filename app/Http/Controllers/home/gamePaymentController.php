@@ -148,7 +148,8 @@ class gamePaymentController extends Controller
                 'user_id' => $cart->user_id,
                 'price' => $price,
                 'transaction_type' => 'visa',
-                'quantity' => $quantity
+                'quantity' => $quantity,
+                'transaction_status' => 'pending'
             ]);
 
             foreach ($cartitems as $item) {
