@@ -115,7 +115,7 @@ class SuperAdminController extends Controller
         $users = User::where('school_id', Auth::user()->school_id)->pluck('id');
         $courses = Courses::whereIn('user_id', $users)->get();
         $studentsCount = student::where('school_id', Auth::user()->school_id)->count();
-        $teachersCount = User::where('role', 'trainer')->count();
+        $teachersCount = User::where('role', 'trainer')->where('school_id', Auth::user()->school_id)->count();
         $assignmentsCount = assignment_submission::count();
         $certificates = certificate::count();
         $school = school::where('slug', request('slug'))->first();
