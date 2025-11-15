@@ -181,8 +181,44 @@ return [
     'hours_sun_thu' => '8 AM - 5 PM',
     'friday' => 'Friday',
     'saturday' => 'Saturday',
+    'confirm_payment' => 'Confirm Payment',
+    'amount' => 'Amount:',
+    'name' => 'Name:',
+
+    'city' => 'City',
+    'country' => 'Country',
+    'state' => 'State / Province',
+    // Hero Section
+    'welcome' => 'Welcome to VIEDMA Website',
+    'welcome_desc' => 'We believe that education is the key to a bright future. We provide a modern educational environment that helps our students create, think, and achieve success.',
+    'learn_more' => 'Learn More',
+
+    // About Section
+    'about_title' => 'About VIEDMA',
+    'about_content' => '<span class="font-bold text-blue-700">VIEDMA</span> is a leading educational platform that aims to develop student skills through diverse and interactive educational content based on the latest technologies. It focuses on areas such as <span class="font-semibold">STEM</span>, and promotes awareness of global issues like climate change and biodiversity, serving as an effective tool for both students and teachers in an innovative and supportive educational environment.',
+
+    // Schools Section
+    'schools_title' => 'Our Schools',
+    'view_school' => 'Go to School',
+
+    // Common
+    'go_to_school' => 'Go to School',
+    'zip' => 'Zip Code',
+    'pay_now' => '💳 Pay Now',
+    'secured_by_clickpay' => 'Secured by ClickPay',
     'hours_sat' => '10 AM - 3 PM',
     'closed' => 'Closed',
+    'login_to_add_cart' => 'Please login to add game to cart!',
+    'game_already_in_cart' => 'Game already added to cart!',
+    'game_added_cart' => 'Game added to cart successfully!',
+    'game_removed_cart' => 'Game removed from cart successfully!',
+    'cart_item_not_found' => 'Cart item not found!',
+    'no_enrolled_courses' => 'No enrolled courses found!',
+    'order_placed' => 'Order placed successfully!',
+    'profile_updated' => 'Profile updated successfully!',
+    'current_password_wrong' => 'Current password is incorrect.',
+    'password_changed' => 'Password changed successfully!',
+    'cart_updated' => 'Cart updated successfully!',
     'no_project' => 'No graduation project available for now',
     'project_uploaded' => 'You already uploaded the project',
     'project_title' => 'Graduation Project Title Here',

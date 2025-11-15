@@ -25,6 +25,7 @@ class homeController extends Controller
         $schools = school::count();
         return view('home.separate', compact('users', 'courses', 'schools'));
     }
+
     public function index()
     {
         $gameCategorey = gamesCategorey::all();
@@ -63,64 +64,77 @@ class homeController extends Controller
 
     public function addToCart(cartRequest $request, games $game)
     {
-        if (Auth::check()) {
-            $validatedData = $request->validated();
-
-            $cart = cart::where('user_id', Auth::id())->first();
-            if (!$cart) {
-                $cart = cart::create([
-                    'user_id' => Auth::id(),
-                ]);
-            }
-            if (cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->exists()) {
-                return redirect()->back()->with('error', 'Game already added to cart!');
-            }
-            cartItems::create([
-                'cart_id' => $cart->id,
-                'games_id' => $game->id,
-                'quantity' => $validatedData['quantity'],
-            ]);
-            return redirect()->back()->with('success', 'Game added to cart successfully!');
+        if (!Auth::check()) {
+            return redirect()->route('login')
+                ->with('error', __('messages.login_to_add_cart'));
         }
-        return redirect()->route('login')->with('error', 'Please login to add game to cart!');
+
+        $validatedData = $request->validated();
+
+        $cart = cart::firstOrCreate(['user_id' => Auth::id()]);
+
+        if (cartItems::where('cart_id', $cart->id)->where('games_id', $game->id)->exists()) {
+            return redirect()->back()->with('error', __('messages.game_already_in_cart'));
+        }
+
+        cartItems::create([
+            'cart_id' => $cart->id,
+            'games_id' => $game->id,
+            'quantity' => $validatedData['quantity'],
+        ]);
+
+        return redirect()->back()->with('success', __('messages.game_added_cart'));
     }
 
-    public function deleteFromCart()
+    public function deleteFromCart(Request $request)
     {
         $cart = cart::where('user_id', Auth::id())->first();
-        cartItems::where('cart_id', $cart->id)->where('games_id', request('id'))->delete();
-        return redirect()->back()->with('success', 'Game removed from cart successfully!');
+        $cartItem = cartItems::where('cart_id', $cart->id)
+            ->where('games_id', $request->id)->first();
+
+        if ($cartItem) {
+            $cartItem->delete();
+            return redirect()->back()->with('success', __('messages.game_removed_cart'));
+        }
+
+        return redirect()->back()->with('error', __('messages.cart_item_not_found'));
     }
+
     public function checkout()
     {
         $cart = cart::where('user_id', Auth::id())->first();
-        $cartItems = cartItems::where('cart_id', $cart->id)->get();
-        $quantity = 0;
-        $price = 0;
-        foreach ($cartItems as $item) {
-            $quantity += $item->quantity;
-            $price += $item->games->price * $item->quantity;
+        if (!$cart) {
+            return redirect()->back()->with('error', __('messages.cart_empty'));
         }
-        return redirect()->route('pay.form.store', $cart)->with('success', 'Order placed successfully!');
+
+        $cartItems = cartItems::where('cart_id', $cart->id)->get();
+        if ($cartItems->isEmpty()) {
+            return redirect()->back()->with('error', __('messages.cart_empty'));
+        }
+
+        return redirect()->route('pay.form.store', $cart)
+            ->with('success', __('messages.order_placed'));
     }
+
     public function cart()
     {
         $cart = cart::where('user_id', Auth::id())->first();
-        $cartItems = cartItems::where('cart_id', $cart->id)->get();
-        $total = 0;
-        foreach ($cartItems as $item) {
-            $total += $item->games->price * $item->quantity;
-        }
-        $cartCount = count($cartItems);
+        $cartItems = $cart ? cartItems::where('cart_id', $cart->id)->get() : collect();
+        $total = $cartItems->sum(fn($item) => $item->games->price * $item->quantity);
+        $cartCount = $cartItems->count();
+
         return view('home.store.cart', compact('cartItems', 'total', 'cartCount'));
     }
-    public function updateProfile()
+
+    public function updateProfile(Request $request)
     {
         $user = Auth::user();
-        $user->name = request('name');
-        $user->email = request('email');
-        $user->save();
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+
+        return redirect()->back()->with('success', __('messages.profile_updated'));
     }
 
     public function updatePassword(Request $request)
@@ -133,29 +147,35 @@ class homeController extends Controller
         $user = Auth::user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            return back()->withErrors(['current_password' => 'كلمة المرور الحالية غير صحيحة.']);
+            return back()->withErrors(['current_password' => __('messages.current_password_wrong')]);
         }
 
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
 
-        return back()->with('success', 'تم تغيير كلمة المرور بنجاح.');
+        return back()->with('success', __('messages.password_changed'));
     }
 
     public function showCategorey(gamesCategorey $categorey)
     {
-
-        $categorey->load([
-            'games' => function ($query) {
-                $query->with('categorey');
-            }
-        ]);
-
-        // تمرير الألعاب للتصنيف فقط
+        $categorey->load('games.categorey');
         $games = $categorey->games;
-
         return view('home.store.categorey', compact('categorey', 'games'));
     }
 
+    public function updateCart(Request $request)
+    {
+        $cartItem = cartItems::find($request->cartItem);
+
+        if (!$cartItem) {
+            return redirect()->back()->with('error', __('messages.cart_item_not_found'));
+        }
+
+        $cartItem->update([
+            'quantity' => $request->quantity,
+        ]);
+
+        return redirect()->back()->with('success', __('messages.cart_updated'));
+    }
 }

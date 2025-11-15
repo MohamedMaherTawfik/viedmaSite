@@ -12,16 +12,20 @@
 </head>
 
 <body class="bg-gray-100 font-sans leading-normal tracking-normal">
-
     <!-- Navbar -->
     <x-navbar />
 
-    {{ $slot }}
-    <hr>
-    <!-- Footer -->
-    <x-footer />
+    <!-- Main Content Container -->
+    <div class="flex flex-col min-h-screen">
+        <!-- Main Slot Content (grows to push footer down) -->
+        <main class="flex-grow">
+            {{ $slot }}
+        </main>
 
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+        <hr>
+        <x-footer />
+    </div>
+
 
 </body>
 

@@ -1,5 +1,6 @@
 <x-home-layout>
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
+        lang="{{ app()->getLocale() }}">
         <h1 class="text-3xl font-bold mb-6">
             {{ Auth::user()->name }} {{ __('messages.cart') }}
         </h1>
@@ -9,15 +10,15 @@
                 <!-- عناصر السلة -->
                 <div class="md:col-span-2 space-y-4">
                     @foreach ($cartItems as $item)
-                        <div class="flex flex-col sm:flex-row border rounded-lg p-4 shadow-sm">
+                        <div class="flex flex-row border rounded-lg p-4 shadow-sm items-center">
                             <!-- صورة اللعبة -->
-                            <div class="sm:w-1/5 sm:h-1/5 mb-4 sm:mb-0">
+                            <div class="w-1/5 h-auto mx-4">
                                 <img src="{{ $item->games->cover_image ? asset('storage/' . $item->games->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
-                                    alt="{{ $item->games->name }}" class="w-full h-auto object-cover rounded">
+                                    alt="{{ $item->games->name }}" class="w-full h-full object-cover rounded">
                             </div>
 
                             <!-- تفاصيل اللعبة -->
-                            <div class="sm:w-3/4 sm:pl-6">
+                            <div class="flex-1">
                                 <h2 class="text-xl font-semibold">{{ $item->games->title }}</h2>
                                 <p class="text-gray-600 mt-2">{{ $item->games->description }}</p>
 
@@ -29,9 +30,14 @@
                                     <div class="flex items-center gap-4">
                                         <span>{{ __('messages.quantity') }}: {{ $item->quantity }}</span>
 
+                                        <!-- زر تعديل الكمية -->
+                                        <button onclick="openModal({{ $item->id }}, {{ $item->quantity }})"
+                                            class="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600">
+                                            تعديل
+                                        </button>
+
                                         <!-- زر الحذف -->
-                                        <form action="{{ route('game.removeFromCart', $item->games->id) }}"
-                                            method="POST"
+                                        <form action="{{ route('game.removeFromCart', $item->id) }}" method="POST"
                                             onsubmit="return confirm('{{ __('messages.confirm_delete') }}');">
                                             @csrf
                                             @method('DELETE')
@@ -54,7 +60,11 @@
                     <div class="space-y-3 mb-6">
                         <div class="flex justify-between font-bold text-lg pt-2 border-t">
                             <span>{{ __('messages.total') }}:</span>
-                            <span>${{ $total }}</span>
+                            <span>
+                                <img src="{{ asset('images/Saudi_Riyal_Symbol.svg') }}" alt="ر.س"
+                                    class="inline-block w-5 h-5 align-middle mr-1">
+                                {{ $total }}
+                            </span>
                         </div>
 
                         <div class="flex justify-between font-bold text-lg pt-2 border-t">
@@ -83,4 +93,47 @@
             </div>
         @endif
     </div>
+
+    <!-- ========================= -->
+    <!--    MODAL تعديل الكمية     -->
+    <!-- ========================= -->
+
+    <div id="editQuantityModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white w-96 rounded-xl p-6 shadow-lg relative">
+
+            <!-- Close Button -->
+            <button onclick="closeModal()"
+                class="absolute top-2 right-3 text-gray-500 text-xl hover:text-gray-700">&times;</button>
+
+            <h2 class="text-2xl font-bold mb-4 text-center">تعديل الكمية</h2>
+
+            <form id="updateQuantityForm" method="POST">
+                @csrf
+                <label class="block mb-2 font-medium">الكمية الجديدة:</label>
+                <input type="number" name="quantity" id="modalQuantityInput" class="w-full border rounded-lg px-3 py-2"
+                    min="1" max="99">
+
+                <button type="submit"
+                    class="w-full mt-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold">
+                    تحديث
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function openModal(cartItemId, quantity) {
+            document.getElementById("editQuantityModal").classList.remove("hidden");
+            document.getElementById("modalQuantityInput").value = quantity;
+            document.getElementById("updateQuantityForm").action =
+                `/home/games/user/cart/update/${cartItemId}`;
+        }
+
+        function closeModal() {
+            document.getElementById("editQuantityModal").classList.add("hidden");
+        }
+    </script>
+
 </x-home-layout>

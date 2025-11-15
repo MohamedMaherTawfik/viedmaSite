@@ -75,6 +75,8 @@ Route::group([], function () {
     Route::get('/home/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
     Route::get('/home/games', [homeController::class, 'allGames'])->name('games.all');
     Route::get('/home/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
+    Route::post('/home/games/user/cart/update/{cartItem}', [homeController::class, 'updateCart'])
+        ->name('cart.update')->middleware('auth');
     Route::delete('/home/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
     Route::post('/home/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
     Route::post('/home/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart');

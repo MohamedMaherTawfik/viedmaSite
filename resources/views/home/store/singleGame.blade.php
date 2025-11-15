@@ -1,9 +1,12 @@
 <x-home-layout>
-    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
+    <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8"
+        dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}" lang="{{ app()->getLocale() }}">
+        <div class="max-w-7xl mx-auto font-sans">
+
             <!-- Breadcrumbs -->
             <nav class="mb-6">
-                <ol class="flex items-center space-x-2 rtl:space-x-reverse text-sm text-gray-600">
+                <ol
+                    class="flex items-center space-x-2 {{ app()->getLocale() === 'ar' ? 'rtl:space-x-reverse' : '' }} text-sm text-gray-600">
                     <li><a href="/" class="hover:text-blue-600 transition">الرئيسية</a></li>
                     <li class="text-gray-400">/</li>
                     <li><a href="{{ route('games.all') }}" class="hover:text-blue-600 transition">الألعاب</a></li>
@@ -42,16 +45,16 @@
                             alt="{{ $game->title }}"
                             class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105">
 
-
                         <!-- Release Date -->
-                        <div class="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-3 py-1 rounded-md">
+                        <div
+                            class="absolute bottom-4 {{ app()->getLocale() === 'ar' ? 'left-4' : 'right-4' }} bg-black/70 text-white text-sm px-3 py-1 rounded-md">
                             {{ date('d M Y', strtotime($game->release_date)) }}
                         </div>
                     </div>
 
                     <!-- Description -->
                     <div class="bg-white rounded-2xl shadow p-6">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"> وصف اللعبة</h2>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">وصف اللعبة</h2>
                         <p class="text-gray-700 leading-relaxed">{{ $game->description ?? 'لا يوجد وصف متاح حالياً' }}
                         </p>
                     </div>
@@ -60,46 +63,70 @@
                 <!-- Right Column -->
                 <div class="lg:w-1/3">
                     <div class="bg-white rounded-2xl shadow-lg sticky top-6 p-6 space-y-6">
+
                         <!-- Title -->
                         <h1 class="text-3xl font-bold text-gray-900">{{ $game->title }}</h1>
 
                         <!-- Price -->
                         <div>
-                            <p class="text-4xl font-bold text-blue-600">ر.س {{ number_format($game->price, 2) }}</p>
+                            <p class="text-4xl font-bold text-black flex items-center">
+                                <img src="{{ asset('images/Saudi_Riyal_Symbol.svg') }}" alt="SAR"
+                                    class="w-8 h-8 mr-1">
+                                {{ number_format($game->price, 2) }}
+                            </p>
                             @if ($game->original_price > $game->price)
-                                <p class="text-sm text-gray-500 line-through">ر.س
-                                    {{ number_format($game->original_price, 2) }}</p>
+                                <p class="text-sm text-black line-through flex items-center">
+                                    <img src="{{ asset('images/Saudi_Riyal_Symbol.svg') }}" alt="SAR"
+                                        class="w-4 h-4 mr-1">
+                                    {{ number_format($game->original_price, 2) }}
+                                </p>
                             @endif
                         </div>
 
                         <!-- Purchase Form -->
-                        <form action="{{ route('game.AddToCart', $game) }}" method="POST" class="space-y-4">
-                            @csrf
-                            <div class="flex items-center justify-between">
-                                <span class="text-gray-700 font-medium">الكمية:</span>
-                                <input type="number" name="quantity" id="quantity" value="1" min="1"
-                                    max="99" class="w-20 text-center border rounded-lg py-2">
-                            </div>
-                            <button type="submit"
-                                class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
-                                أضف إلى السلة
-                            </button>
-                        </form>
+                        @auth
+                            <form action="{{ route('game.AddToCart', $game) }}" method="POST" class="space-y-4">
+                                @csrf
+                                <div class="flex items-center justify-between">
+                                    <span class="text-gray-700 font-medium">الكمية:</span>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1"
+                                        max="99" class="w-20 text-center border rounded-lg py-2">
+                                </div>
+                                <button type="submit"
+                                    class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
+                                        text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300">
+                                    أضف إلى السلة
+                                </button>
+                            </form>
+                        @endauth
+
+                        <!-- Guest Message -->
+                        @guest
+                            <a href="{{ route('login') }}"
+                                class="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
+                               text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 mt-5 text-center">
+                                سجل دخول أولًا لإضافة الألعاب إلى السلة
+                            </a>
+                        @endguest
 
                         <!-- Details -->
                         <div class="pt-6 border-t">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3"> تفاصيل اللعبة</h3>
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">تفاصيل اللعبة</h3>
                             <ul class="space-y-2 text-gray-600">
-                                <li class="flex justify-between"><span
-                                        class="font-medium">الفئه:</span><span>{{ ucfirst($game->categorey->name ?? 'غير متوفر') }}</span>
+                                <li class="flex justify-between">
+                                    <span class="font-medium">الفئة:</span>
+                                    <span>{{ ucfirst($game->categorey->name ?? 'غير متوفر') }}</span>
                                 </li>
-                                <li class="flex justify-between"><span class="font-medium">تاريخ
-                                        الإصدار:</span><span>{{ date('d M Y', strtotime($game->release_date)) }}</span>
+                                <li class="flex justify-between">
+                                    <span class="font-medium">تاريخ الإصدار:</span>
+                                    <span>{{ date('d M Y', strtotime($game->release_date)) }}</span>
                                 </li>
-
+                            </ul>
                         </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
