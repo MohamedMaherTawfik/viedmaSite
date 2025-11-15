@@ -112,7 +112,8 @@ class SuperAdminController extends Controller
 
     public function schoolDashboard()
     {
-        $courses = $this->courses->allCourses();
+        $users = User::where('school_id', Auth::user()->school_id)->pluck('id');
+        $courses = Courses::whereIn('user_id', $users)->get();
         $studentsCount = student::where('school_id', Auth::user()->school_id)->count();
         $teachersCount = User::where('role', 'trainer')->count();
         $assignmentsCount = assignment_submission::count();
