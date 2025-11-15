@@ -48,7 +48,7 @@ class SuperAdminController extends Controller
         $validtedData['password'] = bcrypt($validtedData['password']);
         $validtedData['role'] = 'admin';
         if ($request->hasFile('school_logo')) {
-            $validtedData['school_logo'] = $request->file('school_logo')->R('school_logos', 'public');
+            $validtedData['school_logo'] = $request->file('school_logo')->store('school_logos', 'public');
         }
         $school = school::create([
             'name' => $validtedData['school_name'],
