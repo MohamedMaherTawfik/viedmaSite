@@ -50,7 +50,7 @@ class parentControllerApi extends Controller
         $user = User::find(request('id'));
         $student = student::where('user_id', $user->id)->pluck('me_id')->toArray();
         $enrollments = Enrollments::where('user_id', $student)->pluck('courses_id')->toArray();
-
+        dd($enrollments, $student, $user);
         $courses = Courses::whereIn('id', $enrollments)->get();
         return $this->success($courses, 'all courses for childrens');
     }
