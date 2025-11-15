@@ -32,7 +32,7 @@ class parentControllerApi extends Controller
     public function reports()
     {
         $user = User::find(request('id'));
-        $student = student::where('user_id', $user->id)->pluck('id')->toArray();
+        $student = student::where('user_id', $user->id)->pluck('me_id')->toArray();
         $reports = report::where('student_id', $student)->get();
         return $this->success($reports, 'all reports');
     }
@@ -40,7 +40,7 @@ class parentControllerApi extends Controller
     public function certificates()
     {
         $user = User::find(request('id'));
-        $student = student::where('user_id', $user->id)->pluck('id')->toArray();
+        $student = student::where('user_id', $user->id)->pluck('me_id')->toArray();
         $certificates = certificate::where('user_id', $student)->get();
         return $this->success($certificates, 'all certificates for childrens');
     }
@@ -48,8 +48,9 @@ class parentControllerApi extends Controller
     public function courses()
     {
         $user = User::find(request('id'));
-        $student = student::where('user_id', $user->id)->pluck('id')->toArray();
+        $student = student::where('user_id', $user->id)->pluck('me_id')->toArray();
         $enrollments = Enrollments::where('user_id', $student)->pluck('courses_id')->toArray();
+
         $courses = Courses::whereIn('id', $enrollments)->get();
         return $this->success($courses, 'all courses for childrens');
     }

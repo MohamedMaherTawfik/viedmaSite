@@ -299,7 +299,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.report.create', ['slug' => request('slug'), 'user' => $item->user]) }}"
+                                    <a href="{{ route('admin.report.create', ['slug' => $item->course->slug, 'user' => $item->user]) }}"
                                         class="text-red-600 font-bold">اضافه</a>
                                 </td>
                             </tr>
