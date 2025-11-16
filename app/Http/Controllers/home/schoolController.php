@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\home;
 
+use App\Models\Courses;
 use App\Models\school;
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class schoolController
 {
@@ -15,7 +16,10 @@ class schoolController
 
     public function showSchool(school $school)
     {
-        return view('home.schools.show', compact('school'));
+        $users = User::where('school_id', $school->id)->pluck('id')->toArray();
+        $courses = Courses::whereIn('user_id', $users)->get();
+        $categories = \App\Models\categories::get();
+        return view('home.schools.show', compact('school', 'users', 'courses', 'categories'));
     }
 
     public function allSchools()

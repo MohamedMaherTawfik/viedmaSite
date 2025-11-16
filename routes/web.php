@@ -81,7 +81,7 @@ Route::group([], function () {
     Route::post('/home/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
     Route::post('/home/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart');
     Route::get('/home/schools', [schoolController::class, 'schools'])->name('schools');
-    Route::get('/home/school/{slug}', [schoolController::class, 'showSchool'])->name('school.show');
+    Route::get('/home/school/{school}', [schoolController::class, 'showSchool'])->name('school.show');
     Route::get('/home/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');
 });
 

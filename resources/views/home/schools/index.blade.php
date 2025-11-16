@@ -88,7 +88,7 @@
                         <div class="p-4 text-center">
                             <h3 class="text-xl font-bold text-gray-800 mb-2 truncate">{{ $school->name }}</h3>
                             <p class="text-gray-600 mb-4">{{ $school->type }}</p>
-                            <a href="{{ route('school.show', $school->slug) }}"
+                            <a href="{{ route('school.show', $school) }}"
                                 class="inline-block bg-[#1E40AF] hover:bg-[#1D4ED8] text-white font-semibold py-2 px-4 rounded-lg transition-transform duration-300 transform hover:scale-105">
                                 {{ __('messages.go_to_school') }}
                             </a>
