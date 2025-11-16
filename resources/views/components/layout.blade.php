@@ -1,30 +1,41 @@
 @props(['title' => ''])
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
     <title>{{ $title }}</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Alpine.js -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     <style>
         body {
             font-family: 'Cairo', sans-serif;
         }
-    </style>
 
-    <style>
         [x-cloak] {
             display: none !important;
         }
+
+        /* Optional: Adjust text alignment for RTL */
+        body[dir="rtl"] {
+            text-align: right;
+        }
     </style>
+
     <script>
         function showDropdownMenu(items, top, left) {
-            // Debug
             console.log('Dropdown triggered');
 
             const existing = document.getElementById("global-dropdown");
@@ -47,15 +58,10 @@
             });
         }
     </script>
-
 </head>
 
 <body class="bg-gray-100 min-h-screen flex">
     {{ $slot }}
-
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
-
 </body>
 
 </html>
