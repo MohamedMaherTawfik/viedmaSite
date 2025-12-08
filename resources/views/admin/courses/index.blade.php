@@ -59,7 +59,8 @@
                                              <!-- Start Date -->
                                              <div
                                                  class="absolute bottom-2 left-2 bg-white/80 text-gray-800 text-xs font-medium px-2 py-1 rounded">
-                                                 {{ \Carbon\Carbon::parse($course->start_Date)->format('d M Y') }}
+                                                 {{ $course->start_Date ? date('d M Y', strtotime($course->start_Date)) : '' }}
+
                                              </div>
 
                                              <!-- Level -->

@@ -1,5 +1,8 @@
-<aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between" dir="rtl">
+<aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between"
+    dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
+
     <div>
+
         <!-- صورة الحساب -->
         <div class="mb-6 text-center">
             <img src="{{ asset('auth/rendered_page.png') }}" class="w-36 h-20 mx-auto mb-2">
@@ -9,95 +12,78 @@
         <h2 class="text-lg font-semibold mb-6 text-center">{{ Auth::user()->name }}</h2>
 
         <!-- قائمة التنقل -->
-        <nav class="space-y-4 text-right">
+        <nav class="space-y-4 {{ app()->getLocale() === 'ar' ? 'text-right' : 'text-left' }}">
+
             <!-- الرئيسية -->
             <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.dashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas text-2xl fa-th-large text-blue-600"></i>
-                <span class="mr-2">الرئيسية</span>
+                <span class="mx-2">{{ __('main.dashboard') }}</span>
             </a>
 
-
-            {{-- جميع الطلاب --}}
             <a href="{{ route('admin.students') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" alt="الطلاب"
-                    class="w-6 h-6 ml-2">
-                <span class="ml-2">جميع الطلاب</span>
+                <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" class="w-6 h-6">
+                <span class="mx-2">{{ __('main.students') }}</span>
             </a>
 
             <a href="{{ route('admin.teachers') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.teachers') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/teacher.png" alt="المعلمين" class="w-6 h-6 ml-2">
-                <span class="ml-2">جميع المعلمين</span>
+                <img src="https://img.icons8.com/ios-filled/24/176b98/teacher.png" class="w-6 h-6">
+                <span class="mx-2">{{ __('main.teachers') }}</span>
             </a>
 
-            <!-- المدارس -->
             <a href="{{ route('admin.schools.index') }}"
                 class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <i class="fas fa-school text-2xl text-blue-600"></i>
-
-                <span class="mr-2">المدارس</span>
+                <span class="mx-2">{{ __('main.schools') }}</span>
             </a>
 
             <a href="{{ route('admin.courses.category') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
                 <i class="fa-solid fa-list text-2xl text-blue-600"></i>
-                <span class="mr-2">فئات الدورات</span>
+                <span class="mx-2">{{ __('main.course_categories') }}</span>
             </a>
 
-
             <a href="{{ route('admin.courses.me') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
                 <i class="fa-solid fa-book-open text-2xl text-blue-600"></i>
-                <span class="mr-2">دوراتي</span>
+                <span class="mx-2">{{ __('main.my_courses') }}</span>
             </a>
 
             <a href="{{ route('admin.courses') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/schools/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
                 <i class="fa-solid fa-book-open text-2xl text-blue-600"></i>
-                <span class="mr-2">الدورات</span>
+                <span class="mx-2">{{ __('main.courses') }}</span>
             </a>
 
-            <!-- المشاريع -->
             <a href="{{ route('admin.projects') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('admin.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png" alt="المشاريع">
-                <span class="ml-4">المشاريع</span>
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png">
+                <span class="mx-2">{{ __('main.projects') }}</span>
             </a>
-            <!-- الالعب -->
+
             <a href="{{ route('admin.categorey') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/categorey/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                {{-- categorey icon --}}
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
                 <i class="fa-solid fa-list text-2xl text-blue-600"></i>
-                <span class="mr-2">فئات الالعاب</span>
+                <span class="mx-2">{{ __('main.game_categories') }}</span>
             </a>
 
-            <!-- الالعب -->
             <a href="{{ route('admin.games.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/games/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
                 <i class="fas fa-gamepad text-2xl text-blue-600"></i>
-                <span class="mr-2">الالعاب</span>
+                <span class="mx-2">{{ __('main.games') }}</span>
             </a>
 
-
-            <!-- الإعدادات -->
             <a href="{{ route('admin.settings.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/settings/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <i class="fas text-2xl fa-cog text-blue-600"></i>
-                <span class="mr-2">الإعدادات</span>
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
+                <i class="fas fa-cog text-2xl text-blue-600"></i>
+                <span class="mx-2">{{ __('main.settings') }}</span>
             </a>
 
-            <!-- الإعدادات -->
             <a href="{{ route('admin.orders.index') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->is('admin/settings/*') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-700" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9m5-9v9m6-9l2 9" />
-                </svg>
-
-                <span class="mr-2">طلبات الالعاب</span>
+                class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
+                <span class="mx-2">{{ __('main.game_orders') }}</span>
             </a>
         </nav>
     </div>
@@ -107,8 +93,8 @@
         @csrf
         <button type="submit"
             class="flex items-center w-full px-4 py-3 mt-6 bg-red-100 text-red-500 rounded text-base hover:bg-red-200">
-            <i class="fas text-2xl fa-sign-out-alt text-red-500"></i>
-            <span class="mr-2">تسجيل الخروج</span>
+            <i class="fas fa-sign-out-alt text-red-500"></i>
+            <span class="mx-2">{{ __('main.logout') }}</span>
         </button>
     </form>
 </aside>
