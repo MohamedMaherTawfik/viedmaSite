@@ -44,6 +44,7 @@ class studentController extends Controller
             'email' => $validatedData['email'],
             'role' => 'user',
             'password' => bcrypt($validatedData['password']),
+            'school_id' => $validatedData['school_id'],
         ]);
         student::create([
             'me_id' => $user->id,
