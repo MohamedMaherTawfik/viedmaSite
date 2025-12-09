@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Centered Form with Images</title>
+    <title>admin login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen -mt-16">
-    <!-- Big image -->
-    <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="Big Image" class="w-36 h-48 mb-6">
+    {{-- <!-- Big image -->
+    <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="Big Image" class="w-36 h-48 mb-6"> --}}
 
     <!-- Centered form -->
     <form class="bg-white p-6 rounded-xl shadow-lg w-80" action="{{ route('admin.login.store') }}" method="POST">
