@@ -1,4 +1,4 @@
-<x-layout title="تصنيفات الكورسات">
+<x-layout title="{{ __('main.categories') }}">
 
     {{-- Sidebar --}}
     <x-admin-sidebar />
@@ -34,10 +34,10 @@
             <x-admin-header />
 
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-semibold text-gray-800">تصنيفات الكورسات</h2>
+                <h2 class="text-2xl font-semibold text-gray-800">{{ __('main.categories') }}</h2>
                 <button onclick="openCreateModal()"
                     class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                    + إنشاء تصنيف
+                    {{ __('main.create_category') }}
                 </button>
             </div>
 
@@ -47,8 +47,8 @@
                     <thead class="bg-gray-100">
                         <tr>
                             <th class="px-4 py-2 border-b text-right">#</th>
-                            <th class="px-4 py-2 border-b text-right">الاسم</th>
-                            <th class="px-4 py-2 border-b text-right">الإجراءات</th>
+                            <th class="px-4 py-2 border-b text-right">{{ __('main.name') }}</th>
+                            <th class="px-4 py-2 border-b text-right">{{ __('main.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,22 +59,22 @@
                                 <td class="px-4 py-2 flex gap-2">
                                     <button onclick="openEditModal({{ $category->id }}, '{{ $category->name }}')"
                                         class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
-                                        تعديل
+                                        {{ __('main.edit') }}
                                     </button>
                                     <form action="{{ route('admin.courses.category.delete', $category->id) }}"
-                                        method="POST" onsubmit="return confirm('هل أنت متأكد أنك تريد الحذف؟');">
+                                        method="POST" onsubmit="return confirm('{{ __('main.delete_confirm') }}');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
                                             class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
-                                            حذف
+                                            {{ __('main.delete') }}
                                         </button>
                                     </form>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="3" class="px-4 py-4 text-center text-gray-500">لا توجد تصنيفات بعد</td>
+                                <td colspan="3" class="px-4 py-4 text-center text-gray-500">{{ __('main.no_categories') }}</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -87,19 +87,19 @@
     {{-- 🟢 إنشاء تصنيف جديد --}}
     <div id="createModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">إضافة تصنيف جديد</h3>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ __('main.add_category') }}</h3>
             <form action="{{ route('admin.courses.category.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">اسم التصنيف</label>
+                    <label class="block text-gray-700 mb-2">{{ __('main.name') }}</label>
                     <input type="text" name="name"
                         class="w-full border rounded px-3 py-2 focus:ring focus:ring-blue-200 outline-none" required>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeCreateModal()"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">إلغاء</button>
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">{{ __('main.cancel') }}</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">حفظ</button>
+                        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{{ __('main.save') }}</button>
                 </div>
             </form>
         </div>
@@ -108,19 +108,19 @@
     {{-- 🟡 تعديل تصنيف --}}
     <div id="editModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg w-96 p-6">
-            <h3 class="text-xl font-semibold mb-4 text-gray-800">تعديل التصنيف</h3>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ __('main.edit_category') }}</h3>
             <form id="editForm" method="POST">
                 @csrf
                 <div class="mb-4">
-                    <label class="block text-gray-700 mb-2">اسم التصنيف</label>
+                    <label class="block text-gray-700 mb-2">{{ __('main.name') }}</label>
                     <input type="text" name="name" id="editName"
                         class="w-full border rounded px-3 py-2 focus:ring focus:ring-yellow-200 outline-none" required>
                 </div>
                 <div class="flex justify-end gap-2">
                     <button type="button" onclick="closeEditModal()"
-                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">إلغاء</button>
+                        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">{{ __('main.cancel') }}</button>
                     <button type="submit"
-                        class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">تحديث</button>
+                        class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">{{ __('main.update') }}</button>
                 </div>
             </form>
         </div>

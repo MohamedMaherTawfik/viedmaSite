@@ -1,4 +1,4 @@
-<x-layout title="لوحة تحكم الادمن">
+<x-layout title="{{ __('main.admin_dashboard') }}">
 
     {{-- sidebar --}}
     <x-admin-sidebar />
@@ -34,76 +34,88 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <form action="{{ route('admin.schools.update', $school) }}" method="POST"
-                class="bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl">
-                @csrf
-                <h2 class="text-2xl font-bold mb-6 text-center">تعديل مدرسة</h2>
+          <form action="{{ route('admin.schools.update', $school) }}" method="POST"
+    class="bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl">
+    @csrf
+    <h2 class="text-2xl font-bold mb-6 text-center">{{ __('main.edit_school') }}</h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Name -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
-                        <input type="text" id="name" name="name" value="{{ $school->name }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('name')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('main.name') }}
+            </label>
+            <input type="text" id="name" name="name" value="{{ $school->name }}"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('name')
+                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <div>
-                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
-                        <input type="text" id="address" name="address" value="{{ $school->address }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('address')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+        <!-- Address -->
+        <div>
+            <label for="address" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('main.address') }}
+            </label>
+            <input type="text" id="address" name="address" value="{{ $school->address }}"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('address')
+                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <!-- City -->
-                    <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">المدينة</label>
-                        <input type="text" id="city" name="city" value="{{ $school->city }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('city')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+        <!-- City -->
+        <div>
+            <label for="city" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('main.city') }}
+            </label>
+            <input type="text" id="city" name="city" value="{{ $school->city }}"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('city')
+                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <!-- License Number -->
-                    <div>
-                        <label for="license_number" class="block text-sm font-medium text-gray-700 mb-1">رقم
-                            الترخيص</label>
-                        <input type="text" id="license_number" name="license_number"
-                            value="{{ $school->License_number }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('license_number')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+        <!-- License Number -->
+        <div>
+            <label for="license_number" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('main.license_number') }}
+            </label>
+            <input type="text" id="license_number" name="license_number"
+                value="{{ $school->License_number }}"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('license_number')
+                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <!-- Type -->
-                    <div>
-                        <label for="type" class="block text-sm font-medium text-gray-700 mb-1">النوع</label>
-                        <select id="type" name="type"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                            <option value="{{ $school->type }}">اختر النوع</option>
-                            <option value="حكومي">حكومي</option>
-                            <option value="أهلي">أهلي</option>
-                            <option value="خاص">خاص</option>
-                        </select>
-                        @error('type')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div>
+        <!-- Type -->
+        <div>
+            <label for="type" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ __('main.type') }}
+            </label>
+            <select id="type" name="type"
+                class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
 
-                <!-- Submit -->
-                <div class="mt-6">
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                        حفظ
-                    </button>
-                </div>
-            </form>
+                <option value="{{ $school->type }}">{{ __('main.choose_type') }}</option>
+                <option value="حكومي">{{ __('main.type_government') }}</option>
+                <option value="أهلي">{{ __('main.type_ahly') }}</option>
+                <option value="خاص">{{ __('main.type_private') }}</option>
+            </select>
+            @error('type')
+                <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="mt-6">
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+            {{ __('main.save') }}
+        </button>
+    </div>
+</form>
+
         </main>
 
 

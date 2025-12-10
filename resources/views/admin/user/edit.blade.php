@@ -34,52 +34,53 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <form action="{{ route('admin.schools.user.update', ['school' => $user->school, 'user' => $user]) }}"
-                method="POST" class="bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl">
-                @csrf
-                <h2 class="text-2xl font-bold mb-6 text-center">إضافة مدرسة</h2>
+           <form action="{{ route('admin.schools.user.update', ['school' => $user->school, 'user' => $user]) }}"
+      method="POST" class="bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl">
+    @csrf
+    <h2 class="text-2xl font-bold mb-6 text-center">{{ __('main.update_user') }}</h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {{-- User Name --}}
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
-                        <input type="text" id="name" name="name" value="{{ $user->name }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('name')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- User Name -->
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.name') }}</label>
+            <input type="text" id="name" name="name" value="{{ $user->name }}"
+                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('name')
+            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <!-- Email -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">البريد
-                            الإلكتروني</label>
-                        <input type="email" id="email" name="email" value="{{ $user->email }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('email')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
+        <!-- Email -->
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.email') }}</label>
+            <input type="email" id="email" name="email" value="{{ $user->email }}"
+                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('email')
+            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <!-- Phone -->
-                    <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">الهاتف</label>
-                        <input type="text" id="phone" name="phone" value="{{ $user->phone }}"
-                            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                        @error('phone')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    <input type="hidden" name="school_id" value="{{ $user->school_id }}">
-                </div>
+        <!-- Phone -->
+        <div>
+            <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.phone') }}</label>
+            <input type="text" id="phone" name="phone" value="{{ $user->phone }}"
+                   class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
+            @error('phone')
+            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+            @enderror
+        </div>
 
-                <!-- Submit -->
-                <div class="mt-6">
-                    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                        حفظ
-                    </button>
-                </div>
-            </form>
+        <input type="hidden" name="school_id" value="{{ $user->school_id }}">
+    </div>
+
+    <!-- Submit -->
+    <div class="mt-6">
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+            {{ __('main.save') }}
+        </button>
+    </div>
+</form>
+
         </main>
 
 

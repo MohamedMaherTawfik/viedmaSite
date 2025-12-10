@@ -20,11 +20,11 @@ class studentController extends Controller
         return view('admin.student.index', compact('students'));
     }
 
-    public function allTeachers()
-    {
-        $students = User::where('role', 'trainer')->get();
-        return view('admin.student.teachers', compact('students'));
-    }
+    // public function allTeachers()
+    // {
+    //     $students = User::where('role', 'trainer')->get();
+    //     return view('admin.student.teachers', compact('students'));
+    // }
 
 
     public function createStudent()
@@ -132,6 +132,7 @@ class studentController extends Controller
     public function deleteStudent(student $student)
     {
         $student->delete();
+        user::where('id', $student->me_id)->delete();
         return redirect()->back()->with('success', 'Student deleted successfully.');
     }
 

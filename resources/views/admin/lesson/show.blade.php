@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم المعلم ">
+<x-layout title="{{ __('main.dashboard_title') }}">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -41,7 +41,7 @@
                     <video controls class="w-full h-auto rounded-2xl"
                         style="max-height: 80vh; background-color: black;">
                         <source src="{{ asset('storage/' . $course->video_url) }}" type="video/mp4">
-                        متصفحك لا يدعم تشغيل الفيديو.
+                        {{ __('main.video_not_supported') }}
                     </video>
                 </div>
             </section>

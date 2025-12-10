@@ -2,16 +2,16 @@
      use App\Models\school;
      $schools = school::all();
  @endphp
- <x-layout title="لوحه تحكم المعلم ">
+ <x-layout title="{{ __('main_admin_dashboard') }}">
      <!-- Sidebar -->
-     <x-trainer-sidebar />
+     <x-admin-sidebar />
 
      <!-- Wrapper for main content with flex column -->
      <div class="flex flex-col flex-1">
 
          <!-- Main Content -->
          <main class="p-6 flex-1">
-             <x-school-header />
+             <x-admin-header />
              {{-- Success Message --}}
              @if (session('success'))
                  <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
@@ -38,15 +38,23 @@
              @endif
 
              <!-- Form to upload Excel file -->
-             <form action="{{ route('admin.excel.upload') }}" method="POST" enctype="multipart/form-data"
-                 class="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mt-6">
-                 @csrf
-                 <label class="block mb-2 text-sm font-medium text-gray-700">اختر ملف Excel:</label>
-                 <input type="file" name="excel_file" accept=".xlsx,.xls" required
-                     class="block w-full text-sm text-gray-700 border border-gray-300 rounded px-3 py-2 mb-4">
-                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">رفع
-                     الملف</button>
-             </form>
+            <!-- Form to upload Excel file -->
+<form action="{{ route('admin.excel.upload') }}" method="POST" enctype="multipart/form-data"
+    class="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto mt-6">
+    @csrf
+
+    <label class="block mb-2 text-sm font-medium text-gray-700">
+        {{ __('main.upload_excel_label') }}
+    </label>
+
+    <input type="file" name="excel_file" accept=".xlsx,.xls" required
+        class="block w-full text-sm text-gray-700 border border-gray-300 rounded px-3 py-2 mb-4">
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        {{ __('main.upload_excel_button') }}
+    </button>
+</form>
+
          </main>
      </div>
 

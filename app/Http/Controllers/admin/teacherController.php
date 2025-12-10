@@ -14,12 +14,8 @@ use App\Models\certificate;
 use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\report;
-use App\Models\school;
 use App\Models\student;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Spatie\SimpleExcel\SimpleExcelReader;
 
 class teacherController extends Controller
 {

@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم المدرب ">
+<x-layout title="{{ __('main.trainer_dashboard') }}">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -9,6 +9,7 @@
         <!-- Main Content -->
         <main class="p-6 flex-1">
             <x-admin-header />
+
             {{-- Success Message --}}
             @if (session('success'))
                 <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
@@ -34,7 +35,8 @@
                 </div>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
+            <h1 class="text-2xl font-bold mb-6">{{ __('main.trainer_dashboard') }}</h1>
+
             <form action="{{ route('admin.report.store', ['slug' => request('slug'), 'user' => $user]) }}" method="POST"
                 enctype="multipart/form-data" class="bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto space-y-6">
                 @csrf
@@ -42,7 +44,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- report -->
                     <div>
-                        <label for="report" class="block font-medium text-gray-700 mb-1">كتابه التقرير</label>
+                        <label for="report" class="block font-medium text-gray-700 mb-1">{{ __('main.write_report') }}</label>
                         <input type="text" name="report" id="report" value="{{ old('report') }}"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('report')
@@ -62,14 +64,12 @@
                 <div class="flex justify-end">
                     <button type="submit"
                         class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-                        حفظ الدورة
+                        {{ __('main.save_course') }}
                     </button>
                 </div>
             </form>
 
         </main>
-
-
     </div>
 
 </x-layout>

@@ -2,16 +2,16 @@
      use App\Models\school;
      $schools = school::all();
  @endphp
- <x-layout title="لوحه تحكم المعلم ">
+ <x-layout title="{{ __("main.admin_dashboard") }}">
      <!-- Sidebar -->
-     <x-trainer-sidebar />
+     <x-admin-sidebar />
 
      <!-- Wrapper for main content with flex column -->
      <div class="flex flex-col flex-1">
 
          <!-- Main Content -->
          <main class="p-6 flex-1">
-             <x-school-header />
+             <x-admin-header />
              {{-- Success Message --}}
              @if (session('success'))
                  <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
@@ -38,83 +38,83 @@
              @endif
 
              <form action="{{ route('admin.teacher.store') }}" method="POST"
-                 class="mt-10 mx-auto bg-white p-6 rounded-lg shadow-lg space-y-4">
-                 @csrf
+    class="mt-10 mx-auto bg-white p-6 rounded-lg shadow-lg space-y-4">
+    @csrf
 
-                 <!-- Name -->
-                 <div>
-                     <label class="block mb-1 text-gray-700">الاسم</label>
-                     <input type="text" name="name"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                     @error('name')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Name -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.name') }}</label>
+        <input type="text" name="name"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error('name')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
-                 <div>
-                     <label class="block mb-1 text-gray-700">الهاتف</label>
-                     <input type="text" name="phone"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                     @error('phone')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Phone -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.phone') }}</label>
+        <input type="text" name="phone"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error('phone')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
-                 <!-- Name -->
-                 <div>
-                     <label class="block mb-1 text-gray-700">البريد الالكتروني</label>
-                     <input type="text" name="email"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                     @error('email')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Email -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.email') }}</label>
+        <input type="text" name="email"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error('email')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
-                 <!-- Name -->
-                 <div>
-                     <label class="block mb-1 text-gray-700">الرقم السري</label>
-                     <input type="text" name="password"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                     @error('password')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Password -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.password') }}</label>
+        <input type="text" name="password"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error('password')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
-                 <div>
-                     <label class="block mb-1 text-gray-700">الماده الدراسيه</label>
-                     <input type="text" name="topic"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                     @error('topic')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Topic -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.topic') }}</label>
+        <input type="text" name="topic"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @error('topic')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
+    <!-- School Dropdown -->
+    <div>
+        <label class="block mb-1 text-gray-700">{{ __('main.school') }}</label>
+        <select name="school_id"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">{{ __('main.select_school') }}</option>
+            @foreach ($schools as $school)
+                <option value="{{ $school->id }}">{{ $school->name }}</option>
+            @endforeach
+        </select>
+        @error('school_id')
+            <span class="text-red-500 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
 
-                 <!-- School Dropdown -->
-                 <div>
-                     <label class="block mb-1 text-gray-700">المدرسة</label>
-                     <select name="school_id"
-                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                         <option value="">اختر المدرسة</option>
-                         @foreach ($schools as $school)
-                             <option value="{{ $school->id }}">{{ $school->name }}</option>
-                         @endforeach
-                     </select>
-                     @error('school_id')
-                         <span class="text-red-500 text-sm">{{ $message }}</span>
-                     @enderror
-                 </div>
+    <!-- Submit Button -->
+    <div>
+        <button type="submit"
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+            {{ __('main.submit') }}
+        </button>
+    </div>
+</form>
 
-
-
-                 <!-- Submit Button -->
-                 <div>
-                     <button type="submit"
-                         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition">
-                         إرسال
-                     </button>
-                 </div>
-             </form>
 
              @if ($errors->any())
                  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative space-y-2"

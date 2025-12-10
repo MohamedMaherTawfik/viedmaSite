@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم المدرب ">
+<x-layout title="{{ __('main.dashboard') }}">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -34,19 +34,19 @@
                 </div>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
+            <h1 class="text-2xl font-bold mb-6">{{ __('main.dashboard') }}</h1>
 
             <!-- Table Container -->
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th class="px-6 py-3 text-center">المتدرب</th>
-                            <th class="px-6 py-3 text-center">الدورة</th>
-                            <th class="px-6 py-3 text-center">الحالة</th>
-                            <th class="px-6 py-3 text-center">اسم الشهاده</th>
-                            <th class="px-6 py-3 text-center">الملف</th>
-                            <th class="px-6 py-3 text-center">الإجراء</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.trainee') }}</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.course') }}</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.status') }}</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.certificate_name') }}</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.file') }}</th>
+                            <th class="px-6 py-3 text-center">{{ __('main.action') }}</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white dark:bg-gray-800">
@@ -58,14 +58,14 @@
                                 <td class="px-6 py-4 text-center">
                                     <span
                                         class="bg-orange-100 text-orange-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
-                                        {{ $item->status ?? 'لم يتم التقييم بعد' }}
+                                        {{ $item->status ?? __('main.not_evaluated') }}
                                     </span>
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
                                     <span
                                         class="bg-orange-100 text-orange-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">
-                                        {{ $item->certificate ?? 'لم يتم التقييم بعد' }}
+                                        {{ $item->certificate ?? __('main.not_evaluated') }}
                                     </span>
                                 </td>
 
@@ -75,10 +75,10 @@
                                         @if ($item->file)
                                             <a href="{{ asset('storage/' . $item->file) }}" target="_blank"
                                                 class="text-blue-600 hover:underline">
-                                                عرض الملف
+                                                {{ __('main.view_file') }}
                                             </a>
                                         @else
-                                            <span class="text-gray-500">لا يوجد ملف</span>
+                                            <span class="text-gray-500">{{ __('main.no_file') }}</span>
                                         @endif
                                     </span>
                                 </td>
@@ -86,7 +86,7 @@
                                 <td class="px-6 py-4 text-center">
                                     <button onclick="openEvaluationModal({{ $item->user->id }} )"
                                         class="text-yellow-500 hover:text-yellow-700">
-                                        اصدرا شهاده
+                                        {{ __('main.issue_certificate') }}
                                     </button>
                                 </td>
                             </tr>
@@ -102,17 +102,17 @@
                     <button onclick="closeEvaluationModal()"
                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl">&times;</button>
 
-                    <h2 class="text-lg font-semibold mb-4">تقييم المشروع</h2>
+                    <h2 class="text-lg font-semibold mb-4">{{ __('main.evaluate_project') }}</h2>
 
                     <form id="evaluationForm" action="{{ route('admin.certificate.store') }}" method="POST"
                         enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="teacher_id" id="teacher_id">
                         <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                        <input type="hidden" name="status" value="مصدره">
+                        <input type="hidden" name="status" value="{{ __('main.issued') }}">
 
                         <div class="mb-4">
-                            <label for="certificate" class="block text-sm font-medium mb-1">اسم الشهاده:</label>
+                            <label for="certificate" class="block text-sm font-medium mb-1">{{ __('main.certificate_name') }}:</label>
                             <input type="text" name="certificate" id="certificate"
                                 class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
                             @error('certificate')
@@ -121,7 +121,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="course_id" class="block text-sm font-medium mb-1">الدورة:</label>
+                            <label for="course_id" class="block text-sm font-medium mb-1">{{ __('main.course') }}:</label>
                             <select name="courses_id" id="courses_id"
                                 class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
                                 @foreach (Auth::user()->course as $item)
@@ -134,7 +134,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="file" class="block text-sm font-medium mb-1">رفع الملف:</label>
+                            <label for="file" class="block text-sm font-medium mb-1">{{ __('main.upload_file') }}:</label>
                             <input type="file" name="file" id="file"
                                 class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400">
                             @error('file')
@@ -145,7 +145,7 @@
                         <div class="text-right">
                             <button type="submit"
                                 class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
-                                إرسال التقييم
+                                {{ __('main.submit_evaluation') }}
                             </button>
                         </div>
                     </form>

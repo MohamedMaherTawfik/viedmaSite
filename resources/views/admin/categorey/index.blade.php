@@ -1,4 +1,4 @@
-<x-layout title="لوحة تحكم الادمن">
+<x-layout title="{{ __('main.admin_dashboard') }}">
 
     {{-- sidebar --}}
     <x-admin-sidebar />
@@ -37,7 +37,7 @@
             <div class="mb-6 flex justify-end">
                 <a href="{{ route('admin.create.Categorey') }}"
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
-                    + إضافة جديد
+                    {{ __('main.add_new') }}
                 </a>
             </div>
 
@@ -51,7 +51,7 @@
                                 class="h-40 w-full object-cover">
                         @else
                             <div class="h-40 w-full bg-gray-200 flex items-center justify-center text-gray-500">
-                                لا توجد صورة
+                                {{ __('main.no_image') }}
                             </div>
                         @endif
 
@@ -63,15 +63,15 @@
                             <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                 <a href="{{ route('admin.edit.Categorey', $category) }}"
                                     class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
-                                    تعديل
+                                    {{ __('main.edit') }}
                                 </a>
                                 <form action="{{ route('admin.delete.Categorey', $category) }}" method="POST"
-                                    onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
+                                    onsubmit="return confirm('{{ __('main.delete_confirm') }}')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
                                         class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition">
-                                        حذف
+                                        {{ __('main.delete') }}
                                     </button>
                                 </form>
                             </div>

@@ -1,6 +1,6 @@
-<x-layout title="لوحة تحكم الادمن">
+<x-layout title="{{ __('main.add_school') }}">
 
-    {{-- sidebar --}}
+    {{-- Sidebar --}}
     <x-admin-sidebar />
 
     <div class="flex flex-col flex-1">
@@ -37,21 +37,22 @@
             <form action="{{ route('admin.schools.store') }}" method="POST"
                 class="bg-white shadow-lg rounded-xl p-8 w-full max-w-4xl">
                 @csrf
-                <h2 class="text-2xl font-bold mb-6 text-center">إضافة مدرسة</h2>
+                <h2 class="text-2xl font-bold mb-6 text-center">{{ __('main.add_school') }}</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Name -->
+                    <!-- School Name -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
-                        <input type="text" id="name" name="school_name"
+                        <label for="school_name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.school_name') }}</label>
+                        <input type="text" id="school_name" name="school_name"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('school_name')
                             <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                         @enderror
                     </div>
 
+                    <!-- Name -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">الاسم</label>
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.name') }}</label>
                         <input type="text" id="name" name="name"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('name')
@@ -61,8 +62,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">البريد
-                            الإلكتروني</label>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.email') }}</label>
                         <input type="email" id="email" name="email"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('email')
@@ -72,7 +72,7 @@
 
                     <!-- Phone -->
                     <div>
-                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">الهاتف</label>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.phone') }}</label>
                         <input type="text" id="phone" name="phone"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('phone')
@@ -82,7 +82,7 @@
 
                     <!-- Address -->
                     <div>
-                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">العنوان</label>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.address') }}</label>
                         <input type="text" id="address" name="address"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('address')
@@ -92,7 +92,7 @@
 
                     <!-- City -->
                     <div>
-                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">المدينة</label>
+                        <label for="city" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.city') }}</label>
                         <input type="text" id="city" name="city"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('city')
@@ -102,8 +102,7 @@
 
                     <!-- License Number -->
                     <div>
-                        <label for="license_number" class="block text-sm font-medium text-gray-700 mb-1">رقم
-                            الترخيص</label>
+                        <label for="license_number" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.license_number') }}</label>
                         <input type="text" id="license_number" name="license_number"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('license_number')
@@ -113,13 +112,13 @@
 
                     <!-- Type -->
                     <div>
-                        <label for="type" class="block text-sm font-medium text-gray-700 mb-1">النوع</label>
+                        <label for="type" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.type') }}</label>
                         <select id="type" name="type"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
-                            <option value="">اختر النوع</option>
-                            <option value="حكومي">حكومي</option>
-                            <option value="أهلي">أهلي</option>
-                            <option value="خاص">خاص</option>
+                            <option value="">{{ __('main.choose_type') }}</option>
+                            <option value="حكومي">{{ __('main.government') }}</option>
+                            <option value="أهلي">{{ __('main.private') }}</option>
+                            <option value="خاص">{{ __('main.special') }}</option>
                         </select>
                         @error('type')
                             <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
@@ -128,7 +127,7 @@
 
                     <!-- Password -->
                     <div>
-                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.password') }}</label>
                         <input type="password" id="password" name="password"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                         @error('password')
@@ -138,23 +137,20 @@
 
                     <!-- Password Confirmation -->
                     <div>
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">تأكيد
-                            كلمة المرور</label>
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.password_confirmation') }}</label>
                         <input type="password" id="password_confirmation" name="password_confirmation"
                             class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-500">
                     </div>
-
                 </div>
 
                 <!-- Submit -->
                 <div class="mt-6">
                     <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
-                        حفظ
+                        {{ __('main.save') }}
                     </button>
                 </div>
             </form>
         </main>
-
 
     </div>
 

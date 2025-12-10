@@ -1,4 +1,4 @@
-<x-layout title="لوحة تحكم الادمن">
+<x-layout title="{{ __('main.admin_dashboard') }}  ">
 
     {{-- sidebar --}}
     <x-admin-sidebar />
@@ -33,101 +33,107 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <section class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8" id="courses">
-                <div class="max-w-7xl mx-auto">
+           <section class="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8" id="courses">
+    <div class="max-w-7xl mx-auto">
 
-                    <div class="mt-4 mb-6">
-                        <a href="{{ route('admin.games.create') }}"
-                            class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-md shadow">
-                            إنشاء لعبة
-                        </a>
-                    </div>
+        <div class="mt-4 mb-6">
+            <a href="{{ route('admin.games.create') }}"
+                class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-md shadow">
+                {{ __('main.create_game') }}
+            </a>
+        </div>
 
-                    <!-- Course Pages -->
-                    <div id="courses-wrapper">
-                        @php
-                            $perPage = 3;
-                            $totalGames = count($games);
-                            $totalPages = ceil($totalGames / $perPage);
-                        @endphp
+        <!-- Course Pages -->
+        <div id="courses-wrapper">
+            @php
+                $perPage = 3;
+                $totalGames = count($games);
+                $totalPages = ceil($totalGames / $perPage);
+            @endphp
 
-                        @for ($page = 1; $page <= $totalPages; $page++)
-                            <div class="course-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                                data-page="{{ $page }}" style="{{ $page !== 1 ? 'display:none' : '' }}">
-                                @foreach ($games->forPage($page, $perPage) as $course)
-                                    <div
-                                        class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
-                                        <div class="h-48 overflow-hidden relative">
-                                            <img src="{{ $course->cover_image ? asset('storage/' . $course->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
-                                                alt="{{ $course->name ?? 'Course Image' }}"
-                                                class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
-                                        </div>
+            @for ($page = 1; $page <= $totalPages; $page++)
+                <div class="course-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    data-page="{{ $page }}" style="{{ $page !== 1 ? 'display:none' : '' }}">
 
-                                        <div class="p-6 flex-1 flex flex-col justify-between">
-                                            <div>
-                                                <!-- الفئة -->
-                                                <div class="flex items-center mb-2">
-                                                    <span
-                                                        class="inline-block px-3 py-1 text-xs font-semibold text-black border bg-dark rounded-full">
-                                                        {{ $course->categorey->name ?? 'عام' }}
-                                                    </span>
-                                                </div>
-                                                <h3 class="text-xl font-semibold text-gray-900 mb-1">
-                                                    {{ $course->title }}</h3>
-                                                <p class="text-gray-600 text-sm mb-3">
-                                                    {{ Str::limit($course->description, 50) }}
-                                                </p>
+                    @foreach ($games->forPage($page, $perPage) as $course)
+                        <div
+                            class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
 
-                                            </div>
-                                            <div class="mt-auto">
-                                                <div
-                                                    class="flex items-center justify-between text-sm text-gray-700 mb-2">
-
-
-                                                </div>
-                                                <div
-                                                    class="pt-4 border-t border-gray-100 flex items-center justify-between">
-                                                    <span
-                                                        class="text-lg font-bold text-dark-blue">{{ $course->price ?? 0 }}
-                                                        ريال</span>
-                                                    <a href="{{ route('admin.games.show', $course) }}"
-                                                        class="bg-[#3b82f6] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
-                                                        عرض المزيد
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="{{ $course->cover_image ? asset('storage/' . $course->cover_image) : 'https://media.istockphoto.com/id/1147544807/vector/thumbnail-image-vector-graphic.jpg?s=612x612&w=0&k=20&c=rnCKVbdxqkjlcs3xH87-9gocETqpspHFXu5dIGB4wuM=' }}"
+                                    alt="{{ $course->name ?? __('main.course_image') }}"
+                                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
                             </div>
-                        @endfor
-                    </div>
 
-                    <!-- Pagination Controls -->
-                    <div class="mt-12 flex justify-center items-center space-x-2">
-                        <button id="prev-btn"
-                            class="px-4 py-2 border border-dark-blue rounded-md text-sm font-medium text-gray-700 hover:bg-dark-blue hover:text-white transition">
-                            السابق
-                        </button>
+                            <div class="p-6 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <!-- Category -->
+                                    <div class="flex items-center mb-2">
+                                        <span
+                                            class="inline-block px-3 py-1 text-xs font-semibold text-black border bg-dark rounded-full">
+                                            {{ $course->categorey->name ?? __('main.general') }}
+                                        </span>
+                                    </div>
 
-                        <div id="tabs" class="flex space-x-1">
-                            @for ($i = 1; $i <= $totalPages; $i++)
-                                <button data-page="{{ $i }}"
-                                    class="w-10 h-10 flex items-center justify-center rounded-md text-sm font-semibold transition
-                            {{ $i === 1 ? 'bg-dark-blue text-white' : 'bg-white text-dark-blue hover:bg-dark-blue hover:text-white' }}
-                            border border-dark-blue">
-                                    {{ $i }}
-                                </button>
-                            @endfor
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-1">
+                                        {{ $course->title }}
+                                    </h3>
+
+                                    <p class="text-gray-600 text-sm mb-3">
+                                        {{ Str::limit($course->description, 50) }}
+                                    </p>
+                                </div>
+
+                                <div class="mt-auto">
+                                    <div class="flex items-center justify-between text-sm text-gray-700 mb-2"></div>
+
+                                    <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
+                                        <span class="text-lg font-bold text-dark-blue">
+                                            {{ $course->price ?? 0 }} {{ __('main.currency') }}
+                                        </span>
+
+                                        <a href="{{ route('admin.games.show', $course) }}"
+                                            class="bg-[#3b82f6] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300">
+                                            {{ __('main.show_more') }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+                    @endforeach
 
-                        <button id="next-btn"
-                            class="px-4 py-2 border border-dark-blue rounded-md text-sm font-medium text-gray-700 hover:bg-dark-blue hover:text-white transition">
-                            التالي
-                        </button>
-                    </div>
                 </div>
-            </section>
+            @endfor
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="mt-12 flex justify-center items-center space-x-2">
+            <button id="prev-btn"
+                class="px-4 py-2 border border-dark-blue rounded-md text-sm font-medium text-gray-700 hover:bg-dark-blue hover:text-white transition">
+                {{ __('main.prev') }}
+            </button>
+
+            <div id="tabs" class="flex space-x-1">
+                @for ($i = 1; $i <= $totalPages; $i++)
+                    <button data-page="{{ $i }}"
+                        class="w-10 h-10 flex items-center justify-center rounded-md text-sm font-semibold transition
+                        {{ $i === 1 ? 'bg-dark-blue text-white' : 'bg-white text-dark-blue hover:bg-dark-blue hover:text-white' }}
+                        border border-dark-blue">
+                        {{ $i }}
+                    </button>
+                @endfor
+            </div>
+
+            <button id="next-btn"
+                class="px-4 py-2 border border-dark-blue rounded-md text-sm font-medium text-gray-700 hover:bg-dark-blue hover:text-white transition">
+                {{ __('main.next') }}
+            </button>
+        </div>
+
+    </div>
+</section>
+
 
         </main>
 

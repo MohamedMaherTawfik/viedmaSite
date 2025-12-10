@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم الادمن ">
+<x-layout :title="__('main.admin_dashboard')">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -9,6 +9,7 @@
         <!-- Main Content -->
         <main class="p-6 flex-1">
             <x-admin-header />
+
             {{-- Success Message --}}
             @if (session('success'))
                 <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
@@ -34,7 +35,7 @@
                 </div>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
+            <h1 class="text-2xl font-bold mb-6">{{ __('main.coach_dashboard') }}</h1>
             <form action="{{ route('admin.courses.me.store') }}" method="POST" enctype="multipart/form-data"
                 class="bg-white p-6 rounded-xl shadow-md max-w-4xl mx-auto space-y-6">
                 @csrf
@@ -42,7 +43,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Title -->
                     <div>
-                        <label for="title" class="block font-medium text-gray-700 mb-1">عنوان الدورة</label>
+                        <label for="title" class="block font-medium text-gray-700 mb-1">{{ __('main.course_title') }}</label>
                         <input type="text" name="title" id="title" value="{{ old('title') }}"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('title')
@@ -52,13 +53,13 @@
 
                     <!-- Level -->
                     <div>
-                        <label for="level" class="block font-medium text-gray-700 mb-1">المستوى</label>
+                        <label for="level" class="block font-medium text-gray-700 mb-1">{{ __('main.level') }}</label>
                         <select name="level" id="level"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
-                            <option value="">اختر المستوى</option>
-                            <option value="Beginner" {{ old('level') == 'مبتدئ' ? 'selected' : '' }}>مبتدئ</option>
-                            <option value="Mid" {{ old('level') == 'متوسط' ? 'selected' : '' }}>متوسط</option>
-                            <option value="Advanced" {{ old('level') == 'متقدم' ? 'selected' : '' }}>متقدم</option>
+                            <option value="">{{ __('main.select_level') }}</option>
+                            <option value="Beginner" {{ old('level') == 'مبتدئ' ? 'selected' : '' }}>{{ __('main.beginner') }}</option>
+                            <option value="Mid" {{ old('level') == 'متوسط' ? 'selected' : '' }}>{{ __('main.mid') }}</option>
+                            <option value="Advanced" {{ old('level') == 'متقدم' ? 'selected' : '' }}>{{ __('main.advanced') }}</option>
                         </select>
                         @error('level')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -67,7 +68,7 @@
 
                     <!-- Start Date -->
                     <div>
-                        <label for="start_Date" class="block font-medium text-gray-700 mb-1">تاريخ البدء</label>
+                        <label for="start_Date" class="block font-medium text-gray-700 mb-1">{{ __('main.start_date') }}</label>
                         <input type="date" name="start_Date" id="start_Date" value="{{ old('start_Date') }}"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('start_Date')
@@ -77,7 +78,7 @@
 
                     <!-- Duration -->
                     <div>
-                        <label for="duration" class="block font-medium text-gray-700 mb-1">المدة (بالساعات)</label>
+                        <label for="duration" class="block font-medium text-gray-700 mb-1">{{ __('main.duration_hours') }}</label>
                         <input type="number" name="duration" id="duration" value="{{ old('duration') }}"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('duration')
@@ -87,12 +88,12 @@
 
                     <!-- Status -->
                     <div>
-                        <label for="status" class="block font-medium text-gray-700 mb-1">الحالة</label>
+                        <label for="status" class="block font-medium text-gray-700 mb-1">{{ __('main.status') }}</label>
                         <select name="status" id="status"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
-                            <option value="">اختر الحالة</option>
-                            <option value="نشط" {{ old('status') == 'نشط' ? 'selected' : '' }}>نشط</option>
-                            <option value="غير نشط" {{ old('status') == 'غير نشط' ? 'selected' : '' }}>غير نشط</option>
+                            <option value="">{{ __('main.select_status') }}</option>
+                            <option value="نشط" {{ old('status') == 'نشط' ? 'selected' : '' }}>{{ __('main.active') }}</option>
+                            <option value="غير نشط" {{ old('status') == 'غير نشط' ? 'selected' : '' }}>{{ __('main.inactive') }}</option>
                         </select>
                         @error('status')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -101,7 +102,7 @@
 
                     <!-- Price -->
                     <div>
-                        <label for="price" class="block font-medium text-gray-700 mb-1">السعر (جنيه)</label>
+                        <label for="price" class="block font-medium text-gray-700 mb-1">{{ __('main.price') }}</label>
                         <input type="number" name="price" id="price" value="{{ old('price') }}"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('price')
@@ -111,10 +112,10 @@
 
                     <!-- Category -->
                     <div>
-                        <label for="categories_id" class="block font-medium text-gray-700 mb-1">التصنيف</label>
+                        <label for="categories_id" class="block font-medium text-gray-700 mb-1">{{ __('main.category') }}</label>
                         <select name="categories_id" id="categories_id"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
-                            <option value="">اختر التصنيف</option>
+                            <option value="">{{ __('main.select_category') }}</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"
                                     {{ old('categories_id') == $category->id ? 'selected' : '' }}>
@@ -129,7 +130,7 @@
 
                     <!-- Cover Photo -->
                     <div class="md:col-span-2">
-                        <label for="cover_photo" class="block font-medium text-gray-700 mb-1">صورة الغلاف</label>
+                        <label for="cover_photo" class="block font-medium text-gray-700 mb-1">{{ __('main.cover_photo') }}</label>
                         <input type="file" name="cover_photo" id="cover_photo"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">
                         @error('cover_photo')
@@ -137,9 +138,9 @@
                         @enderror
                     </div>
 
-                    <!-- Description (Full width) -->
+                    <!-- Description -->
                     <div class="md:col-span-2">
-                        <label for="description" class="block font-medium text-gray-700 mb-1">الوصف</label>
+                        <label for="description" class="block font-medium text-gray-700 mb-1">{{ __('main.description') }}</label>
                         <textarea name="description" id="description" rows="4"
                             class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:border-blue-500">{{ old('description') }}</textarea>
                         @error('description')
@@ -152,13 +153,12 @@
                 <div class="flex justify-end">
                     <button type="submit"
                         class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-                        حفظ الدورة
+                        {{ __('main.save_course') }}
                     </button>
                 </div>
             </form>
 
         </main>
-
 
     </div>
 

@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم المدرب ">
+<x-layout title="{{ __('main.trainer_dashboard') }}">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -9,6 +9,7 @@
         <!-- Main Content -->
         <main class="p-6 flex-1">
             <x-admin-header />
+
             {{-- Success Message --}}
             @if (session('success'))
                 <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
@@ -34,14 +35,15 @@
                 </div>
             @endif
 
-            <h1 class="text-2xl font-bold mb-6">لوحة تحكم المدرب</h1>
+            <h1 class="text-2xl font-bold mb-6">{{ __('main.trainer_dashboard') }}</h1>
+
             <form action="{{ route('admin.schedules.update', $sessionTime) }}" method="POST">
                 @csrf
 
                 <!-- Date Input -->
                 <div class="mb-4 flex space-x-2">
                     <div class="flex-1">
-                        <label for="date" class="block text-gray-700 font-medium mb-2">التاريخ</label>
+                        <label for="date" class="block text-gray-700 font-medium mb-2">{{ __('main.date') }}</label>
                         <div class="relative">
                             <input type="date" id="date" name="date" value="{{ $sessionTime->date }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
@@ -55,21 +57,20 @@
                 <!-- Time Input -->
                 <div class="mb-4 flex space-x-2">
                     <div class="flex-1">
-                        <label for="time" class="block text-gray-700 font-medium mb-2">الوقت</label>
+                        <label for="time" class="block text-gray-700 font-medium mb-2">{{ __('main.time') }}</label>
                         <div class="relative">
                             <input type="time" id="time" name="time" value="{{ $sessionTime->time }}"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500">
                         </div>
                     </div>
-                    @error('date')
+                    @error('time')
                         <span class="text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
 
-
                 <!-- Buttons -->
                 <div class="flex justify-end">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">إضافة الموعد</button>
+                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">{{ __('main.update_schedule') }}</button>
                 </div>
             </form>
         </main>

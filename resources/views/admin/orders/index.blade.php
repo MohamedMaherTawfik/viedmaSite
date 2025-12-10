@@ -1,4 +1,4 @@
-<x-layout title="جميع الطلبات">
+<x-layout :title="__('main.all_orders')">
 
     {{-- sidebar --}}
     <x-admin-sidebar />
@@ -33,18 +33,18 @@
         <main class="p-6 flex-1">
             <x-admin-header />
 
-            <h2 class="text-2xl font-bold mb-6">جميع الطلبات</h2>
+            <h2 class="text-2xl font-bold mb-6">{{ __('main.all_orders') }}</h2>
 
             <table class="min-w-full bg-white border rounded-lg">
                 <thead>
                     <tr class="bg-gray-100 border-b">
-                        <th class="py-3 px-4 text-center">ID</th>
-                        <th class="py-3 px-4 text-center">العميل</th>
-                        <th class="py-3 px-4 text-center">الحالة</th>
-                        <th class="py-3 px-4 text-center">السعر</th>
-                        <th class="py-3 px-4 text-center">الكمية</th>
-                        <th class="py-3 px-4 text-center">تاريخ الطلب</th>
-                        <th class="py-3 px-4 text-right">العمليات</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.id') }}</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.customer') }}</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.status') }}</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.price') }}</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.quantity') }}</th>
+                        <th class="py-3 px-4 text-center">{{ __('main.order_date') }}</th>
+                        <th class="py-3 px-4 text-right">{{ __('main.actions') }}</th>
                     </tr>
                 </thead>
 
@@ -54,7 +54,7 @@
                             <td class="py-3 px-4 text-center">{{ $order->id }}</td>
 
                             <td class="py-3 px-4 text-center">
-                                {{ $order->user->name ?? 'غير متوفر' }}
+                                {{ $order->user->name ?? __('main.not_available') }}
                             </td>
 
                             <td class="py-3 px-4 text-center">{{ $order->transaction_status }}</td>
@@ -70,7 +70,7 @@
                                 {{-- زرار عرض --}}
                                 <a href="{{ route('admin.orders.show', $order->id) }}"
                                     class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
-                                    عرض
+                                    {{ __('main.view') }}
                                 </a>
                             </td>
                         </tr>
@@ -79,8 +79,6 @@
             </table>
 
         </main>
-
-
     </div>
 
 </x-layout>

@@ -3,7 +3,7 @@
      $totalCourses = count($courses);
      $totalPages = ceil($totalCourses / $perPage);
  @endphp
- <x-layout title="لوحة تحكم الادمن">
+ <x-layout title="{{ __('main.admin_dashboard') }}">
 
      {{-- sidebar --}}
      <x-admin-sidebar />
@@ -46,178 +46,171 @@
              </h3>
 
 
-             <section class="bg-gray-50 py-12 px-4 sm:px-6 mt-10 lg:px-8" id="courses">
-                 <div class="max-w-7xl mx-auto">
+            <section class="bg-gray-50 py-12 px-4 sm:px-6 mt-10 lg:px-8" id="courses">
+    <div class="max-w-7xl mx-auto">
 
-                     <!-- Course Pages -->
-                     <div id="courses-wrapper">
-                         @for ($page = 1; $page <= $totalPages; $page++)
-                             <div class="course-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                                 data-page="{{ $page }}" style="{{ $page !== 1 ? 'display:none' : '' }}">
-                                 @foreach ($courses->forPage($page, $perPage) as $course)
-                                     <div
-                                         class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
-                                         <!-- صورة الكورس -->
-                                         <div class="h-48 overflow-hidden relative">
-                                             <img src="{{ $course->cover_photo
-                                                 ? asset('storage/' . $course->cover_photo)
-                                                 : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png' }}"
-                                                 class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
+        <!-- Course Pages -->
+        <div id="courses-wrapper">
+            @for ($page = 1; $page <= $totalPages; $page++)
+                <div class="course-page grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                     data-page="{{ $page }}" style="{{ $page !== 1 ? 'display:none' : '' }}">
+                    @foreach ($courses->forPage($page, $perPage) as $course)
+                        <div class="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden flex flex-col transition-all duration-300 ease-in-out hover:shadow-xl hover:-translate-y-1">
+                            <!-- صورة الكورس -->
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="{{ $course->cover_photo
+                                    ? asset('storage/' . $course->cover_photo)
+                                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png' }}"
+                                     class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
 
-                                             <!-- Start Date -->
-                                             <div
-                                                 class="absolute bottom-2 left-2 bg-white/80 text-gray-800 text-xs font-medium px-2 py-1 rounded">
-                                                 {{ \Carbon\Carbon::parse($course->start_Date)->format('d M Y') }}
-                                             </div>
+                                <!-- Start Date -->
+                                <div class="absolute bottom-2 left-2 bg-white/80 text-gray-800 text-xs font-medium px-2 py-1 rounded">
+                                    {{ \Carbon\Carbon::parse($course->start_Date)->format('d M Y') }}
+                                </div>
 
-                                             <!-- Level -->
-                                             <div
-                                                 class="absolute bottom-2 right-2 bg-[#176b98]/90 text-[#FEBE35] text-xs font-semibold px-2 py-1 rounded">
-                                                 {{ ucfirst($course->level ?? 'Beginner') }}
-                                             </div>
-                                         </div>
+                                <!-- Level -->
+                                <div class="absolute bottom-2 right-2 bg-[#176b98]/90 text-[#FEBE35] text-xs font-semibold px-2 py-1 rounded">
+                                    {{ ucfirst($course->level ?? __('main.beginner')) }}
+                                </div>
+                            </div>
 
-                                         <!-- تفاصيل الكورس -->
-                                         <div class="p-6 flex-1 flex flex-col justify-between">
-                                             <div>
-                                                 <div class="flex items-center mb-2">
-                                                     <span
-                                                         class="inline-block px-3 py-1 text-xs font-semibold text-[#FEBE35] bg-[#176b98] rounded-full">
-                                                         {{ $course->category->name ?? 'General' }}
-                                                     </span>
-                                                 </div>
-                                                 <h3 class="text-xl font-semibold text-gray-900 mb-1">
-                                                     {{ $course->title }}
-                                                 </h3>
-                                                 <p class="text-gray-600 text-sm mb-3">
-                                                     {{ Str::limit($course->description, 50) }}
-                                                 </p>
-                                                 <div class="flex items-center text-sm text-gray-500 mb-2">
-                                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                         <path fill-rule="evenodd"
-                                                             d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v3.586a1 1 0 00.293.707l2 2a1 1 0 001.414-1.414L11 9.586V6z"
-                                                             clip-rule="evenodd" />
-                                                     </svg>
-                                                     {{ $course->duration ?? 0 }} hours
-                                                 </div>
-                                             </div>
+                            <!-- تفاصيل الكورس -->
+                            <div class="p-6 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <span class="inline-block px-3 py-1 text-xs font-semibold text-[#FEBE35] bg-[#176b98] rounded-full">
+                                            {{ $course->category->name ?? __('main.general') }}
+                                        </span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-1">
+                                        {{ $course->title }}
+                                    </h3>
+                                    <p class="text-gray-600 text-sm mb-3">
+                                        {{ Str::limit($course->description, 50) }}
+                                    </p>
+                                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v3.586a1 1 0 00.293.707l2 2a1 1 0 001.414-1.414L11 9.586V6z"
+                                                  clip-rule="evenodd" />
+                                        </svg>
+                                        {{ $course->duration ?? 0 }} {{ __('main.hours') }}
+                                    </div>
+                                </div>
 
-                                             <!-- الأسعار -->
-                                             <div
-                                                 class="mt-4 flex justify-between items-center border-t border-gray-200 pt-3">
-                                                 <div>
-                                                     <p class="text-sm text-gray-600">سعر المعلم</p>
-                                                     <p class="text-lg font-bold text-[#176b98]">
-                                                         {{ $course->price ?? 0 }}
-                                                     </p>
-                                                 </div>
-                                                 <div>
-                                                     <p class="text-sm text-gray-600">سعر الأدمن</p>
-                                                     <p class="text-lg font-bold text-[#176b98]">
-                                                         {{ $course->admin_price ?? 0 }}
-                                                     </p>
-                                                 </div>
-                                             </div>
+                                <!-- الأسعار -->
+                                <div class="mt-4 flex justify-between items-center border-t border-gray-200 pt-3">
+                                    <div>
+                                        <p class="text-sm text-gray-600">{{ __('main.teacher_price') }}</p>
+                                        <p class="text-lg font-bold text-[#176b98]">
+                                            {{ $course->price ?? 0 }}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-600">{{ __('main.admin_price') }}</p>
+                                        <p class="text-lg font-bold text-[#176b98]">
+                                            {{ $course->admin_price ?? 0 }}
+                                        </p>
+                                    </div>
+                                </div>
 
-                                             <!-- الأزرار -->
-                                             <div
-                                                 class="mt-5 flex justify-between items-center gap-2 border-t border-gray-100 pt-4">
-                                                 <button onclick="openModal({{ $course->id }})"
-                                                     class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
-                                                     Edit Price
-                                                 </button>
+                                <!-- الأزرار -->
+                                <div class="mt-5 flex justify-between items-center gap-2 border-t border-gray-100 pt-4">
+                                    <button onclick="openModal({{ $course->id }})"
+                                            class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
+                                        {{ __('main.edit_price') }}
+                                    </button>
 
-                                                 @if (Auth::user()->id == $course->user_id)
-                                                     <a href="{{ route('admin.courses.me.show', $course->id) }}"
-                                                         class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
-                                                         Show Course
-                                                     </a>
-                                                 @endif
+                                    @if (Auth::user()->id == $course->user_id)
+                                        <a href="{{ route('admin.courses.me.show', $course->id) }}"
+                                           class="px-4 py-2 bg-[#176b98D2] text-[#FEBE35] text-sm font-medium rounded-md hover:bg-[#176b98] transition">
+                                            {{ __('main.show_course') }}
+                                        </a>
+                                    @endif
 
-                                                 <form action="{{ route('admin.courses.me.delete', $course->id) }}"
-                                                     method="POST"
-                                                     onsubmit="return confirm('هل أنت متأكد أنك تريد حذف هذا الكورس؟');">
-                                                     @csrf
-                                                     @method('DELETE')
-                                                     <button type="submit"
-                                                         class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition">
-                                                         Delete
-                                                     </button>
-                                                 </form>
-                                             </div>
-                                         </div>
-                                     </div>
+                                    <form action="{{ route('admin.courses.me.delete', $course->id) }}"
+                                          method="POST"
+                                          onsubmit="return confirm('{{ __('main.confirm_delete_course') }}');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit"
+                                                class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-md hover:bg-red-700 transition">
+                                            {{ __('main.delete') }}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
 
-                                     <!-- مودال تعديل السعر -->
-                                     <div id="editPriceModal-{{ $course->id }}"
-                                         class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-                                         <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
-                                             <h2 class="text-lg font-semibold text-gray-800 mb-4">Edit Course Price</h2>
+                            <!-- مودال تعديل السعر -->
+                            <div id="editPriceModal-{{ $course->id }}"
+                                 class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+                                <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+                                    <h2 class="text-lg font-semibold text-gray-800 mb-4">{{ __('main.edit_course_price') }}</h2>
 
-                                             <form action="{{ route('admin.course.edit', $course->id) }}"
-                                                 method="POST">
-                                                 @csrf
-                                                 <div class="mb-4">
-                                                     <label for="admin_price"
-                                                         class="block text-sm font-medium text-gray-700 mb-1">Admin
-                                                         Price</label>
-                                                     <input type="number" step="0.01" name="admin_price"
-                                                         id="admin_price" value="{{ $course->admin_price }}"
-                                                         class="w-full border-gray-300 rounded-md focus:ring-[#176b98] focus:border-[#176b98]">
-                                                 </div>
-                                                 <div class="flex justify-end space-x-3">
-                                                     <button type="button" onclick="closeModal({{ $course->id }})"
-                                                         class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
-                                                         Cancel
-                                                     </button>
-                                                     <button type="submit"
-                                                         class="px-4 py-2 bg-[#176b98] text-[#FEBE35] rounded-md hover:bg-[#176b98D2] transition">
-                                                         Save
-                                                     </button>
-                                                 </div>
-                                             </form>
+                                    <form action="{{ route('admin.course.edit', $course->id) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label for="admin_price"
+                                                   class="block text-sm font-medium text-gray-700 mb-1">{{ __('main.admin_price') }}</label>
+                                            <input type="number" step="0.01" name="admin_price"
+                                                   id="admin_price" value="{{ $course->admin_price }}"
+                                                   class="w-full border-gray-300 rounded-md focus:ring-[#176b98] focus:border-[#176b98]">
+                                        </div>
+                                        <div class="flex justify-end space-x-3">
+                                            <button type="button" onclick="closeModal({{ $course->id }})"
+                                                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                                                {{ __('main.cancel') }}
+                                            </button>
+                                            <button type="submit"
+                                                    class="px-4 py-2 bg-[#176b98] text-[#FEBE35] rounded-md hover:bg-[#176b98D2] transition">
+                                                {{ __('main.save') }}
+                                            </button>
+                                        </div>
+                                    </form>
 
-                                             <button onclick="closeModal({{ $course->id }})"
-                                                 class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
-                                         </div>
-                                     </div>
-                                 @endforeach
-                             </div>
-                         @endfor
-                     </div>
+                                    <button onclick="closeModal({{ $course->id }})"
+                                            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600">✕</button>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endfor
+            </div>
 
-                     <!-- Pagination Controls -->
-                     <div class="mt-12 flex justify-center items-center space-x-2">
-                         <button id="prev-btn"
-                             class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
-                             disabled>
-                             Previous
-                         </button>
+            <!-- Pagination Controls -->
+            <div class="mt-12 flex justify-center items-center space-x-2">
+                <button id="prev-btn"
+                        class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                        disabled>
+                    {{ __('main.previous') }}
+                </button>
 
-                         <div id="tabs" class="flex space-x-1">
-                             @php
-                                 $currentPage = 1;
-                                 $visibleTabs = 4;
-                                 $start = 1;
-                                 $end = min($totalPages, $visibleTabs);
-                             @endphp
+                <div id="tabs" class="flex space-x-1">
+                    @php
+                        $currentPage = 1;
+                        $visibleTabs = 4;
+                        $start = 1;
+                        $end = min($totalPages, $visibleTabs);
+                    @endphp
 
-                             @for ($i = $start; $i <= $end; $i++)
-                                 <button data-page="{{ $i }}"
-                                     class="w-10 h-10 flex items-center justify-center rounded-md text-sm font-semibold transition border border-[#176b98]
-                        {{ $i === 1 ? 'bg-[#176b98] text-white' : 'bg-transparent text-gray-700 hover:bg-[#176b98] hover:text-white' }}">
-                                     {{ $i }}
-                                 </button>
-                             @endfor
-                         </div>
+                    @for ($i = $start; $i <= $end; $i++)
+                        <button data-page="{{ $i }}"
+                                class="w-10 h-10 flex items-center justify-center rounded-md text-sm font-semibold transition border border-[#176b98]
+                                {{ $i === 1 ? 'bg-[#176b98] text-white' : 'bg-transparent text-gray-700 hover:bg-[#176b98] hover:text-white' }}">
+                            {{ $i }}
+                        </button>
+                    @endfor
+                </div>
 
-                         <button id="next-btn"
-                             class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-                             Next
-                         </button>
-                     </div>
-                 </div>
-             </section>
+                <button id="next-btn"
+                        class="px-4 py-2 border rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    {{ __('main.next') }}
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
 
              <style>
                  @keyframes fadeIn {

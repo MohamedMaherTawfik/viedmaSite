@@ -1,4 +1,4 @@
-<x-layout title="لوحه تحكم المدرسه ">
+<x-layout title="{{ __('mainmin_dashboard') }}">
 
     <!-- Sidebar -->
     <x-admin-sidebar />
@@ -29,41 +29,42 @@
                 </div>
             </div>
 
-            <section class="bg-white p-4 rounded shadow mt-6 overflow-visible relative z-[1]">
-                <div class="overflow-x-auto overflow-visible relative z-[1]">
-                    <table class="min-w-full text-sm text-right border-separate border-spacing-y-2">
-                        <thead class="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th class="px-4 py-2 rounded-r-lg">اسم ولي الامر</th>
-                                <th class="px-4 py-2 text-center">البريد الالكتروني</th>
-                                <th class="px-4 py-2 text-center">رقم الهاتف</th>
-                                <th class="pr-8 pl-4 py-2 rounded-l-lg text-center">إجراء</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($parents as $parent)
-                                <tr class="bg-gray-50 text-gray-800">
-                                    <td class="px-4 py-2">{{ $parent->name }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $parent->email }}</td>
-                                    <td class="px-4 py-2 text-center">{{ $parent->phone }}</td>
-                                    <td class="relative text-center">
-                                        <form method="POST"
-                                            action="{{ route('admin.student.linkParent.store', ['slug' => request('slug'), 'name' => request('name'), 'parent' => $parent->name]) }}"
-                                            class="inline-block">
-                                            @csrf
-                                            <button type="submit"
-                                                class="text-white bg-blue-600 my-2 rounded py-2 px-2 hover:bg-blue-800 focus:outline-none">
-                                                ربط الطالب
-                                            </button>
-                                        </form>
+          <section class="bg-white p-4 rounded shadow mt-6 overflow-visible relative z-[1]">
+    <div class="overflow-x-auto overflow-visible relative z-[1]">
+        <table class="min-w-full text-sm text-right border-separate border-spacing-y-2">
+            <thead class="bg-gray-100 text-gray-700">
+                <tr>
+                    <th class="px-4 py-2 rounded-r-lg">{{ __('main.parent_name') }}</th>
+                    <th class="px-4 py-2 text-center">{{ __('main.email') }}</th>
+                    <th class="px-4 py-2 text-center">{{ __('main.phone') }}</th>
+                    <th class="pr-8 pl-4 py-2 rounded-l-lg text-center">{{ __('main.action') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($parents as $parent)
+                    <tr class="bg-gray-50 text-gray-800">
+                        <td class="px-4 py-2">{{ $parent->name }}</td>
+                        <td class="px-4 py-2 text-center">{{ $parent->email }}</td>
+                        <td class="px-4 py-2 text-center">{{ $parent->phone }}</td>
 
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                        <td class="relative text-center">
+                            <form method="POST"
+                                action="{{ route('admin.student.linkParent.store', ['slug' => request('slug'), 'name' => request('name'), 'parent' => $parent->name]) }}"
+                                class="inline-block">
+                                @csrf
+                                <button type="submit"
+                                    class="text-white bg-blue-600 my-2 rounded py-2 px-2 hover:bg-blue-800 focus:outline-none">
+                                    {{ __('main.link_student') }}
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</section>
+
         </main>
     </div>
 
