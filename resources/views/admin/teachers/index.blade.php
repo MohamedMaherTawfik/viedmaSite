@@ -56,7 +56,7 @@
             </thead>
 
             <tbody>
-                @foreach ($teachers as $teacher)
+                @foreach ($students as $teacher)
                     <tr class="bg-gray-50 text-gray-800"
                         data-edit-url="{{ route('admin.teacher.edit', ['teacher' => $teacher]) }}"
                         data-delete-url="{{ route('admin.teacher.delete', ['teacher' => $teacher]) }}">
