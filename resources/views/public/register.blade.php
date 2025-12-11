@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول</title>
+    <title>{{ __('messages.register') }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,144 +15,195 @@
 </head>
 
 <body class="bg-gray-200 min-h-screen">
-    {{-- Success Message --}}
-    @if (session('success'))
-        <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    {{-- Fail Message --}}
-    @if (session('fail'))
-        <div class="p-4 mb-4 text-red-800 bg-red-200 border border-red-300 rounded">
-            {{ session('fail') }}
-        </div>
-    @endif
-
-    {{-- Validation Errors --}}
-    @if ($errors->any())
-        <div class="p-4 mb-4 text-red-800 bg-red-100 border border-red-300 rounded">
-            <ul class="list-disc list-inside">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <div class="bg-white w-screen h-screen grid grid-cols-1 md:grid-cols-2">
 
-        <!-- Right Form (now first column in RTL) -->
+        <!-- Right Form -->
         <div class="p-10 flex flex-col justify-center items-start text-right">
             <div class="flex items-center mb-4 self-center">
                 <x-logo-component></x-logo-component>
             </div>
-            <h2 class="text-2xl font-bold mb-1 self-start">انشاء حساب</h2>
-            <p class="text-sm text-gray-500 mb-6 self-start">
-                الرجاء تسجيل الدخول لمتابعة إلى حسابك.
-            </p>
 
+            <div class="flex justify-between items-center w-full mb-4">
+
+              <!-- عنوان Create Account أو Register -->
+                <h2 class="text-2xl font-bold">{{ __('main.register.title') }}</h2>
+                <!-- الدروب داون -->
+                 <div x-data="{ open: false }" class="relative inline-block text-left">
+
+                <button
+                    @click="open = !open"
+                    class="inline-flex items-center justify-between w-40 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100"
+                >
+                    <span>{{ __('messages.Choose_register') }}</span>
+
+                    <!-- السهم -->
+                    <svg x-bind:class="open ? 'rotate-180' : ''"
+                        class="w-4 h-4 transition-transform duration-200"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div
+                    x-show="open"
+                    @click.away="open = false"
+                    x-transition
+                    class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+                >
+                        <div class="py-1">
+                            <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                {{ __('messages.user') }}
+                            </a>
+
+                            {{-- <a href="{{ route('school.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                {{ __('messages.school_login') }}
+                            </a> --}}
+
+                            <a href="{{ route('trainer.register.form') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                {{ __('messages.trainer_login') }}
+                            </a>
+
+                            <a href="{{ route('parent.register') }}" class="block px-4 py-2 hover:bg-gray-100">
+                                {{ __('messages.parent_login') }}
+                            </a>
+                        </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+            <p class="text-sm text-gray-500 mb-6 self-start">
+                {{ __('main.register.subtitle') }}
+            </p>
 
             <form method="POST" action="{{ route('register.store') }}" class="w-full text-right">
                 @csrf
 
-                <!-- الاسم الكامل -->
-                <label class="text-xs font-medium mb-1 w-full self-start">الاسم الكامل</label>
-                <input type="text" name="name" placeholder="الاسم الكامل"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('name')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                <!-- الرقم القومي -->
-                <label class="text-xs font-medium mb-1 w-full self-start">الرقم القومي</label>
-                <input type="text" name="national_id" placeholder="الرقم القومي"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('national_id')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- الاسم الكامل -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.full_name') }}
+                        </label>
+                        <input type="text" name="name" placeholder="{{ __('main.register.full_name') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('name')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- الجنسية -->
-                <label class="text-xs font-medium mb-1 w-full self-start">الجنسية</label>
-                <input type="text" name="nationallity" placeholder="الجنسية"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('nationallity')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- الرقم القومي -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.national_id') }}
+                        </label>
+                        <input type="text" name="national_id" placeholder="{{ __('main.register.national_id') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('national_id')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- المرحلة الدراسية -->
-                <label class="text-xs font-medium mb-1 w-full self-start">المرحلة الدراسية</label>
-                <input type="text" name="academic_stage" placeholder="المرحلة الدراسية"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('academic_stage')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- الجنسية -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.nationality') }}
+                        </label>
+                        <input type="text" name="nationallity" placeholder="{{ __('main.register.nationality') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('nationallity')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- المدرسة -->
-                <label class="text-xs font-medium mb-1 w-full self-start">المدرسة</label>
-                <select name="school_id"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                    <option value="">اختر المدرسة</option>
-                    @foreach ($schools as $school)
-                        <option value="{{ $school->id }}">{{ $school->name }}</option>
-                    @endforeach
-                </select>
-                @error('school_id')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- المرحلة الدراسية -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.academic_stage') }}
+                        </label>
+                        <input type="text" name="academic_stage" placeholder="{{ __('main.register.academic_stage') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('academic_stage')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- البريد الإلكتروني -->
-                <label class="text-xs font-medium mb-1 w-full self-start">البريد الإلكتروني</label>
-                <input type="email" name="email" placeholder="example@email.com"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('email')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- المدرسة -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.school') }}
+                        </label>
+                        <select name="school_id"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <option value="">{{ __('main.register.choose_school') }}</option>
+                            @foreach ($schools as $school)
+                                <option value="{{ $school->id }}">{{ $school->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('school_id')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- كلمة المرور -->
-                <label class="text-xs font-medium mb-1 w-full self-start">كلمة المرور</label>
-                <input type="password" name="password" placeholder="********"
-                    class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                @error('password')
-                    <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                @enderror
+                    <!-- البريد الإلكتروني -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.email') }}
+                        </label>
+                        <input type="email" name="email" placeholder="{{ __('main.register.email') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('email')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-                <!-- تأكيد كلمة المرور -->
-                <label class="text-xs font-medium mb-1 w-full self-start">تأكيد كلمة المرور</label>
-                <input type="password" name="password_confirmation" placeholder="********"
-                    class="mb-6 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    <!-- كلمة المرور -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.password') }}
+                        </label>
+                        <input type="password" name="password" placeholder="{{ __('main.register.password') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        @error('password')
+                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- تأكيد كلمة المرور -->
+                    <div>
+                        <label class="text-xs font-medium mb-1 w-full self-start">
+                            {{ __('main.register.password_confirm') }}
+                        </label>
+                        <input type="password" name="password_confirmation"
+                            placeholder="{{ __('main.register.password_confirm') }}"
+                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                    </div>
+
+                </div>
 
                 <button type="submit"
-                    class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 w-full">
-                    ارسال بيانات التسجيل
+                    class="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 w-full mt-4">
+                    {{ __('main.register.submit') }}
                 </button>
             </form>
-
-
-
-            {{-- <div class="flex items-center gap-2 text-sm mb-4 w-full">
-                <div class="flex-grow h-px bg-gray-300"></div>
-                أو
-                <div class="flex-grow h-px bg-gray-300"></div>
-            </div>
-
-            <button
-                class="border border-gray-300 flex items-center justify-center gap-2 py-2 rounded w-full mb-3 hover:bg-gray-50">
-                <img src="https://img.icons8.com/color/48/google-logo.png" class="w-5 h-5" />
-                تسجيل الدخول باستخدام Google
-            </button> --}}
-
-            <p class="text-sm mt-6 text-center w-full">
-                لديك حساب؟ <a href="{{ route('login') }}" class="text-blue-600 hover:underline">تسجيل دخول</a>
-            </p>
-
         </div>
 
-        <!-- Left Illustration (now second column in RTL) -->
+        <!-- Left Illustration -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
             <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration" class="w-full max-w-md">
         </div>
     </div>
+
+    {{-- alpine cdn --}}
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </body>
 
 </html>

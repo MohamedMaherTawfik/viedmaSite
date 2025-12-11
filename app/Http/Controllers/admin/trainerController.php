@@ -107,10 +107,10 @@ class trainerController extends Controller
 
     public function trainerDashboard()
     {
-        $courses = Courses::where('user_id', auth()->id())->get();
+        $courses = Courses::where('user_id', Auth::user()->id)->get();
         $ids = $courses->pluck('id');
         $enrollments = Enrollments::whereIn('courses_id', $ids)->get();
-        $graduationProject = graduationProject::where('teacher_id', auth()->id())->pluck('id');
+        $graduationProject = graduationProject::where('teacher_id', Auth::user()->id)->pluck('id');
         $assignments = assignment_submission::whereIn('graduation_project_id', $graduationProject)->get();
         $latestSessionTime = sessionTime::orderBy('id', 'desc')->first();
         return view('trainerDashboard.index', compact('courses', 'enrollments', 'assignments', 'latestSessionTime'));
@@ -385,7 +385,7 @@ class trainerController extends Controller
                     'name' => $row['name'],
                     'email' => $row['name'] . '@gmail.com',
                     'password' => bcrypt($row['name']),
-                    'school_id' => auth()->user()->school_id,
+                    'school_id' => Auth::user()->school_id,
                 ]);
                 Student::create([
                     'name' => $row['name'],
@@ -394,7 +394,7 @@ class trainerController extends Controller
                     'Academic_stage' => $row['Academic_stage'],
                     'me_id' => $user->id,
                     'slug' => Str::slug($row['name']) . '-' . time(),
-                    'school_id' => auth()->user()->school_id
+                    'school_id' => Auth::user()->school_id
                 ]);
             });
 
@@ -419,7 +419,7 @@ class trainerController extends Controller
 
     public function allProjects()
     {
-        $assignments = assignment_submission::where('user_id', auth()->id())->with('notes')->get();
+        $assignments = assignment_submission::where('user_id', Auth::user()->id)->with('notes')->get();
         return view('teacherDashboard.projects.index', compact('assignments'));
     }
 

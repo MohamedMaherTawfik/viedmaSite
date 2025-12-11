@@ -155,9 +155,9 @@
                         class="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden z-50"
                         x-transition>
                         <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100">
-                            تسجيل دخول الطالب
+{{ __('messages.login') }}
                         </a>
-                        <a href="{{ route('school.login') }}" class="block px-4 py-2 hover:bg-gray-100">
+                        {{-- <a href="{{ route('school.login') }}" class="block px-4 py-2 hover:bg-gray-100">
                             تسجيل دخول المدير
                         </a>
                         <a href="{{ route('parent.login') }}" class="block px-4 py-2 hover:bg-gray-100">
@@ -165,7 +165,7 @@
                         </a>
                         <a href="{{ route('trainer.login.form') }}" class="block px-4 py-2 hover:bg-gray-100">
                             تسجيل دخول المعلم
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             @endauth

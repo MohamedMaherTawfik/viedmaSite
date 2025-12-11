@@ -295,5 +295,21 @@ return [
 
     'no_phone' => 'No Phone',
      'update_user' => 'Update User Info',
+      'register' => [
+        'title' => 'Create Account',
+        'subtitle' => 'Please log in to continue to your account.',
+        'full_name' => 'Full Name',
+        'national_id' => 'National ID',
+        'nationality' => 'Nationality',
+        'academic_stage' => 'Academic Stage',
+        'school' => 'School',
+        'choose_school' => 'Select School',
+        'email' => 'Email Address',
+        'password' => 'Password',
+        'password_confirm' => 'Confirm Password',
+        'submit' => 'Submit Registration',
+        'have_account' => 'Already have an account?',
+        'login' => 'Login',
+    ]
 
 ];

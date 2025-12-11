@@ -16,6 +16,11 @@ return [
     'contact' => 'Contact',
     'register' => 'Register',
     'login' => 'Login',
+    'Choose_register' => 'Choose user Type',
+    'user' => 'User Register',
+    'school_login' => 'School Manager Register',
+    'parent_login' => 'Parent Register',
+    'trainer_login' => 'Teacher Register',
     'profile' => 'Profile',
     'logout' => 'Logout',
     'title' => 'Our Services',
@@ -88,12 +93,10 @@ return [
         'max_price' => 'Max Price',
         'reset_button' => 'Reset Filters',
     ],
-
     'no_results' => [
         'title' => 'No Games Found',
         'subtitle' => 'Try adjusting the filters',
     ],
-
     'uncategorized' => 'Uncategorized',
     'most_selling' => 'Most Selling Games',
     'view_details' => 'View Details',
@@ -101,14 +104,12 @@ return [
     'exclusive_to_us' => 'Exclusive to Us',
     'why_viedma' => 'Why Viedma?',
     'intro_paragraph' => 'At Viedma Game Store, we bring you more than just games — we deliver experiences. From the hottest new releases to timeless classics, our mission is to power your passion for gaming with unbeatable prices, exclusive content, and a community that feels like home. Here’s what sets us apart...',
-
     'exclusive_deals' => 'Exclusive Deals',
     'top_library' => 'Top Game Library',
     'fast_checkout' => 'Fast & Secure Checkout',
     'community' => 'Gamer Community',
     'support' => 'Expert Support',
     'events' => 'Events & Tournaments',
-
     'level_up' => 'Level Up With Viedma',
     'description_1' => 'Discover an ever-growing library of games, from AAA blockbusters to indie gems, all in one place. Whether you’re a casual player or a hardcore gamer, Viedma is built for you.',
     'description_2' => 'We offer exclusive discounts, early access releases, and curated collections designed to make your gaming experience seamless. Join tournaments, connect with other players, and never miss out on the latest gaming trends — all powered by Viedma.',
@@ -151,7 +152,6 @@ return [
     'feature2_text' => 'Everything you need from books, products, and learning tools',
     'feature3_title' => 'Seamless Experience',
     'feature3_text' => 'An intuitive interface that connects learning with shopping',
-
     'join_title' => 'Join Our Educational Journey',
     'join_text' => 'At Feedma, we strive to deliver the best educational and shopping experience to our users. Join us today and become part of our growing community of learners and knowledge seekers.',
     'join_button' => 'Register Now',
@@ -184,24 +184,16 @@ return [
     'confirm_payment' => 'Confirm Payment',
     'amount' => 'Amount:',
     'name' => 'Name:',
-
     'city' => 'City',
     'country' => 'Country',
     'state' => 'State / Province',
-    // Hero Section
     'welcome' => 'Welcome to VIEDMA Website',
     'welcome_desc' => 'We believe that education is the key to a bright future. We provide a modern educational environment that helps our students create, think, and achieve success.',
     'learn_more' => 'Learn More',
-
-    // About Section
     'about_title' => 'About VIEDMA',
     'about_content' => '<span class="font-bold text-blue-700">VIEDMA</span> is a leading educational platform that aims to develop student skills through diverse and interactive educational content based on the latest technologies. It focuses on areas such as <span class="font-semibold">STEM</span>, and promotes awareness of global issues like climate change and biodiversity, serving as an effective tool for both students and teachers in an innovative and supportive educational environment.',
-
-    // Schools Section
     'schools_title' => 'Our Schools',
     'view_school' => 'Go to School',
-
-    // Common
     'go_to_school' => 'Go to School',
     'zip' => 'Zip Code',
     'pay_now' => '💳 Pay Now',
@@ -234,4 +226,15 @@ return [
     'specialists' => 'Specialists',
     'our_apps' => 'Our Apps',
     'all_rights' => 'All rights reserved © ' . date('Y'),
+    'school' => 'School',
+    'choose_school' => 'Choose School',
+    'password' => 'Password',
+    'password_confirm' => 'Confirm Password',
+    'submit' => 'Submit Registration',
+    'have_account' => 'Already have an account?',
+    'cv' => 'CV',
+    'certificates' => 'Certificates',
+    'user_register' => 'User Registration',
+    'trainer_register' => 'Trainer Registration',
+    'parent_register' => 'Parent Registration',
 ];

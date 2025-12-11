@@ -206,7 +206,7 @@ Route::group([
         Route::get('/trainer/students/all', 'allStudents')->name('teacher.students');
         Route::get('/trainer/student/create/form', 'createStudent')->name('teacher.student.create');
         Route::post('/trainer/student/create/form', 'storeStudent')->name('teacher.student.store');
-        Route::get('/trainer/student/create/excel/{slug}', 'ExcelStudent')->name('teacher.student.excel');
+        Route::get('/trainer/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
         Route::post('/trainer/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
         Route::get('/trainer/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
         Route::post('/trainer/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
