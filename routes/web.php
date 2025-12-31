@@ -204,11 +204,14 @@ Route::group([
         Route::get('/trainer/certificates', 'trainerCertificates')->name('trainer.certificates');
         Route::post('/trainer/certificates', 'storeCertificate')->name('trainer.certificate.store');
         Route::get('/trainer/students/all', 'allStudents')->name('teacher.students');
+        Route::get('trainer/dashboard/student/{name}/linkParent', 'linkParent')->name('trainer.student.linkParent');
+        Route::post('trainer/dashboard/student/{name}/linkParent/{parent}', 'linkParentStore')->name('trainer.student.linkParent.store');
         Route::get('/trainer/student/create/form', 'createStudent')->name('teacher.student.create');
         Route::post('/trainer/student/create/form', 'storeStudent')->name('teacher.student.store');
         Route::get('/trainer/student/create/excel', 'ExcelStudent')->name('teacher.student.excel');
         Route::post('/trainer/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
         Route::get('/trainer/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
+        Route::get('/trainer/student/{student}/show', 'showStudent')->name('teacher.student.show');
         Route::post('/trainer/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
         Route::get('/trainer/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
         Route::get('/trainer/courses/assisnments/me', 'allProjects')->name('teacher.projects');

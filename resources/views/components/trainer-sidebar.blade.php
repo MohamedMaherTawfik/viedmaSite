@@ -1,80 +1,75 @@
-<aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between" dir="rtl">
+<aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between"
+      dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+
     <div>
         <div class="mb-6 text-center">
             <img src="{{ asset('auth/rendered_page.png') }}" class="w-35 h-20 mx-auto mb-2">
         </div>
 
-        <h2 class="text-lg font-semibold mb-6 text-center">{{ Auth::user()->name }}</h2>
+        <h2 class="text-lg font-semibold mb-6 text-center">
+            {{ Auth::user()->name }}
+        </h2>
 
         <nav class="space-y-4 text-right">
-            <!-- الرئيسية -->
+
+            <!-- Dashboard -->
             <a href="{{ route('trainerDashboard') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainerDashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/home.png" alt="الرئيسية">
-                <span class="mr-2">الرئيسية</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('trainerDashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/home.png">
+                <span class="mr-2">{{ __('main.dashboard') }}</span>
             </a>
 
-            <!-- دوراتي -->
+            <!-- Courses -->
             <a href="{{ route('trainer.courses') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainer.courses') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/classroom.png" alt="دوراتي">
-                <span class="mr-2">دوراتي</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('trainer.courses') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/classroom.png">
+                <span class="mr-2">{{ __('main.courses') }}</span>
             </a>
 
-            <!-- مشاريع المتدربين -->
+            <!-- Projects -->
             <a href="{{ route('trainer.projects') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainer.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png" alt="مشاريع المتدربين">
-                <span class="mr-2">مشاريع المتدربين</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('trainer.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png">
+                <span class="mr-2">{{ __('main.trainee_projects') }}</span>
             </a>
 
-
-            {{-- جميع الطلاب --}}
+            <!-- Students -->
             <a href="{{ route('teacher.students') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('teacher.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" alt="الطلاب"
-                    class="w-6 h-6">
-                <span class="ml-2">جميع الطلاب</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('teacher.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" class="w-6 h-6">
+                <span class="mr-2">{{ __('main.students') }}</span>
             </a>
-            {{--
-            <!-- التقييمات -->
-            <a href="{{ route('trainer.evaluations') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainer.evaluations') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/rating.png" alt="التقييمات">
-                <span class="mr-2">التقييمات</span>
-            </a> --}}
 
-            <!-- المواعيد -->
+            <!-- Schedules -->
             <a href="{{ route('trainer.schedules') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainer.schedules') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/planner.png" alt="المواعيد">
-                <span class="mr-2">المواعيد</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('trainer.schedules') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/planner.png">
+                <span class="mr-2">{{ __('main.schedules') }}</span>
             </a>
 
-            <!-- الشهادات -->
+            <!-- Certificates -->
             <a href="{{ route('trainer.certificates') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('trainer.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png" alt="الشهادات">
-                <span class="mr-2">الشهادات</span>
+               class="flex items-center px-4 py-3 rounded text-base
+               {{ request()->routeIs('trainer.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+                <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png">
+                <span class="mr-2">{{ __('main.certificates') }}</span>
             </a>
-
-            {{-- <!-- المشاريع -->
-            <a href="{{ route('teacher.projects') }}"
-                class="flex items-center px-4 py-3 rounded text-base {{ request()->routeIs('teacher.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
-                <img src="https://img.icons8.com/ios-filled/24/176b98/project.png" alt="المشاريع">
-                <span class="ml-2">المشاريع</span>
-            </a> --}}
 
         </nav>
     </div>
 
-    <!-- تسجيل الخروج -->
+    <!-- Logout -->
     <form action="{{ route('logout') }}" method="POST">
         @csrf
         <button type="submit"
             class="flex items-center w-full px-4 py-3 mt-6 bg-red-100 text-red-500 rounded text-base hover:bg-red-200">
-            <img src="https://img.icons8.com/ios-filled/24/fa314a/logout-rounded-left.png" alt="تسجيل الخروج">
-            <span class="mr-2">تسجيل الخروج</span>
+            <img src="https://img.icons8.com/ios-filled/24/fa314a/logout-rounded-left.png">
+            <span class="mr-2">{{ __('main.logout') }}</span>
         </button>
     </form>
 </aside>

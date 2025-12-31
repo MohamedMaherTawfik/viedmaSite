@@ -332,7 +332,7 @@ class trainerController extends Controller
 
     public function allStudents()
     {
-        $students = student::get();
+        $students = student::where('school_id', Auth::user()->school_id)->get();
         return view('teacherDashboard.student.index', compact('students'));
     }
 
@@ -401,6 +401,10 @@ class trainerController extends Controller
         return redirect()->route('teacher.students')->with('success', 'Excel file uploaded and students created successfully.');
     }
 
+    public function showStudent(student $student)
+    {
+        return view('teacherDashboard.student.show', compact('student'));
+    }
     public function editStudent(student $student)
     {
         return view('teacherDashboard.student.edit', compact('student'));
