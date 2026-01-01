@@ -13,8 +13,10 @@ use App\Http\Requests\projectRequest;
 use App\Http\Requests\reportRequest;
 use App\Http\Requests\userRequest;
 use App\Jobs\UploadLessonToYouTubeJob;
+use App\Models\activity;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
+use App\Models\behaviour;
 use App\Models\cart;
 use App\Models\categories;
 use App\Models\certificate;
@@ -22,9 +24,9 @@ use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\graduationNotes;
 use App\Models\graduationProject;
+use App\Models\interaction;
 use App\Models\lesson;
 use App\Models\report;
-use App\Models\school;
 use App\Models\sessionTime;
 use App\Models\student;
 use App\Models\User;
@@ -403,7 +405,10 @@ class trainerController extends Controller
 
     public function showStudent(student $student)
     {
-        return view('teacherDashboard.student.show', compact('student'));
+        $activity = activity::where('user_id', $student->me_id)->latest()->take(3)->get();
+        $behavior = behaviour::where('user_id', $student->me_id)->latest()->take(3)->get();
+        $interaction = interaction::where('user_id', $student->me_id)->latest()->take(3)->get();
+        return view('teacherDashboard.student.show', compact('student', 'activity', 'behavior', 'interaction'));
     }
     public function editStudent(student $student)
     {
@@ -436,5 +441,25 @@ class trainerController extends Controller
     {
         $course->delete();
         return redirect()->back()->with('success', 'تم حذف الدرس بنجاح');
+    }
+
+    public function behaviorStudent(Request $request)
+    {
+        $data = $request->except('_token');
+        behaviour::create($data);
+        return redirect()->back()->with('success', 'تم حفظ السلوك بنجاح');
+    }
+    public function activityStudent(Request $request)
+    {
+        $data = $request->except('_token');
+        activity::create($data);
+
+        return redirect()->back()->with('success', 'تم حفظ النشاط بنجاح');
+    }
+    public function interactionStudent(Request $request)
+    {
+        $data = $request->except('_token');
+        interaction::create($data);
+        return redirect()->back()->with('success', 'تم حفظ التفاعل بنجاح');
     }
 }

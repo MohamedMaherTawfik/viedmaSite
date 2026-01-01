@@ -212,6 +212,9 @@ Route::group([
         Route::post('/trainer/student/create/excel', 'uploadExcel')->name('teacher.excel.upload');
         Route::get('/trainer/student/{student}/edit', 'editStudent')->name('teacher.student.edit');
         Route::get('/trainer/student/{student}/show', 'showStudent')->name('teacher.student.show');
+        Route::post('/trainer/student/{student}/behavior', 'behaviorStudent')->name('teacher.student.behavior');
+        Route::post('/trainer/student/{student}/activity', 'activityStudent')->name('teacher.student.activity');
+        Route::post('/trainer/student/{student}/interaction', 'interactionStudent')->name('teacher.student.interaction');
         Route::post('/trainer/student/{student}/edit', 'updateStudent')->name('teacher.student.update');
         Route::get('/trainer/student/{student}/delete', 'deleteStudent')->name('teacher.student.delete');
         Route::get('/trainer/courses/assisnments/me', 'allProjects')->name('teacher.projects');
