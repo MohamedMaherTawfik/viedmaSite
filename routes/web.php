@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\academicStageController;
 use App\Http\Controllers\admin\AdminTeacherController;
 use App\Http\Controllers\admin\certificateController;
 use App\Http\Controllers\admin\courseCategoreyController;
@@ -334,6 +335,11 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/admin/student/{student}/edit', [studentController::class, 'editStudent'])->name('admin.student.edit');
     Route::post('/admin/student/{student}/edit', [studentController::class, 'updateStudent'])->name('admin.student.update');
     Route::get('/admin/student/{student}/delete', [studentController::class, 'deleteStudent'])->name('admin.student.delete');
+
+    Route::get('/admin/academicStages', [academicStageController::class, 'index'])->name('admin.academicStages');
+    Route::post('/admin/academicStages', [academicStageController::class, 'storeAcademicStage'])->name('admin.academicStage.store');
+    Route::post('/admin/academicStages/{id}/edit', [academicStageController::class, 'updateAcademicStage'])->name('admin.academicStage.update');
+    Route::get('/admin/academicStages/{id}/delete', [academicStageController::class, 'deleteAcademicStage'])->name('admin.academicStage.delete');
 
 })->middleware(superAdminMiddleware::class);
 

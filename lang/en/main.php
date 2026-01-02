@@ -298,4 +298,11 @@ return [
     'interaction' => 'Interaction',
     'personal_info' => 'Personal Information',
     'student_actions' => 'Student Actions',
+    'all_students' => 'All Students',
+    'upload_excel' => 'Upload Excel',
+    'add_student' => 'Add Student',
+    'academic_stages' => 'Academic Stages',
+    'add_academic_stage' => 'Add Academic Stage',
+    'edit_academic_stage' => 'Edit Academic Stage',
+    'stage_name' => 'Stage name',
 ];

@@ -307,4 +307,9 @@ return [
     'interaction' => 'التفاعل',
     'personal_info' => 'معلومات شخصية',
     'student_actions' => 'اجراءات الطالب',
+    'academic_stages' => 'المراحل الدراسية',
+    'add_academic_stage' => 'إضافة مرحلة دراسية',
+    'edit_academic_stage' => 'تعديل المرحلة الدراسية',
+
+    'stage_name' => 'اسم المرحلة',
 ];

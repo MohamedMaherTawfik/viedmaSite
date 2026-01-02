@@ -28,4 +28,9 @@ class student extends Model
     {
         return $this->hasMany(report::class);
     }
+
+    public function academicStage()
+    {
+        return $this->belongsTo(AcademicStages::class);
+    }
 }
