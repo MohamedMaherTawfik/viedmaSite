@@ -11,6 +11,6 @@ class AcademicStages extends Model
 
     public function student()
     {
-        return $this->hasMany(student::class);
+        return $this->hasMany(student::class, 'academic_stages_id');
     }
 }

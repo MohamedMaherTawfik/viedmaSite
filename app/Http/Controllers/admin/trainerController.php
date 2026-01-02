@@ -13,6 +13,7 @@ use App\Http\Requests\projectRequest;
 use App\Http\Requests\reportRequest;
 use App\Http\Requests\userRequest;
 use App\Jobs\UploadLessonToYouTubeJob;
+use App\Models\AcademicStages;
 use App\Models\activity;
 use App\Models\applyTeacher;
 use App\Models\assignment_submission;
@@ -32,6 +33,7 @@ use App\Models\student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
@@ -340,7 +342,8 @@ class trainerController extends Controller
 
     public function createStudent()
     {
-        return view('teacherDashboard.student.create');
+        $academicStages = AcademicStages::all();
+        return view('teacherDashboard.student.create', compact('academicStages'));
     }
 
     /**
@@ -351,7 +354,22 @@ class trainerController extends Controller
 
         $validatedData = $request->validated();
         $validatedData['slug'] = Str::slug($validatedData['name']);
-        $user = student::create($validatedData);
+        $user = User::create([
+            'name' => $validatedData['name'] ?? '--',
+            'email' => $validatedData['email'] ?? '--',
+            'role' => 'user',
+            'password' => bcrypt($validatedData['password']) ?? '--',
+            'school_id' => Auth::user()->school_id,
+        ]);
+        student::create([
+            'me_id' => $user->id,
+            'name' => $validatedData['name'] ?? '--',
+            'school_id' => Auth::user()->school_id,
+            'national_id' => $validatedData['national_id'] ?? '--',
+            'nationallity' => $validatedData['nationallity'] ?? '--',
+            'slug' => $validatedData['slug'] ?? '--',
+            'academic_stages_id' => $validatedData['academic_stages_id'] ?? null,
+        ]);
         return redirect()->route('teacher.students')->with('success', 'Student created successfully.');
     }
 

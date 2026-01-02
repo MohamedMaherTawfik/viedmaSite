@@ -305,4 +305,8 @@ return [
     'add_academic_stage' => 'Add Academic Stage',
     'edit_academic_stage' => 'Edit Academic Stage',
     'stage_name' => 'Stage name',
+    'select_academic_stage' => 'Select Academic Stage',
+    'school_name' => 'School Name',
+    'add_school' => 'Add School',
+    'phone_number' => 'Phone Number',
 ];

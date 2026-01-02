@@ -31,6 +31,6 @@ class student extends Model
 
     public function academicStage()
     {
-        return $this->belongsTo(AcademicStages::class);
+        return $this->belongsTo(AcademicStages::class, 'academic_stages_id');
     }
 }

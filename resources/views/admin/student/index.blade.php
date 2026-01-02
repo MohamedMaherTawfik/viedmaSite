@@ -71,7 +71,7 @@
                                     </td>
 
                                     <td class="px-4 py-2 text-center">
-                                        {{ $student->Academic_stage ?? __('main.no_stage') }}
+                                        {{ $student->academicStage->name ?? __('main.no_stage') }}
                                     </td>
 
                                     <td class="px-4 py-2 text-center">

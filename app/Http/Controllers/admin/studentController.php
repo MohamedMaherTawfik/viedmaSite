@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminRequest;
+use App\Models\AcademicStages;
 use App\Models\school;
 use App\Models\student;
 use App\Models\User;
@@ -29,7 +30,8 @@ class studentController extends Controller
 
     public function createStudent()
     {
-        return view('admin.student.create');
+        $academicStages = AcademicStages::all();
+        return view('admin.student.create', compact('academicStages'));
     }
 
     /**
@@ -40,20 +42,20 @@ class studentController extends Controller
         $validatedData = $request->validated();
         $validatedData['slug'] = Str::slug($validatedData['name']);
         $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
+            'name' => $validatedData['name'] ?? 'null',
+            'email' => $validatedData['email'] ?? 'null',
             'role' => 'user',
-            'password' => bcrypt($validatedData['password']),
-            'school_id' => $validatedData['school_id'],
+            'password' => bcrypt($validatedData['password']) ?? 'null',
+            'school_id' => $validatedData['school_id'] ?? 'null',
         ]);
         student::create([
             'me_id' => $user->id,
-            'name' => $validatedData['name'],
-            'national_id' => $validatedData['national_id'],
-            'nationallity' => $validatedData['nationallity'],
-            'Academic_stage' => $validatedData['Academic_stage'],
-            'school_id' => $validatedData['school_id'],
-            'slug' => $validatedData['slug'],
+            'name' => $validatedData['name'] ?? 'null',
+            'national_id' => $validatedData['national_id'] ?? 'null',
+            'nationallity' => $validatedData['nationallity'] ?? 'null',
+            'academic_stages_id' => $validatedData['academic_stages_id'] ?? 'null',
+            'school_id' => $validatedData['school_id'] ?? 'null',
+            'slug' => $validatedData['slug'] ?? 'null',
         ]);
         return redirect()->route('admin.students')->with('success', 'Student created successfully.');
     }

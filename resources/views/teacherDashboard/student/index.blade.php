@@ -36,11 +36,11 @@
                 <h2 class="text-lg font-semibold">الطلاب</h2>
                 <div class="flex gap-2">
                     <a href="{{ route('teacher.student.excel') }}"
-                       class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
+                        class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
                         رفع ملف Excel
                     </a>
                     <a href="{{ route('teacher.student.create') }}"
-                       class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
+                        class="border border-gray-500 text-gray-500 px-4 py-2 rounded hover:bg-gray-500 hover:text-white transition">
                         إضافة طالب
                     </a>
                 </div>
@@ -60,33 +60,34 @@
                         </thead>
 
                         <tbody>
-                        @foreach ($students as $student)
-                            <tr class="bg-gray-50 text-gray-800"
-                                data-show-url="{{ route('teacher.student.show', $student) }}"
-                                data-edit-url="{{ route('teacher.student.edit', $student) }}"
-                                data-delete-url="{{ route('teacher.student.delete', $student) }}"
-                                data-link-parent-url="{{ route('trainer.student.linkParent', ['name' => $student->name]) }}">
+                            @foreach ($students as $student)
+                                <tr class="bg-gray-50 text-gray-800"
+                                    data-show-url="{{ route('teacher.student.show', $student) }}"
+                                    data-edit-url="{{ route('teacher.student.edit', $student) }}"
+                                    data-delete-url="{{ route('teacher.student.delete', $student) }}"
+                                    data-link-parent-url="{{ route('trainer.student.linkParent', ['name' => $student->name]) }}">
 
-                                {{-- اسم الطالب --}}
-                                <td class="px-4 py-3 text-center">
-                                    <span class="font-medium">{{ $student->name }}</span>
-                                </td>
+                                    {{-- اسم الطالب --}}
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="font-medium">{{ $student->name }}</span>
+                                    </td>
 
-                                <td class="px-4 py-2 text-center">{{ $student->national_id }}</td>
-                                <td class="px-4 py-2 text-center">{{ $student->Academic_stage }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $student->national_id }}</td>
+                                    <td class="px-4 py-2 text-center">{{ $student->academicStage->name ?? 'غير محدد' }}
+                                    </td>
 
-                                <td class="px-4 py-2 text-center">
-                                    {{ $student->user->phone ?? 'لم يتم الربط بولي امر' }}
-                                </td>
+                                    <td class="px-4 py-2 text-center">
+                                        {{ $student->user->phone ?? 'لم يتم الربط بولي امر' }}
+                                    </td>
 
-                                {{-- Dropdown --}}
-                                <td class="relative text-center">
-                                    <button type="button" class="text-gray-600 focus:outline-none dropdown-btn">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
+                                    {{-- Dropdown --}}
+                                    <td class="relative text-center">
+                                        <button type="button" class="text-gray-600 focus:outline-none dropdown-btn">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
 
@@ -107,11 +108,13 @@
 
                             document.addEventListener('click', () => {
                                 menu.remove();
-                            }, { once: true });
+                            }, {
+                                once: true
+                            });
                         }
 
                         document.querySelectorAll('.dropdown-btn').forEach(btn => {
-                            btn.addEventListener('click', function (e) {
+                            btn.addEventListener('click', function(e) {
                                 e.stopPropagation();
 
                                 const tr = btn.closest('tr');

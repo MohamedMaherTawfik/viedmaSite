@@ -31,7 +31,7 @@ class adminRequest extends FormRequest
             'topic' => 'nullable|string|max:255',
             'national_id' => 'nullable|string|max:20',
             'nationallity' => 'nullable|string|max:50',
-            'Academic_stage' => 'nullable|string|max:50',
+            'academic_stages_id' => 'nullable|string|max:50',
         ];
     }
 }

@@ -310,6 +310,6 @@ return [
     'academic_stages' => 'المراحل الدراسية',
     'add_academic_stage' => 'إضافة مرحلة دراسية',
     'edit_academic_stage' => 'تعديل المرحلة الدراسية',
-
+    'select_academic_stage' => 'حدد المرحلة الدراسية',
     'stage_name' => 'اسم المرحلة',
 ];
