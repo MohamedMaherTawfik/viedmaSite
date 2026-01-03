@@ -1,5 +1,5 @@
 <aside class="bg-white w-64 min-h-screen shadow-lg p-4 flex flex-col justify-between"
-      dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+    dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
 
     <div>
         <div class="mb-6 text-center">
@@ -14,7 +14,7 @@
 
             <!-- Dashboard -->
             <a href="{{ route('trainerDashboard') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('trainerDashboard') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/home.png">
                 <span class="mr-2">{{ __('main.dashboard') }}</span>
@@ -22,7 +22,7 @@
 
             <!-- Courses -->
             <a href="{{ route('trainer.courses') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('trainer.courses') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/classroom.png">
                 <span class="mr-2">{{ __('main.courses') }}</span>
@@ -30,7 +30,7 @@
 
             <!-- Projects -->
             <a href="{{ route('trainer.projects') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('trainer.projects') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/project.png">
                 <span class="mr-2">{{ __('main.trainee_projects') }}</span>
@@ -38,7 +38,7 @@
 
             <!-- Students -->
             <a href="{{ route('teacher.students') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('teacher.students') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/student-male--v1.png" class="w-6 h-6">
                 <span class="mr-2">{{ __('main.students') }}</span>
@@ -46,7 +46,7 @@
 
             <!-- Schedules -->
             <a href="{{ route('trainer.schedules') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('trainer.schedules') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/planner.png">
                 <span class="mr-2">{{ __('main.schedules') }}</span>
@@ -54,11 +54,21 @@
 
             <!-- Certificates -->
             <a href="{{ route('trainer.certificates') }}"
-               class="flex items-center px-4 py-3 rounded text-base
+                class="flex items-center px-4 py-3 rounded text-base
                {{ request()->routeIs('trainer.certificates') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
                 <img src="https://img.icons8.com/ios-filled/24/176b98/diploma.png">
                 <span class="mr-2">{{ __('main.certificates') }}</span>
             </a>
+
+            <a href="{{ route('teacher.honors') }}"
+                class="flex items-center gap-2 px-4 py-3 rounded text-base
+                {{ request()->routeIs('teacher.honors') ? 'bg-blue-100 text-blue-700 font-semibold' : 'hover:bg-gray-100' }}">
+
+                <img src="https://img.icons8.com/ios-filled/24/176b98/star.png" alt="Honors">
+                <span>{{ __('main.honors') }}</span>
+            </a>
+
+
 
         </nav>
     </div>

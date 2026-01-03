@@ -25,6 +25,7 @@ use App\Models\Courses;
 use App\Models\Enrollments;
 use App\Models\graduationNotes;
 use App\Models\graduationProject;
+use App\Models\honors;
 use App\Models\interaction;
 use App\Models\lesson;
 use App\Models\report;
@@ -337,7 +338,8 @@ class trainerController extends Controller
     public function allStudents()
     {
         $students = student::where('school_id', Auth::user()->school_id)->get();
-        return view('teacherDashboard.student.index', compact('students'));
+        $academicStages = AcademicStages::all();
+        return view('teacherDashboard.student.index', compact('students', 'academicStages'));
     }
 
     public function createStudent()
@@ -479,5 +481,26 @@ class trainerController extends Controller
         $data = $request->except('_token');
         interaction::create($data);
         return redirect()->back()->with('success', 'تم حفظ التفاعل بنجاح');
+    }
+
+    public function honorStudent(student $student)
+    {
+        honors::create([
+            'student_id' => $student->me->id,
+            'user_id' => Auth::user()->id
+        ]);
+        return redirect()->back()->with('success', 'Student Added to Honors successfully.');
+    }
+
+    public function allHonors()
+    {
+        $honors = honors::where('user_id', Auth::user()->id)->with('student')->get();
+        return view('teacherDashboard.honors.index', compact('honors'));
+    }
+
+    public function deleteHonor(honors $honor)
+    {
+        $honor->delete();
+        return redirect()->back()->with('success', __('main.honor_removed_successfully'));
     }
 }

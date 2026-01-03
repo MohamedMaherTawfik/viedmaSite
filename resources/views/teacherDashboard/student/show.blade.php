@@ -56,19 +56,33 @@
                     <div class="flex flex-wrap gap-4">
                         <button type="button" onclick="openBehaviorModal()"
                             class="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium transition duration-200 flex items-center gap-2">
+                            <i class="fas fa-user-check"></i>
                             {{ __('main.behavior') }}
                         </button>
 
                         <button type="button" onclick="openActivityModal()"
                             class="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition duration-200 flex items-center gap-2">
+                            <i class="fas fa-running"></i>
                             {{ __('main.activity') }}
                         </button>
 
                         <button type="button" onclick="openInteractionModal()"
                             class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition duration-200 flex items-center gap-2">
+                            <i class="fas fa-comments"></i>
                             {{ __('main.interaction') }}
                         </button>
+
+                        <form action="{{ route('teacher.student.honor', $student) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="px-6 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition duration-200 flex items-center gap-2">
+                                <i class="fas fa-award"></i>
+                                {{ __('main.add_to_honors') }}
+                            </button>
+                        </form>
+
                     </div>
+
                 </div>
                 <div class="bg-white rounded-lg shadow p-6 mt-6">
                     <h3 class="text-lg font-semibold mb-4 text-yellow-600">
