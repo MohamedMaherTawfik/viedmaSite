@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\public;
 
 use App\Http\Controllers\Controller;
+use App\Models\AcademicStages;
 use App\Models\cart;
 use App\Models\school;
 use App\Models\student;
@@ -22,7 +23,8 @@ class AuthController extends Controller
     public function register()
     {
         $schools = school::all();
-        return view('public.register', compact('schools'));
+        $academicStages = AcademicStages::all();
+        return view('public.register', compact('schools', 'academicStages'));
     }
 
     public function storelogin(Request $request)
@@ -44,14 +46,11 @@ class AuthController extends Controller
             }
             if (Auth::user()->role == 'trainer') {
                 return redirect()->route('trainerDashboard');
-            }
-            else if (Auth::user()->role == 'parent') {
+            } else if (Auth::user()->role == 'parent') {
                 return redirect()->route('parent.dashboard');
-            }
-            else if (Auth::user()->role == 'user') {
+            } else if (Auth::user()->role == 'user') {
                 return redirect()->route('choose');
-            }
-            else if (Auth::user()->role == 'admin') {
+            } else if (Auth::user()->role == 'admin') {
                 return redirect()->route('school.dashboard', ['slug' => Auth::user()->school->slug]);
             }
             return redirect()->route('home');
@@ -62,14 +61,15 @@ class AuthController extends Controller
 
     public function storeRegister(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required|confirmed',
             'school_id' => 'nullable',
             'nationallity' => 'nullable',
-            'academic_stage' => 'nullable',
+            'academic_stage_id' => 'nullable',
             'national_id' => 'nullable',
+
         ]);
 
         $user = User::create([
@@ -82,7 +82,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'national_id' => $request->national_id,
             'nationallity' => $request->nationallity,
-            'Academic_stage' => $request->academic_stage,
+            'academic_stages_id' => $request->academic_stage_id,
             'school_id' => $request->school_id,
             'slug' => Str::slug($request->name) . '-' . time(),
         ]);

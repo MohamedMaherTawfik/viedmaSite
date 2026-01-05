@@ -26,33 +26,25 @@
 
             <div class="flex justify-between items-center w-full mb-4">
 
-              <!-- عنوان Create Account أو Register -->
+                <!-- عنوان Create Account أو Register -->
                 <h2 class="text-2xl font-bold">{{ __('main.register.title') }}</h2>
                 <!-- الدروب داون -->
-                 <div x-data="{ open: false }" class="relative inline-block text-left">
+                <div x-data="{ open: false }" class="relative inline-block text-left">
 
-                <button
-                    @click="open = !open"
-                    class="inline-flex items-center justify-between w-40 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100"
-                >
-                    <span>{{ __('messages.Choose_register') }}</span>
+                    <button @click="open = !open"
+                        class="inline-flex items-center justify-between w-40 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium hover:bg-gray-100">
+                        <span>{{ __('messages.Choose_register') }}</span>
 
-                    <!-- السهم -->
-                    <svg x-bind:class="open ? 'rotate-180' : ''"
-                        class="w-4 h-4 transition-transform duration-200"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </button>
+                        <!-- السهم -->
+                        <svg x-bind:class="open ? 'rotate-180' : ''" class="w-4 h-4 transition-transform duration-200"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
 
-                <div
-                    x-show="open"
-                    @click.away="open = false"
-                    x-transition
-                    class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
-                >
+                    <div x-show="open" @click.away="open = false" x-transition
+                        class="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5">
                         <div class="py-1">
                             <a href="{{ route('register') }}" class="block px-4 py-2 hover:bg-gray-100">
                                 {{ __('messages.user') }}
@@ -71,11 +63,11 @@
                             </a>
                         </div>
 
+                    </div>
                 </div>
+
+
             </div>
-
-
-        </div>
 
 
 
@@ -129,9 +121,23 @@
                         <label class="text-xs font-medium mb-1 w-full self-start">
                             {{ __('main.register.academic_stage') }}
                         </label>
-                        <input type="text" name="academic_stage" placeholder="{{ __('main.register.academic_stage') }}"
+
+                        <select name="academic_stage_id"
                             class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                        @error('academic_stage')
+
+                            <option value="">
+                                {{ __('main.register.academic_stage') }}
+                            </option>
+
+                            @foreach ($academicStages as $stage)
+                                <option value="{{ $stage->id }}"
+                                    {{ old('academic_stage_id') == $stage->id ? 'selected' : '' }}>
+                                    {{ $stage->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @error('academic_stage_id')
                             <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                         @enderror
                     </div>

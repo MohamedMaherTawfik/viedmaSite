@@ -79,7 +79,7 @@
                                     data-show-url="{{ route('teacher.student.show', $student) }}"
                                     data-edit-url="{{ route('teacher.student.edit', $student) }}"
                                     data-delete-url="{{ route('teacher.student.delete', $student) }}"
-                                    data-link-parent-url="{{ route('trainer.student.linkParent', ['name' => $student->name]) }}">
+                                    data-link-parent-url="{{ route('trainer.student.linkParent', ['name' => $student]) }}">
 
                                     <td class="px-4 py-3 text-center font-medium">
                                         {{ $student->name }}

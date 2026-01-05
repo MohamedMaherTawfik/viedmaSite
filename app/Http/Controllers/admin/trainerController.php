@@ -503,4 +503,21 @@ class trainerController extends Controller
         $honor->delete();
         return redirect()->back()->with('success', __('main.honor_removed_successfully'));
     }
+
+    public function linkParent(student $name)
+    {
+        $parents = User::where('role', 'parent')->get();
+        return view('teacherDashboard.student.linkParent', compact('name', 'parents'));
+    }
+
+    public function linkParentStore(student $name)
+    {
+        $parent = User::where('name', request('parent'))->first();
+        if (!$name || !$parent) {
+            return redirect()->back()->with('error', 'User or Student not found.');
+        }
+        $name->user_id = $parent->id;
+        $name->save();
+        return redirect()->route('teacher.students')->with('success', 'Parent linked to student successfully.');
+    }
 }

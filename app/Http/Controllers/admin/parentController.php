@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\cartRequest;
 use App\Http\Requests\parentRequest;
 use App\Http\Requests\userEditRequest;
+use App\Models\activity;
 use App\Models\applyTeacher;
+use App\Models\behaviour;
 use App\Models\cart;
 use App\Models\cartItems;
 use App\Models\Enrollments;
 use App\Models\games;
 use App\Models\gamesCategorey;
+use App\Models\interaction;
 use App\Models\orderdetails;
 use App\Models\orders;
 use App\Models\report;
@@ -83,8 +86,30 @@ class parentController extends Controller
 
     public function dashboard()
     {
-        return view('parentDashboard.index');
+        $studentIds = student::where('user_id', Auth::id())->pluck('me_id');
+
+        $activites = activity::whereIn('user_id', $studentIds)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $interactions = interaction::whereIn('user_id', $studentIds)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $behaviors = behaviour::whereIn('user_id', $studentIds)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view(
+            'parentDashboard.index',
+            compact('activites', 'interactions', 'behaviors')
+        );
     }
+
+
 
     public function children()
     {
