@@ -127,7 +127,7 @@ class SuperAdminController extends Controller
     public function schoolTeachers()
     {
         $teachers = User::where('role', 'trainer')->where('school_id', Auth::user()->school_id)->pluck('id');
-        $applies = applyTeacher::whereIn('user_id', $teachers)->get();
+        $applies = applyTeacher::with('user')->whereIn('user_id', $teachers)->get();
         return view('schoolDashboard.teachers.index', compact('teachers', 'applies'));
     }
 

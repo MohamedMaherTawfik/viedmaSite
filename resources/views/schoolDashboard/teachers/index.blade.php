@@ -32,7 +32,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($teachers as $apply)
+                            @foreach ($applies as $apply)
                                 <tr class="bg-gray-50 text-gray-800">
                                     <td class="px-4 py-2 flex items-center gap-2">
                                         <img src="https://th.bing.com/th/id/R.4b6a7d8dc6ff6bd305a872c783d2f450?rik=IcLvZ3InG%2bn33g&pid=ImgRaw&r=0"
@@ -48,7 +48,7 @@
                                         </span>
                                     </td>
                                     <td class="px-4 py-2">
-                                        {{ \Carbon\Carbon::parse($apply->created_at)->format('Y-m-d') ?? '-' }}
+                                        {{ isset($apply->created_at) ? date('Y-m-d', strtotime($apply->created_at)) : '-' }}
                                     </td>
                                     <td class="px-4 py-2 flex gap-2 justify-center">
                                         <a href="{{ route('school.teachers.show', ['slug' => request('slug'), 'name' => $apply->user->name ?? '-']) }}"
