@@ -10,29 +10,7 @@
         <main class="p-6 flex-1">
             <x-teacher-header />
             {{-- Success Message --}}
-            @if (session('success'))
-                <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            {{-- Fail Message --}}
-            @if (session('fail'))
-                <div class="p-4 mb-4 text-red-800 bg-red-200 border border-red-300 rounded">
-                    {{ session('fail') }}
-                </div>
-            @endif
-
-            {{-- Validation Errors --}}
-            @if ($errors->any())
-                <div class="p-4 mb-4 text-red-800 bg-red-100 border border-red-300 rounded">
-                    <ul class="list-disc list-inside">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <x-messagesdata />
 
             <section class="bg-white p-4 rounded shadow mt-6">
                 <div class="flex items-center justify-between mb-4">
@@ -58,7 +36,7 @@
                         </thead>
                         <tbody>
                             <!-- صف 1 -->
-                            @foreach ($applies as $apply)
+                            @foreach ($teachers as $apply)
                                 <tr class="bg-gray-50 text-gray-800">
                                     <td class="px-4 py-2 flex items-center gap-2">
                                         <img src="https://th.bing.com/th/id/R.4b6a7d8dc6ff6bd305a872c783d2f450?rik=IcLvZ3InG%2bn33g&pid=ImgRaw&r=0"
