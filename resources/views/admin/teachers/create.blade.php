@@ -1,6 +1,6 @@
 @php
-    use App\Models\School;
-    $schools = School::all();
+    use App\Models\school;
+    $schools = school::all();
 @endphp
 
 <x-layout title="{{ __('main.admin_dashboard') }}">
