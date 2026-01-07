@@ -5,6 +5,8 @@ namespace App\Http\Controllers\adminstrator;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\adminLoginRequest;
 use App\Models\cart;
+use App\Models\Courses;
+use App\Models\games;
 use App\Models\orders;
 use App\Models\school;
 use App\Models\student;
@@ -37,13 +39,27 @@ class adminController extends Controller
     public function dashboard()
     {
         if (Auth::check()) {
+            $users = User::orderBy('id', 'desc')
+                ->take(10)
+                ->get()
+                ->sortBy('id')
+                ->values();
+
             $schoolsCount = school::count();
             $parentsCount = User::where('role', 'parent')->count();
             $teachersCount = User::where('role', 'teacher')->count();
             $trainersCount = User::where('role', 'trainer')->count();
             $studentsCount = student::count();
             $orders = orders::count();
-            return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'trainersCount', 'studentsCount', 'orders'));
+            $courses = Courses::latest()->take(5)
+                ->get()
+                ->reverse()
+                ->values();
+            $games = games::latest()->take(5)->get()
+                ->reverse()
+                ->values();
+            ;
+            return view('admin.index', compact('schoolsCount', 'parentsCount', 'teachersCount', 'games', 'trainersCount', 'studentsCount', 'orders', 'courses', 'users'));
         }
         return redirect()->route('admin.login');
 

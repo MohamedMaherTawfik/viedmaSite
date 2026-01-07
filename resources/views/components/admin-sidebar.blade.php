@@ -83,6 +83,12 @@
 
             <a href="{{ route('admin.orders.index') }}"
                 class="flex items-center px-4 py-3 rounded text-base hover:bg-gray-100">
+                {{-- Icon --}}
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-600  hover:bg-gray-100" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 3h18v4H3V3zm0 8h18v4H3v-4zm0 8h18v4H3v-4z" />
+                </svg>
                 <span class="mx-2">{{ __('main.game_orders') }}</span>
             </a>
         </nav>

@@ -322,4 +322,12 @@ return [
     'no_honors_found' => 'No honored students found',
     'confirm_remove_honor' => 'Are you sure you want to remove this student from honors?',
     'honor_removed_successfully' => 'Student removed from honors successfully',
+    'latest_users' => 'Latest Users',
+    'latest_games' => 'Latest Games',
+    'latest_courses' => 'Latest Courses',
+    'game_name' => 'Game Name',
+    'view_all' => 'View All',
+    'no_users' => 'No users found',
+    'no_games' => 'No games found',
+    'no_courses' => 'No courses found',
 ];

@@ -253,8 +253,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/dashboard/courses/me/{course}/show', [MyCoursesController::class, 'show'])->name('admin.courses.me.show');
     Route::get('/dashboard/courses/me/create', [MyCoursesController::class, 'create'])->name('admin.courses.me.create');
     Route::post('/dashboard/courses/me/store', [MyCoursesController::class, 'store'])->name('admin.courses.me.store');
-    Route::post('/dashboard/courses/me/edit', [MyCoursesController::class, 'edit'])->name('admin.courses.me.update');
-    Route::delete('/dashboard/courses/me/delete', [MyCoursesController::class, 'delete'])->name('admin.courses.me.delete');
+    Route::post('/dashboard/courses/me/{course}/edit', [MyCoursesController::class, 'edit'])->name('admin.courses.me.update');
+    Route::delete('/dashboard/courses/me/{course}/delete', [MyCoursesController::class, 'delete'])->name('admin.courses.me.delete');
     Route::get('/categorey', [categoreyController::class, 'categorey'])->name('admin.categorey');
     Route::get('/categorey/create', [categoreyController::class, 'createCategorey'])->name('admin.create.Categorey');
     Route::post('/categorey/store', [categoreyController::class, 'storeCategorey'])->name('admin.store.Categorey');

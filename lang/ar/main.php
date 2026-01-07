@@ -325,4 +325,12 @@ return [
     'no_honors_found' => 'لا يوجد طلاب مكرمين',
     'confirm_remove_honor' => 'هل أنت متأكد من إزالة الطالب من التكريم؟',
     'honor_removed_successfully' => 'تم إزالة الطالب من التكريم بنجاح',
+    'latest_users' => 'آخر المستخدمين',
+    'latest_games' => 'آخر الألعاب',
+    'latest_courses' => 'آخر الكورسات',
+    'game_name' => 'اسم اللعبة',
+    'view_all' => 'عرض الكل',
+    'no_users' => 'لا يوجد مستخدمين',
+    'no_games' => 'لا توجد ألعاب',
+    'no_courses' => 'لا توجد كورسات',
 ];
