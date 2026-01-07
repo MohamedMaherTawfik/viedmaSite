@@ -333,4 +333,6 @@ return [
     'no_users' => 'لا يوجد مستخدمين',
     'no_games' => 'لا توجد ألعاب',
     'no_courses' => 'لا توجد كورسات',
+    'school_dashboard' => 'لوحة تحكم المدرسة',
+    'registered_at' => 'تم التسجيل في',
 ];

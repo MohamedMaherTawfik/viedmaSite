@@ -330,4 +330,6 @@ return [
     'no_users' => 'No users found',
     'no_games' => 'No games found',
     'no_courses' => 'No courses found',
+    'school_dashboard' => 'School Dashboard',
+    'registered_at' => 'Registered At',
 ];
