@@ -41,7 +41,9 @@ Route::get('lang/{locale}', function ($locale) {
     return redirect()->back();
 })->name('lang.switch');
 
-Route::group([], function () {
+Route::group([
+    'middleware' => ['web', 'throttle:5,1']
+], function () {
     Route::get('/courses/all', [CoursesWebController::class, 'courses'])->name('web.courses');
     Route::get('/courses/{slug}/show', [CoursesWebController::class, 'show'])->name('web.courses.show');
     Route::get('/courses/enrolled/myCourses', [CoursesWebController::class, 'enrolledCourses'])->name('web.courses.enrolled');
@@ -52,7 +54,7 @@ Route::group([], function () {
     Route::get('/terms-and-conditions', [CoursesWebController::class, 'terms'])->name('web.terms');
 });
 
-Route::group([], function () {
+Route::group(['middleware' => ['web', 'throttle:10,1']], function () {
     Route::get('/login', [PublicAuthController::class, 'login'])->name('login');
     Route::post('/login', [PublicAuthController::class, 'storeLogin'])->name('login.store');
     Route::get('/register', [PublicAuthController::class, 'register'])->name('register');
@@ -64,7 +66,7 @@ Route::group([], function () {
     Route::post('/reset-password', [PublicAuthController::class, 'resetPassword'])->name('forgot.password.reset');
 });
 
-Route::group([], function () {
+Route::group(['middleware' => ['web', 'throttle:100,1']], function () {
     Route::get('/', [homeController::class, 'separate'])->name('choose');
     Route::get('/home/store', [homeController::class, 'index'])->name('home');
     Route::get('/home/store/categorey/{categorey}', [homeController::class, 'showCategorey'])->name('categorey.show');

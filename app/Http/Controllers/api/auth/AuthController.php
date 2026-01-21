@@ -106,8 +106,12 @@ class AuthController extends Controller
 
     }
 
-    public function login()
+    public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
         $credentials = request(['email', 'password']);
 
         $token = Auth::guard('api')->attempt($credentials);

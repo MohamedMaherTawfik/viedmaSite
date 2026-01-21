@@ -17,7 +17,7 @@ use App\Http\Middleware\teacherMiddelware;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:5,1'],
     'prefix' => 'auth'
 ], function () {
     Route::post('/register', [AuthController::class, 'register']);
@@ -30,7 +30,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'school'
 ], function () {
     Route::get('/allSchools', [SchoolsController::class, 'allSchools']);
@@ -43,7 +43,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'games'
 ], function () {
     Route::get('/allGames', [GamesController::class, 'allGames']);
@@ -56,7 +56,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'cart'
 ], function () {
     Route::post('/createCart', [cartController::class, 'createCart'])->middleware('jwt.auth');
@@ -67,7 +67,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:5,1'],
     'prefix' => 'orders'
 ], function () {
     Route::get('/allOrders', [orderController::class, 'allOrders'])->middleware('jwt.auth', AdminMiddleware::class);
@@ -79,7 +79,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'Activites'
 ], function () {
     Route::post('/activity/all', [ActivitesController::class, 'getActivity']);
@@ -98,7 +98,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class],
+    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class, 'throttle:5,1'],
     'prefix' => 'teacher'
 ], function () {
     Route::get('/user/all', [TeacherController::class, 'allUsers']);
@@ -112,7 +112,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class],
+    'middleware' => ['api', 'jwt.auth', teacherMiddelware::class, 'throttle:5,1'],
     'prefix' => 'achievement'
 ], function () {
     Route::get('/users/all', [achievementController::class, 'allUsers']);
@@ -123,7 +123,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'courses'
 ], function () {
     Route::get('/all', [coursesController::class, 'allCourses']);
@@ -135,7 +135,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'projects'
 ], function () {
     Route::get('/allperCourse/{id}', [projectsController::class, 'allProjects'])->middleware('jwt.auth');
@@ -145,7 +145,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'certificate'
 ], function () {
     Route::get('/allCertificatesPerTeacher/{id}', [certificatesController::class, 'allCertificates'])->middleware('jwt.auth');
@@ -157,7 +157,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['api', 'throttle:10,1'],
     'prefix' => 'parent'
 ], function () {
     Route::get('/allParents', [parentControllerApi::class, 'allParents'])->middleware('jwt.auth');
@@ -168,7 +168,7 @@ Route::group([
 
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'throttle:20,1'],
     'prefix' => 'enrollment',
 ], function () {
     Route::controller(enrollmentController::class)->group(
