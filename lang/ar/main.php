@@ -326,6 +326,7 @@ return [
     'confirm_remove_honor' => 'هل أنت متأكد من إزالة الطالب من التكريم؟',
     'honor_removed_successfully' => 'تم إزالة الطالب من التكريم بنجاح',
     'latest_users' => 'آخر المستخدمين',
+    'edit_course' => 'تعديل الكورس',
     'latest_games' => 'آخر الألعاب',
     'latest_courses' => 'آخر الكورسات',
     'game_name' => 'اسم اللعبة',
@@ -335,4 +336,5 @@ return [
     'no_courses' => 'لا توجد كورسات',
     'school_dashboard' => 'لوحة تحكم المدرسة',
     'registered_at' => 'تم التسجيل في',
+    'create_course' => 'انشاء كورس',
 ];

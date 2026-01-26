@@ -48,6 +48,9 @@ class MyCoursesController extends Controller
     {
         $data = $request->except('_token');
         $data['slug'] = Str::slug($data['title']) . '-' . time();
+        if ($request->hasFile('cover_photo')) {
+            $data['cover_photo'] = $request->file('cover_photo')->store('cover_photos', 'public');
+        }
         $course->update($data);
         return redirect()->back()->with('success', 'Course updated successfully');
     }
