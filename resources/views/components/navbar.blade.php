@@ -110,7 +110,6 @@
             @endauth
 
             <!-- 👤 Login/Profile -->
-            <!-- 👤 Login/Profile -->
             @auth
                 <!-- ✅ لو المستخدم مسجل دخول -->
                 <div x-data="{ open: false }" class="relative">
@@ -154,19 +153,13 @@
                     <div x-show="open" @click.away="open = false"
                         class="absolute right-0 mt-2 w-48 bg-white text-gray-700 rounded-md shadow-lg overflow-hidden z-50"
                         x-transition>
-                        <a href="{{ route('login') }}" class="block px-4 py-2 hover:bg-gray-100">
-{{ __('messages.login') }}
+
+                        <a href="{{ request()->is('home/store/*') || request()->is('home/*') ? route('login.store.get') : route('login') }}"
+                            class="block px-4 py-2 hover:bg-gray-100">
+                            {{ __('messages.login') }}
                         </a>
-                        {{-- <a href="{{ route('school.login') }}" class="block px-4 py-2 hover:bg-gray-100">
-                            تسجيل دخول المدير
-                        </a>
-                        <a href="{{ route('parent.login') }}" class="block px-4 py-2 hover:bg-gray-100">
-                            تسجيل دخول ولي الأمر
-                        </a>
-                        <a href="{{ route('trainer.login.form') }}" class="block px-4 py-2 hover:bg-gray-100">
-                            تسجيل دخول المعلم
-                        </a> --}}
                     </div>
+
                 </div>
             @endauth
 

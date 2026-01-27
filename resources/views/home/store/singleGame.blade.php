@@ -102,7 +102,7 @@
 
                         <!-- Guest Message -->
                         @guest
-                            <a href="{{ route('login') }}"
+                            <a href="{{ route('login.store.get') }}"
                                 class="block w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700
                                text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 mt-5 text-center">
                                 سجل دخول أولًا لإضافة الألعاب إلى السلة

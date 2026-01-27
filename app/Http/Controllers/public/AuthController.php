@@ -20,11 +20,21 @@ class AuthController extends Controller
         return view('public.login');
     }
 
+    public function loginStore()
+    {
+        return view('public.loginStore');
+    }
+
     public function register()
     {
         $schools = school::all();
         $academicStages = AcademicStages::all();
         return view('public.register', compact('schools', 'academicStages'));
+    }
+
+    public function registerStore()
+    {
+        return view('public.registerStore', );
     }
 
     public function storelogin(Request $request)
@@ -53,6 +63,30 @@ class AuthController extends Controller
             } else if (Auth::user()->role == 'admin') {
                 return redirect()->route('school.dashboard', ['slug' => Auth::user()->school->slug]);
             }
+            return redirect()->route('home');
+        }
+
+        return redirect()->back()->withErrors(['email' => 'Invalid credentials'])->withInput();
+    }
+
+    public function storeLoginStore(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            request()->session()->regenerate();
+            $cart = cart::where('user_id', Auth::id())->first();
+            if (!$cart) {
+                $cart = cart::create([
+                    'user_id' => Auth::id(),
+                ]);
+            }
+
             return redirect()->route('home');
         }
 
@@ -96,6 +130,29 @@ class AuthController extends Controller
         }
         return redirect()->route('home');
     }
+    public function storeRegisterStore(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        Auth::login($user);
+        $cart = cart::where('user_id', Auth::id())->first();
+        if (!$cart) {
+            $cart = cart::create([
+                'user_id' => Auth::id(),
+            ]);
+        }
+        return redirect()->route('home');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

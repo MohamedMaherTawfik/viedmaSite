@@ -24,7 +24,7 @@
                 <x-logo-component></x-logo-component>
             </div>
 
-            <div class="flex justify-between items-center w-full mb-4">
+            {{-- <div class="flex justify-between items-center w-full mb-4">
 
                 <!-- عنوان Create Account أو Register -->
                 <h2 class="text-2xl font-bold">{{ __('main.register.title') }}</h2>
@@ -58,11 +58,12 @@
                                 {{ __('messages.parent_login') }}
                             </a>
                         </div>
+
                     </div>
                 </div>
 
 
-            </div>
+            </div> --}}
 
 
 
@@ -70,7 +71,7 @@
                 {{ __('main.register.subtitle') }}
             </p>
 
-            <form method="POST" action="{{ route('register.store') }}" class="w-full text-right">
+            <form method="POST" action="{{ route('register.store.store') }}" class="w-full text-right">
                 @csrf
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -83,73 +84,6 @@
                         <input type="text" name="name" placeholder="{{ __('main.register.full_name') }}"
                             class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
                         @error('name')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- الرقم القومي -->
-                    <div>
-                        <label class="text-xs font-medium mb-1 w-full self-start">
-                            {{ __('main.register.national_id') }}
-                        </label>
-                        <input type="text" name="national_id" placeholder="{{ __('main.register.national_id') }}"
-                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                        @error('national_id')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- الجنسية -->
-                    <div>
-                        <label class="text-xs font-medium mb-1 w-full self-start">
-                            {{ __('main.register.nationality') }}
-                        </label>
-                        <input type="text" name="nationallity" placeholder="{{ __('main.register.nationality') }}"
-                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                        @error('nationallity')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- المرحلة الدراسية -->
-                    <div>
-                        <label class="text-xs font-medium mb-1 w-full self-start">
-                            {{ __('main.register.academic_stage') }}
-                        </label>
-
-                        <select name="academic_stage_id"
-                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-
-                            <option value="">
-                                {{ __('main.register.academic_stage') }}
-                            </option>
-
-                            @foreach ($academicStages as $stage)
-                                <option value="{{ $stage->id }}"
-                                    {{ old('academic_stage_id') == $stage->id ? 'selected' : '' }}>
-                                    {{ $stage->name }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        @error('academic_stage_id')
-                            <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- المدرسة -->
-                    <div>
-                        <label class="text-xs font-medium mb-1 w-full self-start">
-                            {{ __('main.register.school') }}
-                        </label>
-                        <select name="school_id"
-                            class="mb-4 border px-4 py-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
-                            <option value="">{{ __('main.register.choose_school') }}</option>
-                            @foreach ($schools as $school)
-                                <option value="{{ $school->id }}">{{ $school->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('school_id')
                             <div class="text-red-500 text-xs mb-2">{{ $message }}</div>
                         @enderror
                     </div>
@@ -213,8 +147,7 @@
 
         <!-- Left Illustration -->
         <div class="bg-[#f8f6f4] flex items-center justify-center p-10">
-            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration"
-                class="w-full max-w-md">
+            <img src="{{ asset('images/Ai-removebg-preview.png') }}" alt="login illustration" class="w-full max-w-md">
         </div>
     </div>
 

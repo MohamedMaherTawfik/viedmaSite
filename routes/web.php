@@ -55,6 +55,12 @@ Route::group([
 });
 
 Route::group(['middleware' => ['web', 'throttle:10,1']], function () {
+
+    Route::get('/store/login', [PublicAuthController::class, 'loginStore'])->name('login.store.get');
+    Route::post('/store/login', [PublicAuthController::class, 'storeLoginStore'])->name('login.store.store');
+    Route::get('/store/register', [PublicAuthController::class, 'registerStore'])->name('register.store.get');
+    Route::post('/store/register', [PublicAuthController::class, 'storeRegisterStore'])->name('register.store.store');
+
     Route::get('/login', [PublicAuthController::class, 'login'])->name('login');
     Route::post('/login', [PublicAuthController::class, 'storeLogin'])->name('login.store');
     Route::get('/register', [PublicAuthController::class, 'register'])->name('register');
@@ -75,14 +81,14 @@ Route::group(['middleware' => ['web', 'throttle:100,1']], function () {
     Route::get('/home/profile', [homeController::class, 'profile'])->name('profile');
     Route::post('/home/profile', [homeController::class, 'UpdateProfile'])->name('profile.update');
     Route::post('/home/profile/password', [homeController::class, 'UpdatePassword'])->name('password.update');
-    Route::get('/home/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
-    Route::get('/home/games', [homeController::class, 'allGames'])->name('games.all');
-    Route::get('/home/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
-    Route::post('/home/games/user/cart/update/{cartItem}', [homeController::class, 'updateCart'])
+    Route::get('/home/store/game/show/{game}/details', [homeController::class, 'showGame'])->name('game.show');
+    Route::get('/home/store/games', [homeController::class, 'allGames'])->name('games.all');
+    Route::get('/home/store/games/user/cart', [homeController::class, 'cart'])->name('cart')->middleware('auth');
+    Route::post('/home/store/games/user/cart/update/{cartItem}', [homeController::class, 'updateCart'])
         ->name('cart.update')->middleware('auth');
-    Route::delete('/home/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
-    Route::post('/home/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
-    Route::post('/home/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart');
+    Route::delete('/home/store/games/cart/{id}', [homeController::class, 'deleteFromCart'])->name('game.removeFromCart')->middleware('auth');
+    Route::post('/home/store/games/cart/checkout/done', [homeController::class, 'checkout'])->name('checkout')->middleware('auth');
+    Route::post('/home/store/games/{game}/addToCart', [homeController::class, 'addToCart'])->name('game.AddToCart');
     Route::get('/home/schools', [schoolController::class, 'schools'])->name('schools');
     Route::get('/home/school/{school}', [schoolController::class, 'showSchool'])->name('school.show');
     Route::get('/home/school/index/all', [schoolController::class, 'allSchools'])->name('school.all');

@@ -100,7 +100,8 @@
 
 
             <p class="text-center text-sm mt-6">
-                ليس لديك حساب؟ <a href="{{ route('register') }}" class="text-blue-600 hover:underline">حساب جديد</a>
+                ليس لديك حساب؟ <a href="{{ route('register.store.get') }}" class="text-blue-600 hover:underline">حساب
+                    جديد</a>
                 <hr class="mt-2">
             <div class="mt-6 text-center">
                 <a href="{{ route('choose') }}"
@@ -114,6 +115,7 @@
                     العودة إلى الرئيسية
                 </a>
             </div>
+
             </p>
         </div>
     </div>
